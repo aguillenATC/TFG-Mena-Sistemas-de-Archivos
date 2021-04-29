@@ -1,0 +1,208 @@
+\cleardoublepage
+\clearpage{}
+
+%[Lo que va en el índice]{Lo que va en el documento}
+\chapter[Fundamentos]{Fundamentos}
+A lo largo de este capítulo hablaremos de los sistemas de archivos que van a ser objeto de estudio y de las investigaciones que hay alrededor de ellos. Se hará una breve descripción sobre qué es un sistema de archivos y de los sistemas de archivos a estudiar.\\
+
+Hablaremos de los conceptos relevantes que atañen a los sistemas de archivos, como pueden ser, los métodos de asignación de espacio. Intentaremos definir las estructuras de datos habituales en sistemas Linux, cuáles son y para que se utilizan. 
+
+
+\section{Información adicional sobre sistemas de archivos.}
+En el capítulo anterior ya quedó definido que era un sistema de archivos. En esta sección vamos a profundizar en las partes que lo componen y hablaremos sobre los métodos de reserva de espacio utilizados mas comunes\\
+
+Linux contempla a todos los sistemas de archivos como un conjunto de objetos, dichos objetos se dividen principalmente en cuatro categorías. El superbloque (\textit{superblock}) el cual se encarga de describir la estructura y mantiene el estado del sistema de archivos.\\
+
+La segunda categoría de objeto encontramos al inodo, el cual contiene metadatos que utiliza el sistema de archivos para especificar que tipo de operaciones se pueden hacer sobre esos objetos. El tercer tipo es la entrada de directorio (\textit{dentry}).Y por último tenemos el objeto archivo, que representa un archivo abierto el cual esta asociado a un proceso. \cite{jones_2007}
+
+\subsection{Superbloque}
+El superbloque es una estructura que representa el sistema de archivos como un conjunto. Almacena toda la información necesaria para manejarlo, es decir, contiene el nombre, tamaño y estado, un puntero al dispositivo y a los metadatos del sistema de archivos.
+
+\subsection{Inodo}
+Un inodo es la estructura de datos que describe y almacena los atributos de un archivo, incluyendo su localización física en el disco. Los inodos son creados en el momento de crear el sistema de archivos. Los inodos contienen información sobre  el tipo de fichero, sus permisos, el id del propietario y la fecha de la ultima modificación. Básicamente un inodo almacena toda la información del archivo excepto el nombre, el cual se almacena en una estructura del directorio (\textit{dentry}).
+
+\subsection{Métodos de reserva de bloques}
+El problema principal del almacenamiento masivo es decidir como reservar espacio del disco para que sea aprovechado y el acceso a los ficheros sea rápido. Existen principalmente tres métodos de reserva. Cada uno de estos métodos tiene ventajas y desventajas. \cite{silberchatz}
+\subsubsection{Contiguous Allocation}
+El método de acceso secuencial requiere que el archivo ocupe un conjunto de bloques contiguos en el disco. La ubicación del archivo está definida por la dirección del primer bloque en el disco y el tamaño del archivo. Debido a que todos los registros se colocan uno al lado del otro, acceder a los archivos secuencialmente es muy rápido. Además, el acceso aleatorio también es rápido, porque solo necesita obtener el bloque de inicio y el tamaño del archivo almacenado en la entrada del directorio para encontrarlo. \cite{silberchatz}\\ 
+\newpage
+
+La dificultad de este sistema de reserva de espacio reside en el momento de localizar espacio para un archivo nuevo. La solución que se le da a este problema, no es mas que recorrer el disco hasta encontrar un espacio suficientemente grande donde almacenar el archivo. Como podemos intuir este tipo de reserva con el paso del tiempo nos generará bastante fragmentación.\cite{silberchatz}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.65]{doc/assets/images/Allocation Methods/continuous.png}
+    \caption{Contiguous Allocation}
+    \label{fig:my_label}
+\end{figure}
+\subsubsection{Linked Allocation}
+Esta técnica de acceso utiliza listas enlazadas de los bloques que ocupa cada archivo. La entrada de directorio de un archivo contiene punteros al primer y al ultimo bloque de datos del archivo. Cada bloque de datos utiliza 4 bytes de su espacio para almacenar un puntero al siguiente bloque. Este esquema es muy efectivo para acceso secuencial de un archivo, pero no tiene soporte para acceso directo a un único bloque. \cite{silberchatz}\\
+
+Gracias a la utilización de las listas, se elimina la fragmentación externa y permite que los archivo crezcan de manera sencilla. Una de las desventas que reside en este tipo de asignación es que si en algún momento se corrompe un puntero quedaría parte del archivo inaccesible.\cite{silberchatz}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{doc/assets/images/Allocation Methods/linked.png}
+    \caption{Linked Allocation}
+    \label{fig:my_label}
+\end{figure}
+
+\subsubsection{Indexed Allocation}
+La acceso indexado resuelve el problema que tenía el acceso enlazado si se corrompía un puntero. El acceso indexado almacena todos los punteros en una localización. El bloque de índices (\textit{index block}). 
+Cada archivo tiene su bloque de índices, el cual es un vector de direcciones de los bloques que componen el archivo. \cite{silberchatz}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{doc/assets/images/Allocation Methods/indexed.png}
+    \caption{Linked Allocation}
+    \label{fig:my_label}
+\end{figure}
+
+
+\section{Introducción a BTRFS}
+BTRFS es un sistema de ficheros \textit{Copy on Write}. Este sistema de ficheros usa b-trees en su implementación, es decir usa árboles balanceados de búsqueda. Esto hace que BTRFS pueda acceder de manera eficiente a grandes bloques de datos sin importar cuanto crezca el árbol.
+
+\subsection{Características reseñables}
+\begin{itemize}
+    \item Asignación dinámica de i-nodos.
+    \item Soporte para \textit{snapshots}, subvolumenes y compresión.
+    \item Copia de seguridad incremental
+    \item Defragmentación online
+    \item Tamaño máximo de archivo 16 EiB 
+    \item Optimización para discos de estado solido
+\end{itemize}
+
+\subsection{Diseño de BTRFS}
+BTRFS utiliza b-trees para almacenar objetos de distintos tipos. Un b-tree es una estructura de datos la cual permite que sus nodos tengan mas de dos hijos. Al estar implementado bajo un árbol balanceado de búsqueda las operaciones de búsqueda, borrado e inserción se realizan en
+\begin{math}
+\mathrm{\upvarsigma}(log(n)).
+\end{math}
+\cite{henson}
+\\
+
+Dentro del árbol en las ramas, los nodos almacenan claves y block headers. Las claves nos indican dónde buscar el elemento y los block headers nos indican donde se encuentra el próximo nodo en el disco.
+Las hojas del árbol almacenan los elementos, que son un combinaciones de claves y datos.
+\\
+
+BTRFS utiliza un conjunto de código para la manipulación de lo metadatos en el sistema de ficheros. Por motivos de rendimiento u organizativos existen dentro del sistema de archivos varios b-trees que a saber son:
+\begin{itemize}
+    \item \textbf{\textit{Tree of Tree roots}:} este árbol se usa para indexar  y encontrar la mayoría de raíces de otros árboles dentro del sistema de archivos. Enlaza nombres a subvolumenes y \textit{snapshots}, y almacena la ubicación de la raíz del \textit{extent allocation tree}. 
+    \item \textbf{\textit{Chunk Tree}:} Es el encargado de realizar el mapeo de direcciones de bloques lógicos a direcciones de bloques físicos. Almacena información sobre todos los dispositivos en el sistema de archivos. Con el tiempo el árbol se dividirá para dar cabida a almacenamientos mas grandes.
+    \item \textbf{\textit{Device Allocation Tree}:} Es el árbol encargado de registrar que partes de un dispositivo físico han sido asignados en chunks. Es un árbol relativamente pequeño, se actualiza solamente cuando un nuevo chunk es asignado. 
+    \item \textbf{\textit{Extent Allocation Tree}:} Almacena el rango de bytes que estan en uso, almacena el contador de referencias de cada extensión.
+    \item \textbf{\textit{FS Tree}:} Almacena archivos y directorios y todos los metadatos que se pueden esperar de estos. Hay un nodo raiz de este árbol por cada subvolumen o snapshot.
+    \item \textbf{\textit{Checksum Tree}:} Cada 4000 bloques de datos almacenados en el disco se le asocia un checksum.
+\end{itemize}
+\newpage
+La interconexión de estos b-trees la podemos ver en la siguiente figura: 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{doc/assets/images/btrfs/Design-roots.png}
+    \caption{Design roots}
+    \label{fig:my_label}
+\end{figure}
+
+
+\section{Introducción a Ext4}
+Ext4 es el sucesor de Ext3, este sistema de ficheros es el mas popular entre la distribuciones linux. Ext4 integra cambios sustanciales como puede ser la mejora de las estructuras de datos.
+
+\subsection{Características reseñables}
+\begin{itemize}
+    \item Defragmentación online
+    \item Tamaño máximo de archivo 16 TiB
+    \item Filesystem check
+    \item Journaling checksumming
+\end{itemize}
+
+
+\subsection{Diseño de EXT4}
+Ext4 está diseñado para ser escalable, en los ultimos años los archivos se han ido haciendo mas grandes (sobre todo en temas relacionados con multimedia). Ext4 asegura la escalabilidad gracias a varios aspectos los cuales vamos a ver a continuación.\\
+
+\subsubsection{Extendiendo los limites del sistema de archivos}
+Etx4 se diseñó con vistas a la creciente demanda de espacio en los archivos, por ello es capaz de almacenar archivos de hasta 16TB (asumiendo tamaños de bloque de 4KB). También se pensó en eliminar el límite de subdirectorios que existía en Ext3. En Ext3 el limite de subdirectorios era de 32KB mientras que en Ext4 paro a ser virtualmente ilimitado. Se optimizó la indexación de directorios y en la actualidad Ext4 utiliza un \textit{hashed b-tree}, lo cual hace que el tiempo en búsqueda sea menor que su predecesor. \cite{jones_2009}
+
+\subsubsection{\textit{Extents}}
+Un \textit{extent} es una manera simple de representar una contigua secuencia de bloques. Gracias a ello, el tamaño de los metadatos es menor ya que no se almacena la información de donde están los bloques almacenados si no que se almacena una lista de las secuencias de bloques.\\
+
+Para almacenar archivos grandes, un inodo referencia a un nodo índice y este puede hacer referencia a un nodo hoja (que puede referenciar varios extents) tal y como se muestra en la figura.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics{doc/assets/images/ext4/ext4_map_extent_tree.PNG}
+    \caption{Ext4 Extent Tree}
+    \label{fig:Ext4 Extent Tree}
+\end{figure}
+
+\subsubsection{\textit{Multiblock Allocation}}
+Cuando EXT3 necesita escribir datos nuevos en el disco, hay un \textit{block allocator} que decide cuales van a ser los bloques libres, que se van a asignar para escribir los datos. El problema es que este \textit{block allocator} solo es capaz de asignar un bloque, es decir, 4KiB por cada vez que se le llama. Para que nos hagamos una idea del problema que esto supone, pondremos un ejemplo. Si necesitamos escribir en el sistema de archivos 100 MiB, Ext3 necesitará llamar al block allocator 25600 veces. Esto no es solo un despropósito en términos de eficiencia, si no que también imposibilita aplicar políticas para optimizar las asignaciones ya que no sabemos cual es el tamaño total del lo que necesitamos almacenar. Para solventar los problemas que esto suponía en Ext3 se decidió que en Ext4 se utilice un multiblock allocator, el cual es capaz de asignar muchos bloques en una sola llamada, en vez de un solo bloque por llamada disminuyendo así la sobrecarga. Gracias al uso del multiblock allocator mejora el rendimiento si lo combinamos con \textit{delayed allocation} el cual vamos a definir a continuación. \cite{ext4howto} \\
+
+
+\subsubsection{\textit{Delayed Allocation}}
+La asignación retardada o \textit{delayed allocation} es una función que incrementa el rendimiento de los sistemas de archivos. Esta característica la podemos encontrar en algunos sistemas de archivos modernos como puede ser XFS, ZFS, BTRFS o Reiser4. Esta funcionalidad consiste en retrasar lo máximo posible la asignación de bloques, justo lo opuesto a lo que hacían los sistemas de archivos tradicionales. Por ejemplo, si un proceso ejecuta una operación \textit{write()} en los sistemas de archivos tradicionales se reservarían los bloques donde esta información va a ser guardada. Esta aproximación como podemos intuir tiene algunas desventajas, por ejemplo, si un proceso se encuentra ejecutando un bucle que escribe en un archivo, estaríamos asignando espacio continuamente. La asignación retardada por otro lado no reserva los bloques inmediatamente si no que mientras que el archivo esta en caché retrasa la reserva hasta que realmente se va a escribir en el disco. 
+La reserva retardada o \textit{delayed allocation} se complementa muy bien con dos funcionalidades que hemos mencionado, \textit{extents} y \textit{multiblock allocation}. \cite{ext4howto}
+
+
+
+
+\subsection{Fiabilidad}
+Ext4 para incrementar su fiabilidad realiza dos tareas principalmente, Journaling y checksumming.\\
+
+Journaling es el mecanismo que permite al sistema de ficheros recomponerse en caso de caída en una situación crucial ya que va escribiendo en un log todas las operaciones que se hacen en el sistema de archivos para así en caso fatal no caer en una corrupción del sistema de archivos. Aun así es posible caer en un sistema de archivos corrupto y por ello Ext4 implementa un checksumming del journal, para detectar dicha situación.\\
+
+Otra funcionalidad que implementa este sistema de archivos es lo que se conoce como "defragmentación online". Aunque Ext4 esta diseñado para minimizar la fragmentación con el paso del tiempo es prácticamente imposible evitarla, por esta razón es necesaria una herramienta de defragmentación y su funcionamiento se basa en copiar archivos en inodos nuevos que referencia un espacio mas continuo que el anterior.
+
+
+\section{Introducción a XFS}
+XFS es un sistema de archivos desarrollado por \textit{Silicon Graphics} en 1993. Este sistema de archivos fué liberado en mayo del 2000.
+
+\subsection{Características principales}
+\begin{itemize}
+    \item Tamaño máximo de archivo 8EiB
+    \item Journaling para operaciones con metadatos
+    \item E/S Directa para alto rendimiento y E/S no cacheada para dispositivos DMA
+    \item Snapshots
+    \item Defragmentación online
+    \item \textit{Delayed allocation} para minimizar la fragmentación
+    \item Basado en extents donde los archivos pueden tener extents de longitud variable
+\end{itemize}
+
+XFS utiliza tecnología de \textit{journaling} de base de datos para incrementar la fiabilidad y la rapidez en caso de recuperación. XFS es capaz de recuperarse tras un cuelgue del sistema en unos pocos segundos, sin necesidad de usar un comprobador del sistema de archivos como podría ser \textit{fsck}. El tiempo que tarda XFS en recuperarse es completamente independiente del tamaño del sistema de archivos.\\
+
+En XFS los inodos se crean conforme el sistema de archivos los va necesitando, en el proceso de creación del sistema de archivos se puede especificar el tamaño de los inodos.
+
+XFS permite que elijamos el tamaño de bloque, para cada montaje del sistema de archivos. En la documentación de XFS nos remomiendan los siguientes tamaños de bloque:
+\begin{itemize}
+    \item El tamaño mínimo de bloque son 512 bytes. Tamaños de bloque pequeños suponen una sobrecarga en la asignación lo que conlleva que disminuya el rendimiento del sistema de archivos. Este tamaño \textit{Sillicon Graphics} lo recomienda para sistemas cuyo tamaño sea inferior a 100 MegaBytes con bastantes archivos pequeños.
+    
+    \item El tamaño de bloque por defecto en XFS es 4096 bytes es decir 4KB.
+    \item El tamaño de bloque máximo es el tamaño de página del kernel en sistemas basados en la arquitectura x86 se trata de 4KB, pero en sistemas basados en ia64 puede ser mayor. \textit{Sillicon Graphics} no recomienda que el tamaño de bloque se exceda de 4KB, ya que tamaños de bloque mayores implicarían probablemente un desperdicio de espacio.
+\end{itemize}
+
+\section{Workload Model Language}
+WML es un lenguaje que se utiliza para definir benchmarks en Filebench el cual permite a sus usuarios codificar una amplia variedad de cargas de trabajo. Los procesos  en WML representan procesos UNIX reales, los cuales son creados por Filebench en tiempo de ejecución. \cite{Tarasov2016FilebenchAF}. 
+
+
+\section{Estado del arte}
+Tal y como se mencionó en el capítulo 1, las investigaciones relacionadas con este tema, no suelen ser todo lo correctas que se desearía. En la mayoría casos se obvian o se dan por supuestas algunas asunciones, que imposibilitan la crítica del trabajo puesto que no disponemos de todo el conjunto de la información. \\
+
+Se han seleccionado algunas de las investigaciones mas citadas relacionadas con los sistemas de archivos que estamos tratando, con el objetivo de señalar sus puntos débiles y en cierto modo, usar esa información para no cometer los mismos errores. 
+\\
+
+La selección de trabajos ha sido la siguiente.
+\begin{itemize}
+    \item \textit{Performance Analysis of 64-bit ext4, xfs and btrfs filesystems on the Solid-State disk technology} \cite{Kljaji2016PerformanceAO}
+    
+    \item \textit{Benchmarking Performance of Erasure Codes for Linux Filesystem EXT4, XFS and BTRFS} \cite{10.1007/978-981-15-6584-7_32}
+    
+    \item \textit{Competition of virtualized ext4, xfs and btrfs filesystems under type-2 hypervisor} \cite{competitionvirtualized}
+    
+    \item \textit{Benchmarking Performance of EXT4, XFS and BTRFS as Guest File Systems Under Linux Environment} \cite{serbios}
+\end{itemize}
+
+Entrar en detalle sobre cada \textit{paper} sería demasiado extenso, por lo que sólo vamos a estudiar cuáles son los errores mas comunes a la hora de analizar sistemas de archivos.\\
+
+No sólo es importante definir que parámetros se van a considerar, o como se van a analizar, si no que también es vital concretar sobre qué hardware se ejecutan las pruebas. Por desgracia es bastante usual encontrar especificaciones incompletas, cómo pueden ser no especificar la frecuencia de refresco de la memoria RAM. Para que nos podamos hacer una idea de cuán común es esta situación, ocurre en todos los trabajos citados anteriormente. Otro de los errores mas comunes reside en ejecutar las pruebas en entornos virtualizados, es un sinsentido por varias razones pero la principal es depender, en mayor o menor grado, del sistema de archivos que monta el host y del software hipervisor. Por último mencionar la falta de definición de las cargas que ejecutan los benchmarks, imposibilita prácticamente por completo el análisis de resultados.
+
+

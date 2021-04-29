@@ -1,0 +1,74 @@
+\cleardoublepage
+\clearpage{}
+\chapter{Introducción}
+Con la llegada de internet y la informática tal y como hoy en día conocemos, implicó que los usuarios necesitáramos mucha mas capacidad de almacenamiento, hasta tal punto que surgieron servicios como Dropbox, Google Drive, MEGA ... con el fin de poder proporcionarnos un extra de espacio, o un respaldo de nuestros archivos, fotos, etc. Este concepto de almacenamiento en la nube con el paso de los años ha ido evolucionando hasta tal punto que empresas como Amazon han desarollado sistemas de archivos propios (\textit{Amazon Elastic File System} \cite{amazon})  adaptados a los servicios que ofrecen.\\
+
+Los sistemas de archivos son una parte de la informática a la cual apenas se le da la importancia que realmente tiene, es bastante común encontrar a informáticos que apenas sabrían definir qué es un sistema de archivos. Es fácil caer en la creencia de que los distintos sistemas de archivos funcionan prácticamente igual y, aunque comparten muchas veces ideas en común, después a la hora de implementarlos cuando surgen problemas, cada uno opta por una solución distinta.\\
+
+Al ser un tema de nicho a veces es complicado encontrar información de calidad. Debido a esto he decidido enfocar este trabajo de fin de grado a este tema, por ser una cuestión novedosa ya que apenas existen TFGs relacionados.\\
+
+Históricamente los sistemas de archivos eran partes de los sistemas operativos que se quedaban obsoletos con el paso del tiempo. A día de hoy no existe un sistema de archivos eterno, pero estos, conforme han ido evolucionando se han ido haciendo cada vez mas escalables, seguros, rápidos y fiables. Pero ¿Qué entendemos por un sistema de archivos fiable? En este contexto diremos que un sistema es fiable si tiene algún mecanismo para recomponerse en caso de fallo, es decir, el sistema de archivos tiene implementado mecanismos para asegurar la integridad de los datos. Un ejemplo de estos mecanismos podrían ser el \textit{checksumming} y el \textit{journaling}.\\
+
+\newpage
+
+Este trabajo no solo se basará en modelizar carga para el análisis de 3 sistemas de archivos con \textit{Workload Modeling Language} si no que también, se realizaran pruebas y se analizarán bajo una aplicación de bioinformática, ya que este tipo de aplicaciones realizan muchas operaciones con archivos y es un tema que se encuentra en auge en estos momentos.
+
+
+\section{¿Qué es un sistema de archivos?}
+Encontrar una buena definición de qué es un sistema de ficheros o sistema de archivos es una tarea bastante complicada. Por ello vamos a dar varias definiciones con el fin de que al final entre ellas se complementen y quede una idea general clara. \\
+
+Abraham Silberchatz define en su libro \textit{Operating System Concepts Essential} \cite{silberchatz} que un sistema de archivos consta de dos partes distintas: una colección de archivos, cada una de las cuales almacena datos relacionados, y una estructura de directorio, que organiza y proporciona información sobre todos los archivos del sistema.\\
+
+Por otro lado Robert Love en su libro \textit{Linux kernel Development} \cite{LinuxKernelDev} cuenta que un sistema de archivos es un almacenamiento jerárquico de los datos, que se adhiere a una estructura específica. Los sistemas de archivos contienen archivos, directorios e información de control. Normalmente sobre los sistemas de ficheros se pueden realizar distintas operaciones como pueden ser la creación, eliminación y montaje.\\
+
+En resumen se habla de qué un sistema de ficheros es la implementación que da estructura a los directorios y nos permite operar sobre estos o sobre archivos.
+
+\subsection{Sistema de archivos tradicionales}
+El sistema de archivos que se utilizaba en la Berkeley Standard Distribution fue uno de los primeros sistemas de archivos. Dicho sistema de archivos dividía las particiones en grupos de cilindros y cada grupo de cilindros tenía una copia del superbloque, una parte de los inodos y una lista con los bloques libres. El superbloque era replicado en cada cilindro, esto se hacía para hacer el sistema de archivos mas robusto y tolerante a fallos. \cite{LinuxKernelDev} \\
+
+Años después Ext2 se convirtió en el rey de los sistemas de archivos en sistemas operativos basados en Linux. Ext2 hereda algunas características del sistema de archivos utilizado en BSD. Algunas de la características que mejoraron Ext2 sobre BSD FS fueron que en vez de utilizar grupos de cilindros utilizaban directamente bloques de tamaño fijo.
+
+
+\section{Objetivos}
+
+\subsection{Objetivos generales}
+Realizar un análisis comparativo entre distintos sistemas de ficheros, en este caso, XFS, BTRFS y Ext4, con el fin de determinar las fortalezas y debilidades de cada uno de ellos dependiendo del contexto de uso en el cual van a ser utilizados.
+
+
+\subsection{Objetivos específicos}
+\begin{itemize}
+    \item Describir que es un Sistema de Ficheros o Sistema de Archivos.
+    \item Analizar y comprender el funcionamiento de un sistema de archivos.
+    \item Identificar los puntos fuertes de cada sistema de archivos y analizar a que puede deberse.
+    \item Ejecutar distintos benchmarks, analizar y comparar resultados.
+    \item Desarrollar un benchmark propio que permita corroborar o desmentir los resultados obtenidos por benchmarks convencionales.
+    \item Elaborar un análisis detallado comparando los sistemas de archivos, y dar unas conclusiones.
+    \item Realizar análisis estadístico que confirmen las hipótesis que se vayan planteando a lo largo del estudio.
+\end{itemize}
+
+\subsection{Motivación}
+En internet podemos encontrar mucha información inconexa acerca de los sistemas de ficheros, comparativas que no están fundamentadas en un análisis profundo de los benchmarks. Hay mucha información en foros, o en blogs pero la mayoría de dicha información no es de calidad, ya que no se especifica muy bien en que se fundamenta. La motivación para la realización de este trabajo es arrojar algo de luz acerca de dicho tema, exponer un estudio basado en el análisis comparativo de 3 sistemas de ficheros, aportar datos y conclusiones usando benchmarks ya existentes. 
+
+
+
+
+
+% A lo largo de este trabajo vamos a hablar de 3 sistemas de ficheros, a saber son Ext4, XFS, BTRFS. En este capítulo se hará un breve descripción de que es un sistema de ficheros o sistema de archivos y se hará una breve descripción de cada uno de ellos.
+
+% \section{¿Qué es un sistema de ficheros?}
+% Encontrar una buena definición de que es un sistema de ficheros o sistema de archivos es una tarea bastante complicada. Por ello vamos a dar varias definiciones con el fin de que se complementen. 
+% \\
+
+% Abraham Silberschatz define en su libro \textit{Operating System Concepts Essentials} [Referencia Libro] que un sistema de ficheros consta de dos partes distintas: una colección de archivos, cada una de las cuales almacena datos relacionados, y una estructura de directorio, que organiza y proporciona información sobre todos los archivos del sistema. \\
+
+% En palabras de Robert Love en su libro \textit{Linux Kernel Development} [Referencia Libro] un sistema de ficheros es un almacenamiento jerárquico de datos que se adhiere a una estructura específica. Los Sistemas de ficheros contienen archivos, directorios e información de control. Típicamente sobre los sistemas de ficheros se pueden realizar operaciones de creación, eliminación y montaje.
+
+% \cite{otropaper}
+
+% Como dice el archivo de conf de mdstat en \cite{mdstat}, tenemos que considerar...
+
+% \section{Introducción a Btrfs}
+
+% \section{Introducción a Ext4}
+
+% \section{Introducción a XFS}

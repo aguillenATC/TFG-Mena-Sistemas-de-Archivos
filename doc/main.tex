@@ -1,0 +1,40 @@
+\documentclass[a4paper, titlepage, 12pt]{report}
+
+\usepackage{titlesec}
+
+\titleformat{\chapter}
+  {\Large\bfseries} % format
+  {}                % label
+  {1pt}             % sep
+  {\huge}           % before-code
+
+% Tipo de numeración de página
+\pagenumbering{arabic}
+
+\input{insets/paquetes}
+\input{insets/definiciones}
+
+% Inicio del documento
+\begin{document}
+	
+	\input{insets/portada}	
+
+	\tableofcontents
+	\listoffigures
+
+	\foreach \c in {1,...,8}{\input{insets/capitulos/\c.tex} }
+%   \input{insets/capitulos/1.tex}
+% 	\appendix
+% 	\foreach \c in {A,...,C}{\input{insets/apendices/\c.tex} }
+	
+
+	%\input{insets/bibliografia.tex}
+	
+	\bibliography{referencias.bib}
+	\bibliographystyle{plain} %ieeetr
+
+	
+\end{document}
+
+% Para añadir hojas vacias: \thispagestyle{empty}
+
