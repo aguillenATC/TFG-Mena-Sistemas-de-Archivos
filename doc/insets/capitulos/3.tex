@@ -11,4 +11,12 @@ Con el fin de tener un registro de como iba avanzando la memoria, creamos un rep
 En referencia a la búsqueda de información el objetivo era primar la información de calidad, para ello siempre hemos tratado de acudir a documentaciones oficiales (si estaban disponibles) o directamente consultar bibliografía de prestigio. En caso de que esto no fuera posible, el siguiente paso era buscar información de empresas relacionadas con la cuestión a tratar (por ejemplo: Ext4 la documentación oficial disponible es muy escueta, mientras que la información disponible en la página de Fedora es bastante completa.) y por último lugar buscar en \textit{papers} ya que en algunos casos hay información muy buena, pero es complicado sacar información de este tipo de documentos por los motivos que se explicaron en la sección \ref{estado}.
 
 \section{Metodología de los experimentos}
+El objetivo de este trabajo requiere comparar el rendimiento de Btrfs, Ext4 y XFS en un único disco. Para realizar la comparativa de rendimiento, uno debería plantearse el uso de distintas herramientas de \textit{benchmarking} que sean capaces de mostrar el comportamiento de los sistemas de archivos bajo una determinada carga. Para este caso específico diremos que existen dos tipos de \textit{benchmarks}. \\
+
+Por un lado tenemos aplicaciones reales (por ejemplo medir el rendimiento de una tarjeta gráfica utilizando un videojuego). El uso de este tipo de \textit{benchmarks} tiene aspectos positivos, pero resulta difícil encontrar aplicaciones suficientemente representativas que englobe el funcionamiento de un sistema de archivos en la mayoría de casos.\\
+
+Por otro lado tenemos los \textit{benchmarks} sintéticos. Son programas artificiales que no realizan ningún trabajo real y útil. Las operaciones realizadas por estos \textit{benchmarks} se eligen cuidadosamente para que coincidan con las operaciones que realizaría otro tipo de programas. El objetivo es que las operaciones que realiza el \textit{benchmark} sean lo mas similares posible para así poder exportar los resultados al mundo real \cite{lilja_2000}.\\
+
+La combinación de ambos tipos de \textit{benchmarks} para la medición de rendimiento de E/S del sistema de archivos producirá un resultado más representativo en lugar de depender únicamente de uno de los dos tipos de herramientas. Este proyecto hace uso tanto de \textit{benchmarks} sintéticos elaborados con \textit{Filebench} como de aplicaciones reales para las medidas.
+
 
