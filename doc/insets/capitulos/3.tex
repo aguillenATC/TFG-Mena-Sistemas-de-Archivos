@@ -19,4 +19,43 @@ Por otro lado tenemos los \textit{benchmarks} sintéticos. Son programas artific
 
 La combinación de ambos tipos de \textit{benchmarks} para la medición de rendimiento de E/S del sistema de archivos producirá un resultado más representativo en lugar de depender únicamente de uno de los dos tipos de herramientas. Este proyecto hace uso tanto de \textit{benchmarks} sintéticos elaborados con \textit{Filebench} como de aplicaciones reales para las medidas.
 
+\section{Máquina de pruebas}
+Los experimentos fueron ejecutados en una máquina convencional con un procesador AMD con una frecuencia de reloj de 3.5 GHz. Ubuntu 16.04.7 fue la versión del sistema operativo en el que se ejecutaron las pruebas. El sistema tenía 2 discos, en un disco SSD se encontraba el sistema operativo y las herramientas de \textit{benchmark} y el disco HDD se utilizaba exclusivamente para el montaje de los sistemas de archivos. La tabla siguiente muestra todos los detalles sobre el hardware y software utilizado.
+\begin{table}
+    \centering
+    \begin{tabular}{|l|l|}
+    \hline
+        Componente & Modelo \\ \hline\hline
+        CPU & AMD Ryzen 3 1300X @ 3.5 GHz \\ \hline
+        Memoria & Crucial CT8G4DFS824A. 8 GB DDR4 2400 MHz CL17 \\ \hline
+        Placa Base & ASUS EX-A320M \\ \hline
+        SSD del Sistema & Kingston A400 SSD SATA3 \\ \hline
+        HDD de Pruebas & Seagate Barracuda ST500DM002-1BD14 500GB \\ \hline
+    \end{tabular}
+    \caption{Especificaciones Hardware}
+\label{table:1}
+\end{table}
+
+\begin{table}
+    \centering
+    \begin{tabular}{|l|l|}
+    \hline
+        Software & Versión \\ \hline\hline
+        Ubuntu 16.04.7 & Kernel XXXXXXXXXXXXXXXXXXXX \\ \hline
+        Filebench & 1.5-alpha3 \\ \hline
+    \end{tabular}
+    \caption{Especificaciones Software}
+\label{table:2}
+\end{table}
+
+\section{Herramientas de \textit{benchmarking}}
+\subsection{Iozone}
+El software Iozone en general es utilizado para medir el rendimiento del sistema de archivos, utilizando distintos tipos de pruebas. Utilizamos esta herramienta para medir el rendimiento en operaciones de lectura, escritura, re-lectura, re-escritura, lectura aleatoria y escritura aleatoria. Se han seleccionado estas operaciones debido a que son operaciones que son ejecutadas por cualquier aplicación, utilizando cualquier tipo de sistema de archivos. Iozone es una suite ampliamente extendida en el mundo de los benchmarks, probablemente debido a su variedad de ajustes y es por ello por lo que la vamos a utilizar.
+\subsection{Filebench}
+Utilizaremos esta herramienta principalmente por disponer de un lenguaje para modelar carga. Es decir, utilizaremos el lenguaje de modelación de carga de Filebench para crear benchmarks sintéticos. El objetivo es crear un benchmark que se simule un uso real del disco por parte de una aplicación genérica o un usuario genérico. 
+\section{Entorno de pruebas y repetición de experimentos}
+\section{Instalación de paquetes}
+\section{Test Anova}
+
+
 
