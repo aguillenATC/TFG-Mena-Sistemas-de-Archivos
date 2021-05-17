@@ -13,7 +13,7 @@ En referencia a la búsqueda de información el objetivo era primar la informaci
 \section{Metodología de los experimentos}
 El objetivo de este trabajo requiere comparar el rendimiento de Btrfs, Ext4 y XFS en un único disco. Para realizar la comparativa de rendimiento, uno debería plantearse el uso de distintas herramientas de \textit{benchmarking} que sean capaces de mostrar el comportamiento de los sistemas de archivos bajo una determinada carga. Para este caso específico diremos que existen dos tipos de \textit{benchmarks}. \\
 
-Por un lado tenemos aplicaciones reales (por ejemplo medir el rendimiento de una tarjeta gráfica utilizando un videojuego). El uso de este tipo de \textit{benchmarks} tiene aspectos positivos, pero resulta difícil encontrar aplicaciones suficientemente representativas que englobe el funcionamiento de un sistema de archivos en la mayoría de casos.\\
+Por un lado tenemos \textit{benchmarks} reales (por ejemplo medir el rendimiento de una tarjeta gráfica utilizando un videojuego). El uso de este tipo de \textit{benchmarks} tiene aspectos positivos, pero resulta difícil encontrar aplicaciones suficientemente representativas que engloben el funcionamiento de un sistema de archivos en todas la situaciones.\\
 
 Por otro lado tenemos los \textit{benchmarks} sintéticos. Son programas artificiales que no realizan ningún trabajo real y útil. Las operaciones realizadas por estos \textit{benchmarks} se eligen cuidadosamente para que coincidan con las operaciones que realizaría otro tipo de programas. El objetivo es que las operaciones que realiza el \textit{benchmark} sean lo mas similares posible para así poder exportar los resultados al mundo real \cite{lilja_2000}.\\
 
@@ -26,7 +26,7 @@ Los experimentos fueron ejecutados en una máquina convencional con un procesado
     \begin{tabular}{|l|l|}
     \hline
         Componente & Modelo \\ \hline\hline
-        CPU & AMD Ryzen 3 1300X @ 3.5 GHz \\ \hline
+        CPU & AMD Ryzen 3 1300X @ 3.5 GHz Quad-Core \\ \hline
         Memoria & Crucial CT8G4DFS824A. 8 GB DDR4 2400 MHz CL17 \\ \hline
         Placa Base & ASUS EX-A320M \\ \hline
         SSD del Sistema & Kingston A400 SSD SATA3 \\ \hline
@@ -50,10 +50,50 @@ Los experimentos fueron ejecutados en una máquina convencional con un procesado
 
 \section{Herramientas de \textit{benchmarking}}
 \subsection{Iozone}
-El software Iozone en general es utilizado para medir el rendimiento del sistema de archivos, utilizando distintos tipos de pruebas. Utilizamos esta herramienta para medir el rendimiento en operaciones de lectura, escritura, re-lectura, re-escritura, lectura aleatoria y escritura aleatoria. Se han seleccionado estas operaciones debido a que son operaciones que son ejecutadas por cualquier aplicación, utilizando cualquier tipo de sistema de archivos. Iozone es una suite ampliamente extendida en el mundo de los benchmarks, probablemente debido a su variedad de ajustes y es por ello por lo que la vamos a utilizar.
+Iozone en general es utilizado para medir el rendimiento del sistema de archivos, utilizando distintos tipos de pruebas. Utilizamos esta herramienta para medir el rendimiento en operaciones de lectura, escritura, re-lectura, re-escritura, lectura aleatoria y escritura aleatoria. Se han seleccionado estas operaciones debido a que, son operaciones que son ejecutadas por las aplicaciones, bajo cualquier tipo de sistema de archivos. Iozone es una suite ampliamente extendida en el mundo de los \textit{benchmarks}, probablemente debido a su variedad de ajustes y es por ello por lo que la vamos a utilizar.
 \subsection{Filebench}
-Utilizaremos esta herramienta principalmente por disponer de un lenguaje para modelar carga. Es decir, utilizaremos el lenguaje de modelación de carga de Filebench para crear benchmarks sintéticos. El objetivo es crear un benchmark que se simule un uso real del disco por parte de una aplicación genérica o un usuario genérico. 
+Utilizaremos esta herramienta principalmente por disponer de un lenguaje para modelar carga. Es decir, utilizaremos Filebench WML para crear benchmarks sintéticos. El objetivo es crear un benchmark desde 0, que se simule un uso real del disco por parte de una aplicación genérica o un usuario genérico. 
+\subsection{Seekwatcher}
+\begin{lstlisting}[language=bash]
+\end{lstlisting}
 \section{Entorno de pruebas y repetición de experimentos}
+El estado del sistema a la hora de ejecutar las pruebas puede influir en los resultados. Por poner un ejemplo, tal y como señala Avishay Traeger \cite{traeger} el estado de la caché a la hora de ejecutar un test es determinante. No está del todo claro la metodología a seguir en estos casos, por un lado en un entorno real la caché no estaría completamente fría\footnote{Caché fría: Cuando la caché está vacía o contiene datos irrelevantes, esta situación conlleva hacer lecturas desde memoria principal.}. Por otro lado un \textit{benchmark} que accede a demasiados datos que se encuentran almacenados en caché también es poco realista. Si deseamos resultados de caché fría, habrá que desmontar el sistema de archivos tras cada ejecución para asegurar que la caché queda limpia tanto la del disco como la de la CPU \cite{traeger}. En nuestro caso, montaremos y desmontaremos el sistema de archivos entre pruebas para asegurar unos resultados fiables.\\
+
+Haciendo referencia de nuevo a Avishay Traeger bajo su criterio existen cuatro pautas importantes \cite{traeger} a la hora de ejecutar un \textit{benchmark}: 
+
+\begin{enumerate}
+    \item Asegurar que cada vez que se ejecuta un \textit{benchmark} sea bajo idéntica configuración.
+    \item Cada prueba debe realizarse varias veces para garantizar la precisión. Los niveles de confianza deben utilizarse para determinar el número adecuado de ejecuciones.
+    \item Las pruebas se deben realizar durante un periodo de tiempo lo suficientemente largo.
+    \item El proceso de \textit{benchmarking} debe automatizarse utilizando scripts u otras herramientas de automatización.
+\end{enumerate}
+
+Nos centraremos en la segunda pauta ya que puede ser la menos intuitiva de entender. Nos interesa que el número de mediciones sea el mínimo sin que esto afecte a la calidad de los resultados. Basándonos en la fórmula de los intervalos de confianza determinaremos cuantas medidas son necesarias para producir un intervalo de una anchura específica \cite{lilja_2000}. \\
+
+Supongamos que queremos definir un intervalo de confianza para $\Bar{x}$ así que hay una probabilidad de $1-\alpha$ de que el valor actual de $x$ esté contenido en el intervalo  $$
+\left(c_{1}, c_{2}\right)=((1-e) \bar{x},(1+e) \bar{x})
+$$ 
+Entonces tenemos que 
+$$
+c_{1}=(1-e) \bar{x}=\bar{x}-z_{1-\alpha / 2} \frac{s}{\sqrt{n}}
+$$
+$$
+c_{2}=(1+e) \bar{x}=\bar{x}+z_{1-\alpha / 2} \frac{s}{\sqrt{n}}
+$$
+Como ambos intervalos son simétricos podemos utilizar cualquiera de las dos ecuaciones para determinar que:
+$$
+z_{1-\alpha / 2} \frac{s}{\sqrt{n}}=\bar{x} e
+$$
+Despejando $n$ obtendríamos
+$$
+n=\left(\frac{z_{1-\alpha / 2} s}{e \bar{x}}\right)^{2}
+$$ 
+
+Para determinar el número de mediciones se requiere una estimación de la desviación estándar ($s$). Sin embargo, no podemos saber acerca de la desviación hasta que no hagamos algunas mediciones. Por tanto, el procedimiento consiste en realizar un número relativamente pequeño de mediciones para realizar una estimación de la desviación \cite{lilja_2000}. \\ 
+
+Para el cálculo del número de medidas necesarias y tomando como guía una de las cuatro pautas de Avishay Traeger, dicho cálculo se realizará, en la medida de lo posible, automáticamente. El código de dicho programa es el siguiente:  
+
+
 \section{Instalación de paquetes}
 \section{Test Anova}
 
