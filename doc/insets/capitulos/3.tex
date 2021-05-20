@@ -54,6 +54,15 @@ Iozone en general es utilizado para medir el rendimiento del sistema de archivos
 \subsection{Filebench}
 Utilizaremos esta herramienta principalmente por disponer de un lenguaje para modelar carga. Es decir, utilizaremos Filebench WML para crear benchmarks sintéticos. El objetivo es crear un benchmark desde 0, que se simule un uso real del disco por parte de una aplicación genérica o un usuario genérico. 
 \subsection{Seekwatcher}
+
+\subsection{KnowSeq}
+
+KnowSeq es una herramienta que permite procesar y extraer biomarcadores relevantes, así como evaluarlos mediante enfoques de Machine Learning. El objetivo de KnowSeq es la extracción de conocimiento biológico a partir de biomarcadores. 
+
+%The first process is focused on the Transcriptomic RAW data treatment. This step has the purpose of extracting a set of count files from raw files stored in the repositories supported by our package
+
+
+
 \begin{lstlisting}[language=bash]
 \end{lstlisting}
 \section{Entorno de pruebas y repetición de experimentos}
@@ -96,6 +105,62 @@ Para el cálculo del número de medidas necesarias y tomando como guía una de l
 
 \section{Instalación de paquetes}
 \section{Test Anova}
+El análisis de varianza es una técnica para dividir la variación de unas mediciones y convertirla en mediciones significativas. Este tipo de análisis asume que los errores en las mediciones de las distintas alternativas son independientes y siguen una distribución gaussiana (distibución normal). Se supone que la varianza del error es la misma para todas las alternativas. El test Anova divide la variación en dos, por un lado la variación causada por los errores en las mediciones y por otro lado la variación entre sistemas. El objetivo es determinar si la variación ente sistemas se debe a la diferencia real entre sistemas o simplemente es debido a error en la medición. \cite{lilja_2000} \\
 
+¿Las diferencias entre las medidas observadas para las alternativas se deben a diferencias reales entre las alternativas, o se deben simplemente a errores de medición? \cite{lilja_2000} \\
 
+Para resolver esta cuestión, necesitamos hacer $n$ mediciones en cada una de las $k$ alternativas. Según Lilja \cite{lilja_2000} es conveniente organizar las mediciones en una tabla cómo la siguiente. 
+ 
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{doc/assets/images/Capitulo3/lilja_recommend.png}
+    \caption{Como se deben ordenar las mediciones para facilitar los cálculos del test Anova \cite{lilja_2000}}
+    \label{fig:Anova_liljal}
+\end{figure}
+
+Dónde $y_{ij}s$ es la i-ésima medida de la j-ésima alternativa. La fila de la media de las columnas se denomina $\Bar{y}_{.j}$ y se calcula como $
+\bar{y}_{. j}=\frac{\sum_{i=1}^{n} y_{i j}}{n}
+$. La media total $\Bar{y}_{..}$ es la media de todas las medidas realizadas en todas las alternativas cuya fórmula sería $$
+\bar{y}_{. .}=\frac{\sum_{j=1}^{n} \sum_{i=1}^{n} y_{i j}}{k n}
+$$.
+
+Es útil descomponer cada medida $y_{ij}$ como la suma de de todas las medias de la alternativa $j$, $\bar{y}_{.j}$ y un valor $e_{ij}$ que representa la desviación de la medición respecto a la media. Por lo que partiendo de este enunciado la ecuación resultante es: $$y_{ij}=\bar{y}_{.j} + e_{ij}$$.
+
+Podemos extender este razonamiento para representar la fila de medias $\bar{y}_{ij}$ como la suma de la  media total $\bar{y}_{..}$ y la desviación de la fila de las medias $\alpha_j$. Como resultado obtenemos: $$
+y_{i j}=\bar{y}_{. .}+\alpha_{j}+e_{i j}
+$$
+
+Expresar las medidas de esta forma nos permite dividir la variación de todas las medidas en dos componentes separados. Por un lado la variación provocada por los efectos de las alternativas y por otro lado la variación debida a los errores. Respecto a la variación debida a los efectos de las alternativas la cual no debemos confundirla con la varianza, comúnmente se denomina \textit{SSA} y es calculada de la siguiente forma :  $$S S A=n \sum_{j=1}^{k}\left(\bar{y}_{. j}-\bar{y}_{. .}\right)^{2}$$. 
+
+De forma similar la variación debida a errores se denota como \textit{SSE}. Calculada como la sumatoria del cuadrado de las diferencias entre las medidas individuales y y su correspondiente media total. De este modo tenemos que:  $$S S E=\sum_{j=1}^{k} \sum_{i=1}^{n}\left(y_{i j}-\bar{y}_{. j}\right)^{2}$$ 
+
+Finalmente, la varianza residual se calcula como:
+$$
+S S T=\sum_{j=1}^{k} \sum_{i=1}^{n}\left(y_{i j}-\bar{y}_{..}\right)^{2}
+$$
+
+De todo esto podemos deducir que $$S S T= S S A + S S E$$
+
+El objetivo es contrastar la hipótesis de que el factor no influye sobre los resultados. Si esto es así el resultado de calcular $F_{exp}$ debería ser una muestra de una distribucion F de Snedecor.
+
+$$
+F_{e x p} = \frac{\operatorname{SSA} /\left(k-1\right)}{\operatorname{SSE} /\left k(n-1)\right } \sim F_{k-1,k(n-1)}
+$$
+\\
+La prueba estadística que ha demostrado ser adecuada para este tipo de comparativas es el test-F. Este test, que se basa en la distribución F de Snedecor, se utiliza para comprobar si dos varianzas son significativamente diferentes. Dado que el estadístico F se calcula como el cociente de dos varianzas, los valores cercanos a 1 indicarán que probablemente no existe ninguna diferencia significativa.\\
+
+Las estimaciones de las varianzas de $SSA$ y $SSE$ se hallan calculando sus correspondientes valores de \textit{mean-square}. El \textit{mean-square} es simplemente la variación total del componente dividida por el número de grados de libertad de ese componente. Dado que se comparan $k$ alternativas, hay $k-1$ grados de libertad en $SSA$. Por lo que, la estimación de la varianza es: $$
+s_{\mathrm{a}}^{2}=\frac{S S A}{k-1}
+$$
+
+De forma similar ocurre con $SSE$ como cada una de las alternativas tiene n-mediciones, cada alternativa tiene $n-1$ grados de libertad. Por lo tanto, el número total de grados de libertad para $SSE$ es $kn-1$, ya que hay k alternativas. La estimación de la varianza del error es entonces: 
+$$
+s_{\mathrm{a}}^{2}=\frac{S S E}{k(n-1)}
+$$
+
+Finalmente el estadístico $F$ para este test es calculado de la siguiente manera: $$
+F=\frac{s_{\mathrm{a}}^{2}}{s_{\mathrm{e}}^{2}}
+$$
+
+Dado que el estadístico $F$ es calculado como el cociente de dos varianza necesitará de dos valores para los grados de libertad. Si el valor de F calculado es mayor que el valor $F_{[1-\alpha ;(k-1), k(n-1)]}$ obtenido de la tabla, diremos que la variación causada entre las alternativas es mayor que la causada por los errores en un nivel de confianza de $1-\alpha$.
 
