@@ -19,52 +19,6 @@ Por otro lado tenemos los \textit{benchmarks} sintéticos. Son programas artific
 
 La combinación de ambos tipos de \textit{benchmarks} para la medición de rendimiento de E/S del sistema de archivos producirá un resultado más representativo en lugar de depender únicamente de uno de los dos tipos de herramientas. Este proyecto hace uso tanto de \textit{benchmarks} sintéticos elaborados con \textit{Filebench} como de aplicaciones reales para las medidas.
 
-\section{Máquina de pruebas}
-Los experimentos fueron ejecutados en una máquina convencional con un procesador AMD con una frecuencia de reloj de 3.5 GHz. Ubuntu 16.04.7 fue la versión del sistema operativo en el que se ejecutaron las pruebas. El sistema tenía 2 discos, en un disco SSD se encontraba el sistema operativo y las herramientas de \textit{benchmark} y el disco HDD se utilizaba exclusivamente para el montaje de los sistemas de archivos. La tabla siguiente muestra todos los detalles sobre el hardware y software utilizado.
-\begin{table}
-    \centering
-    \begin{tabular}{|l|l|}
-    \hline
-        Componente & Modelo \\ \hline\hline
-        CPU & AMD Ryzen 3 1300X @ 3.5 GHz Quad-Core \\ \hline
-        Memoria & Crucial CT8G4DFS824A. 8 GB DDR4 2400 MHz CL17 \\ \hline
-        Placa Base & ASUS EX-A320M \\ \hline
-        SSD del Sistema & Kingston A400 SSD SATA3 \\ \hline
-        HDD de Pruebas & Seagate Barracuda ST500DM002-1BD14 500GB \\ \hline
-    \end{tabular}
-    \caption{Especificaciones Hardware}
-\label{table:1}
-\end{table}
-
-\begin{table}
-    \centering
-    \begin{tabular}{|l|l|}
-    \hline
-        Software & Versión \\ \hline\hline
-        Ubuntu 16.04.7 & Kernel XXXXXXXXXXXXXXXXXXXX \\ \hline
-        Filebench & 1.5-alpha3 \\ \hline
-    \end{tabular}
-    \caption{Especificaciones Software}
-\label{table:2}
-\end{table}
-
-\section{Herramientas de \textit{benchmarking}}
-\subsection{Iozone}
-Iozone en general es utilizado para medir el rendimiento del sistema de archivos, utilizando distintos tipos de pruebas. Utilizamos esta herramienta para medir el rendimiento en operaciones de lectura, escritura, re-lectura, re-escritura, lectura aleatoria y escritura aleatoria. Se han seleccionado estas operaciones debido a que, son operaciones que son ejecutadas por las aplicaciones, bajo cualquier tipo de sistema de archivos. Iozone es una suite ampliamente extendida en el mundo de los \textit{benchmarks}, probablemente debido a su variedad de ajustes y es por ello por lo que la vamos a utilizar.
-\subsection{Filebench}
-Utilizaremos esta herramienta principalmente por disponer de un lenguaje para modelar carga. Es decir, utilizaremos Filebench WML para crear benchmarks sintéticos. El objetivo es crear un benchmark desde 0, que se simule un uso real del disco por parte de una aplicación genérica o un usuario genérico. 
-\subsection{Seekwatcher}
-
-\subsection{KnowSeq}
-
-KnowSeq es una herramienta que permite procesar y extraer biomarcadores relevantes, así como evaluarlos mediante enfoques de Machine Learning. El objetivo de KnowSeq es la extracción de conocimiento biológico a partir de biomarcadores. 
-
-%The first process is focused on the Transcriptomic RAW data treatment. This step has the purpose of extracting a set of count files from raw files stored in the repositories supported by our package
-
-
-
-\begin{lstlisting}[language=bash]
-\end{lstlisting}
 \section{Entorno de pruebas y repetición de experimentos}
 El estado del sistema a la hora de ejecutar las pruebas puede influir en los resultados. Por poner un ejemplo, tal y como señala Avishay Traeger \cite{traeger} el estado de la caché a la hora de ejecutar un test es determinante. No está del todo claro la metodología a seguir en estos casos, por un lado en un entorno real la caché no estaría completamente fría\footnote{Caché fría: Cuando la caché está vacía o contiene datos irrelevantes, esta situación conlleva hacer lecturas desde memoria principal.}. Por otro lado un \textit{benchmark} que accede a demasiados datos que se encuentran almacenados en caché también es poco realista. Si deseamos resultados de caché fría, habrá que desmontar el sistema de archivos tras cada ejecución para asegurar que la caché queda limpia tanto la del disco como la de la CPU \cite{traeger}. En nuestro caso, montaremos y desmontaremos el sistema de archivos entre pruebas para asegurar unos resultados fiables.\\
 
@@ -102,9 +56,9 @@ Para determinar el número de mediciones se requiere una estimación de la desvi
 
 Para el cálculo del número de medidas necesarias y tomando como guía una de las cuatro pautas de Avishay Traeger, dicho cálculo se realizará, en la medida de lo posible, automáticamente. El código de dicho programa es el siguiente:  
 
-
-\section{Instalación de paquetes}
 \section{Test Anova}
+Una vez se hayan ejecutado las pruebas el número de veces necesarias, se podrá observar que los resultados entre las alternativas varían. Esta variación podría ser debida al cambio de factor en la alternativa o podría ser solo ruido en la medición. Debido a ello se hará uso del test anova (\textit{\textbf{An}alisys \textbf{o}f \textbf{Va}riance})\\
+
 El análisis de varianza es una técnica para dividir la variación de unas mediciones y convertirla en mediciones significativas. Este tipo de análisis asume que los errores en las mediciones de las distintas alternativas son independientes y siguen una distribución gaussiana (distibución normal). Se supone que la varianza del error es la misma para todas las alternativas. El test Anova divide la variación en dos, por un lado la variación causada por los errores en las mediciones y por otro lado la variación entre sistemas. El objetivo es determinar si la variación ente sistemas se debe a la diferencia real entre sistemas o simplemente es debido a error en la medición. \cite{lilja_2000} \\
 
 ¿Las diferencias entre las medidas observadas para las alternativas se deben a diferencias reales entre las alternativas, o se deben simplemente a errores de medición? \cite{lilja_2000} \\
@@ -144,7 +98,7 @@ De todo esto podemos deducir que $$S S T= S S A + S S E$$
 El objetivo es contrastar la hipótesis de que el factor no influye sobre los resultados. Si esto es así el resultado de calcular $F_{exp}$ debería ser una muestra de una distribucion F de Snedecor.
 
 $$
-F_{e x p} = \frac{\operatorname{SSA} /\left(k-1\right)}{\operatorname{SSE} /\left k(n-1)\right } \sim F_{k-1,k(n-1)}
+F_{e x p} = \frac{\operatorname{SSA} /\left(k-1\right)}{\operatorname{SSE} /\left (k(n-1)\right) } \sim F_{k-1,k(n-1)}
 $$
 \\
 La prueba estadística que ha demostrado ser adecuada para este tipo de comparativas es el test-F. Este test, que se basa en la distribución F de Snedecor, se utiliza para comprobar si dos varianzas son significativamente diferentes. Dado que el estadístico F se calcula como el cociente de dos varianzas, los valores cercanos a 1 indicarán que probablemente no existe ninguna diferencia significativa.\\
@@ -164,3 +118,59 @@ $$
 
 Dado que el estadístico $F$ es calculado como el cociente de dos varianza necesitará de dos valores para los grados de libertad. Si el valor de F calculado es mayor que el valor $F_{[1-\alpha ;(k-1), k(n-1)]}$ obtenido de la tabla, diremos que la variación causada entre las alternativas es mayor que la causada por los errores en un nivel de confianza de $1-\alpha$.
 
+
+
+\section{Máquina de pruebas}
+Los experimentos fueron ejecutados en una máquina convencional con un procesador AMD con una frecuencia de reloj de 3.5 GHz. Ubuntu 16.04.7 fue la versión del sistema operativo en el que se ejecutaron las pruebas. El sistema tenía 2 discos, en un disco SSD se encontraba el sistema operativo y las herramientas de \textit{benchmark} y el disco HDD se utilizaba exclusivamente para el montaje de los sistemas de archivos. La tabla siguiente muestra todos los detalles sobre el hardware y software utilizado.
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|}
+    \hline
+        Componente & Modelo \\ \hline\hline
+        CPU & AMD Ryzen 3 1300X @ 3.5 GHz Quad-Core \\ \hline
+        Memoria & Crucial CT8G4DFS824A. 8 GB DDR4 2400 MHz CL17 \\ \hline
+        Placa Base & ASUS EX-A320M \\ \hline
+        SSD del Sistema & Kingston A400 SSD SATA3 \\ \hline
+        HDD de Pruebas & Seagate Barracuda ST500DM002-1BD14 500GB \\ \hline
+    \end{tabular}
+    \caption{Especificaciones Hardware}
+\label{table:1}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|l|}
+    \hline
+        Software & Versión \\ \hline\hline
+        Ubuntu 18.04.5 LTS & Kernel GNU/Linux 5.4.0-42-generic x86\_64 \\ \hline
+        Filebench & 1.5-alpha3 \\ \hline
+        KownSeq & XXXXXXXXXXX \\ \hline
+        iozone & XXXXXXXXXXXX \\ \hline
+        R & xxxxxxxxxxxxx \\ \hline
+    \end{tabular}
+    \caption{Especificaciones Software}
+\label{table:2}
+\end{table}
+
+
+
+\section{Herramientas de \textit{benchmarking} y metodología}
+\subsection{Iozone}
+Iozone en general es utilizado para medir el rendimiento del sistema de archivos, utilizando distintos tipos de pruebas. Utilizamos esta herramienta para medir el rendimiento en operaciones de lectura, escritura, re-lectura, re-escritura, lectura aleatoria y escritura aleatoria. Se han seleccionado estas operaciones debido a que, son operaciones que son ejecutadas por las aplicaciones, bajo cualquier tipo de sistema de archivos. Iozone es una suite ampliamente extendida en el mundo de los \textit{benchmarks}, probablemente debido a su variedad de ajustes y es por ello por lo que la vamos a utilizar.
+
+\subsection{Filebench}
+Utilizaremos esta herramienta principalmente por disponer de un lenguaje para modelar carga. Es decir, utilizaremos Filebench WML para crear benchmarks sintéticos. El objetivo es crear un benchmark desde 0, que se simule un uso real del disco por parte de una aplicación genérica o un usuario genérico. 
+%\subsection{iowatcher}
+
+\subsection{KnowSeq}
+KnowSeq es una herramienta que permite procesar y extraer biomarcadores relevantes, así como evaluarlos mediante enfoques de Machine Learning. El objetivo de KnowSeq es la extracción de conocimiento biológico a partir de biomarcadores. \\
+
+En nuestro caso concreto utilizaremos una parte del cauce del programa. Este cauce se encarga del tratamiento de los datos en crudo. Este proceso consiste en extraer un conjunto de archivos provenientes de los datos en bruto alojados en el repositorio del programa.Partimos de unos archivos SRA y el objetivo es procesarlos para obtener unos ficheros llamados \textit{count files}. La transformación de un archivo SRA a \textit{count file} no es directa, si no que existen pasos intermedios que generan por tanto archivos intermedios. Estos ficheros se denominan \textit{FASTQ, BAM y SAM Files} y son archivos muy pesados (del orden de 10-15 GB). KnowSeq conforme va generando los FASTQ, BAM, SAM Files los va organizando en carpetas, es decir mueve archivos pesados, por lo que durante el proceso se hacen operaciones muy pesadas en el sistema de archivos.\\
+
+Para esta prueba utilizaremos series relativas al Covid-19. Knowseq en su repositorio tiene datos de 90 pacientes, pero desafortunadamente se utilizarán sólo datos de 20 de ellos, ya que al ser archivos tan pesados necesitaríamos una cantidad de espacio que no disponemos y el tiempo de procesamiento es demasiado alto (~2h/paciente). Además al realizar las mismas operaciones sobre archivos aunque sean distintos pacientes, hacen que los resultados sean fácilmente exportables a un número mayor de pacientes. 
+
+\section{Instalación de paquetes}
+\subsection{IOzone}
+\subsection{IOwatcher}
+\subsection{KnowSeq}
+\subsection{Filebecnh}

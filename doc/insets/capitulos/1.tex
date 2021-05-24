@@ -1,21 +1,26 @@
 \cleardoublepage
 \clearpage{}
 \chapter{Introducción}
-Con la llegada de internet y la informática tal y como hoy en día conocemos, implicó que los usuarios necesitáramos mucha mas capacidad de almacenamiento, hasta tal punto que surgieron servicios como Dropbox, Google Drive, MEGA ... con el fin de poder proporcionarnos un extra de espacio, o un respaldo de nuestros archivos, fotos, etc. Este concepto de almacenamiento en la nube con el paso de los años ha ido evolucionando hasta tal punto que empresas como Amazon han desarollado sistemas de archivos propios (\textit{Amazon Elastic File System} \cite{amazon})  adaptados a los servicios que ofrecen.\\
+Con la llegada de internet y la informática tal y como hoy en día conocemos, \textcolor{red}{se produjo un aumento masivo del número de datos disponibles}. \textcolor{red}{Ello implicó una mayor demanda de capacidad de almacenamiento por parte de los usuarios} \sout{implicó que los usuarios necesitáramos mucha mas capacidad de almacenamiento}, hasta tal punto que surgieron servicios \textcolor{red}{en la nube} como Dropbox, Google Drive, MEGA ... con el fin de poder proporcionarnos un extra de espacio, o un respaldo de nuestros archivos, fotos, etc. Este concepto de almacenamiento en la nube con el paso de los años ha ido evolucionando hasta tal punto que empresas como Amazon han desarollado sistemas de archivos propios (\textit{Amazon Elastic File System} \cite{amazon})  adaptados a los servicios que ofrecen.\\
 
-Los sistemas de archivos son una parte de la informática a la cual apenas se le da la importancia que realmente tiene, es bastante común encontrar a informáticos que apenas sabrían definir qué es un sistema de archivos. Es fácil caer en la creencia de que los distintos sistemas de archivos funcionan prácticamente igual y, aunque comparten muchas veces ideas en común, después a la hora de implementarlos cuando surgen problemas, cada uno opta por una solución distinta.\\
+\textcolor{blue}{QUIZAS ALGUNA REFERENCIA DEL AUMENTO DEL NUMERO DE DATOS EN LOS ULTIMOS AÑOS, AUNQUE SEAN APROXIMACIONES}
 
-Al ser un tema de nicho a veces es complicado encontrar información de calidad. Debido a esto he decidido enfocar este trabajo de fin de grado a este tema, por ser una cuestión novedosa ya que apenas existen TFGs relacionados.\\
+Los sistemas de archivos son una parte de la informática a la cual no se le da la importancia que realmente tiene, es bastante común encontrar a expertos informáticos que apenas sabrían definir qué es un sistema de archivos correctamente. Es fácil caer en la creencia de que los distintos sistemas de archivos funcionan prácticamente igual y, aunque comparten muchas veces ideas en común, después a la hora de implementarlos cuando surgen problemas, cada uno opta por una solución distinta.\\
 
-Históricamente los sistemas de archivos eran partes de los sistemas operativos que se quedaban obsoletos con el paso del tiempo. A día de hoy no existe un sistema de archivos eterno, pero estos, conforme han ido evolucionando se han ido haciendo cada vez mas escalables, seguros, rápidos y fiables. Pero ¿Qué entendemos por un sistema de archivos fiable? En este contexto diremos que un sistema es fiable si tiene algún mecanismo para recomponerse en caso de fallo, es decir, el sistema de archivos tiene implementado mecanismos para asegurar la integridad de los datos. Un ejemplo de estos mecanismos podrían ser el \textit{checksumming} y el \textit{journaling}.\\
+Al ser un tema de nicho a veces es complicado encontrar información de calidad. Debido a esto, \textcolor{red}{se ha decidido} \sout{he decidido} enfocar este trabajo de fin de grado a este tema, por ser una cuestión novedosa ya que apenas existen TFGs relacionados.\\
 
-\newpage
+\textcolor{blue}{TRATA DE HABLAR SIEMPRE EN TERCERA PERSONA, EN UN PROYECTO, NO SE DEBE HABLAR COMO SI FUERAS TU.} 
 
-Este trabajo no solo se basará en modelizar carga para el análisis de 3 sistemas de archivos con \textit{Workload Modeling Language} si no que también, se realizaran pruebas y se analizarán bajo una aplicación de bioinformática, ya que este tipo de aplicaciones realizan muchas operaciones con archivos y es un tema que se encuentra en auge en estos momentos.
+\textcolor{blue}{CUIDADO CON DECIR SIMPLEMENTE QUE NO EXISTEN APENAS TFGs RELACIONADOS, EL TRIBUNAL PODRÍA PILLARTE POR AHI SI ESO NO ESTÁ BIEN REFERENCIA Y JUSTIFICADO}
+
+
+Históricamente los sistemas de archivos eran partes de los sistemas operativos que se quedaban obsoletos con el paso del tiempo. A día de hoy no existe un sistema de archivos eterno, pero estos, conforme han ido evolucionando se han ido haciendo cada vez mas escalables, seguros, rápidos y fiables. Pero ¿\textcolor{red}{Qué se entiende} \sout{Qué entendemos} por un sistema de archivos fiable? En este contexto \textcolor{red}{se establece} \sout{diremos} que un sistema es fiable si tiene algún mecanismo para recomponerse en caso de fallo, es decir, el sistema de archivos tiene implementado mecanismos para asegurar la integridad de los datos. Un ejemplo de estos mecanismos podrían ser el \textit{checksumming} y el \textit{journaling}.\\
+
+Este trabajo no solo se basa en modelizar carga para el análisis de 3 sistemas de archivos con \textit{Workload Modeling Language} si no que también, se realizaran pruebas y se analizarán bajo una aplicación de bioinformática, ya que este tipo de aplicaciones hacen un uso intensivo del sistema de archivos y, además es un tema que se encuentra en auge en estos momentos.
 
 
 \section{¿Qué es un sistema de archivos?}
-Encontrar una buena definición de qué es un sistema de ficheros o sistema de archivos es una tarea bastante complicada. Por ello vamos a dar varias definiciones con el fin de que al final entre ellas se complementen y quede una idea general clara. \\
+Encontrar una buena definición de qué es un sistema de ficheros o sistema de archivos es una tarea bastante complicada. Por ello se van a dar varias definiciones con el fin de que al final entre ellas se complementen y quede una idea general clara. \\
 
 Abraham Silberchatz define en su libro \textit{Operating System Concepts Essential} \cite{silberchatz} que un sistema de archivos consta de dos partes distintas: una colección de archivos, cada una de las cuales almacena datos relacionados, y una estructura de directorio, que organiza y proporciona información sobre todos los archivos del sistema.\\
 
@@ -24,9 +29,7 @@ Por otro lado Robert Love en su libro \textit{Linux kernel Development} \cite{Li
 En resumen se habla de qué un sistema de ficheros es la implementación que da estructura a los directorios y nos permite operar sobre estos o sobre archivos.
 
 \subsection{Sistema de archivos tradicionales}
-El sistema de archivos que se utilizaba en la Berkeley Standard Distribution fue uno de los primeros sistemas de archivos. Dicho sistema de archivos dividía las particiones en grupos de cilindros y cada grupo de cilindros tenía una copia del superbloque, una parte de los inodos y una lista con los bloques libres. El superbloque era replicado en cada cilindro, esto se hacía para hacer el sistema de archivos mas robusto y tolerante a fallos. \cite{LinuxKernelDev} \\
-
-Años después Ext2 se convirtió en el rey de los sistemas de archivos en sistemas operativos basados en Linux. Ext2 hereda algunas características del sistema de archivos utilizado en BSD. Algunas de la características que mejoraron Ext2 sobre BSD FS fueron que en vez de utilizar grupos de cilindros utilizaban directamente bloques de tamaño fijo.
+El sistema de archivos que utilizaba la \textit{Berkeley Standard Distribution} fue uno de los primeros sistemas de archivos. Dicho sistema de archivos dividía las particiones en grupos de cilindros y cada grupo de cilindros tenía una copia del superbloque, una parte de los inodos y una lista con los bloques libres. El superbloque era replicado en cada cilindro, esto se hacía para hacer el sistema de archivos mas robusto y tolerante a fallos. Años después Ext2 se convirtió en el rey de los sistemas de archivos en sistemas operativos basados en Linux. Ext2 hereda algunas características del sistema de archivos utilizado en BSD. Algunas de la características que mejoraron Ext2 sobre BSD FS fueron que en vez de utilizar grupos de cilindros utilizaban directamente bloques de tamaño fijo \cite{LinuxKernelDev}.
 
 
 \section{Objetivos}
