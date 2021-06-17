@@ -20,7 +20,7 @@ Por otro lado tenemos los \textit{benchmarks} sintéticos. Son programas artific
 La combinación de ambos tipos de \textit{benchmarks} para la medición de rendimiento de E/S del sistema de archivos producirá un resultado más representativo en lugar de depender únicamente de uno de los dos tipos de herramientas. Este proyecto hace uso tanto de \textit{benchmarks} sintéticos elaborados con \textit{Filebench} como de aplicaciones reales para las medidas.
 
 \subsection{Entorno de pruebas y repetición de experimentos}\label{numejecs}
-El estado del sistema a la hora de ejecutar las pruebas puede influir en los resultados. Por poner un ejemplo, tal y como señala Avishay Traeger \cite{traeger} el estado de la caché a la hora de ejecutar un test es determinante. No está del todo claro la metodología a seguir en estos casos, por un lado en un entorno real la caché no estaría completamente fría\footnote{Caché fría: Cuando la caché está vacía o contiene datos irrelevantes, esta situación conlleva hacer lecturas desde memoria principal.}. Por otro lado un \textit{benchmark} que accede a demasiados datos que se encuentran almacenados en caché también es poco realista. Si deseamos resultados de caché fría, habrá que desmontar el sistema de archivos tras cada ejecución para asegurar que la caché queda limpia tanto la del disco como la de la CPU \cite{traeger}. En nuestro caso, montaremos y desmontaremos el sistema de archivos entre pruebas para asegurar unos resultados fiables.\\
+El estado del sistema a la hora de ejecutar las pruebas puede influir en los resultados. Por poner un ejemplo, tal y como señala Avishay Traeger \cite{traeger} el estado de la caché a la hora de ejecutar un test es determinante. No está del todo claro la metodología a seguir en estos casos, por un lado en un entorno real la caché no estaría completamente fría\footnote{Caché fría: Cuando la caché está vacía o contiene datos irrelevantes, esta situación conlleva hacer lecturas desde memoria principal.}. Por otro lado un \textit{benchmark} que accede a demasiados datos que se encuentran almacenados en caché también es poco realista. Si deseamos resultados de caché fría, habrá que desmontar el sistema de archivos tras cada ejecución para asegurar que la caché queda limpia tanto la del disco como la de la CPU \cite{traeger}.\\
 
 Haciendo referencia de nuevo a Avishay Traeger bajo su criterio existen cuatro pautas importantes \cite{traeger} a la hora de ejecutar un \textit{benchmark}: 
 
@@ -48,15 +48,17 @@ $$
 z_{1-\alpha / 2} \frac{s}{\sqrt{n}}=\bar{x} e
 $$
 Despejando $n$ obtendríamos
-$$
+\begin{equation}
+\label{eqn:n-ejecuciones}
 n=\left(\frac{z_{1-\alpha / 2} s}{e \bar{x}}\right)^{2}
-$$ 
+\end{equation}
+ 
 
-Para determinar el número de mediciones se requiere una estimación de la desviación estándar ($s$). Sin embargo, no podemos saber acerca de la desviación hasta que no hagamos algunas mediciones. Por tanto, el procedimiento consiste en realizar un número relativamente pequeño de mediciones para realizar una estimación de la desviación \cite{lilja_2000}. \\ 
+Para determinar el número de mediciones se requiere una estimación de la desviación estándar ($s$). Sin embargo, no podemos saber acerca de la desviación hasta que se realicen algunas mediciones. Por tanto, el procedimiento consiste en realizar un número relativamente pequeño de mediciones para obtener una estimación de la desviación \cite{lilja_2000}. \\ 
 
 Para el cálculo del número de medidas necesarias y tomando como guía una de las cuatro pautas de Avishay Traeger, dicho cálculo se realizará, en la medida de lo posible, automáticamente. El código de dicho programa es el siguiente:  
 
-\section{Test Anova}
+\section{Test Anova}\label{anova_section}
 Una vez se hayan ejecutado las pruebas el número de veces necesarias, se podrá observar que los resultados entre las alternativas varían. Esta variación podría ser debida al cambio de factor en la alternativa o podría ser solo ruido en la medición. Debido a ello se hará uso del test anova (\textit{\textbf{An}alisys \textbf{o}f \textbf{Va}riance})\\
 
 El análisis de varianza es una técnica para dividir la variación de unas mediciones y convertirla en mediciones significativas. Este tipo de análisis asume que los errores en las mediciones de las distintas alternativas son independientes y siguen una distribución gaussiana (distibución normal). Se supone que la varianza del error es la misma para todas las alternativas. El test Anova divide la variación en dos, por un lado la variación causada por los errores en las mediciones y por otro lado la variación entre sistemas. El objetivo es determinar si la variación ente sistemas se debe a la diferencia real entre sistemas o simplemente es debido a error en la medición. \cite{lilja_2000} \\
@@ -144,9 +146,9 @@ Los experimentos fueron ejecutados en una máquina convencional con un procesado
         Software & Versión \\ \hline\hline
         Ubuntu 18.04.5 LTS & Kernel GNU/Linux 5.4.0-42-generic x86\_64 \\ \hline
         Filebench & 1.5-alpha3 \\ \hline
-        KownSeq & XXXXXXXXXXX \\ \hline
-        iozone & XXXXXXXXXXXX \\ \hline
-        R & xxxxxxxxxxxxx \\ \hline
+        KownSeq & 1.6.0 \\ \hline
+        iozone & 3.429 \\ \hline
+        R & v4.1.0 (2021-05-18) \\ \hline
     \end{tabular}
     \caption{Especificaciones Software}
 \label{table:2}
@@ -208,51 +210,32 @@ Y ya podremos crear el sistema de archivos BTRFS.
 sudo mkfs.xfs -f  -L '' '/dev/sda1'
 \end{lstlisting}
 
-Crear particiones, sistemas de ficheros y montarlos de manera manual para poder lanzar las pruebas, es un proceso muy engorroso. Por ello se ha desarrollado un script en bash para automatización de dicha tarea. 
-
-\begin{lstlisting}[language=bash]
-#!/bin/bash
-
-if [ $# -lt 2 ]
-then
-	echo "Numero erroneo de argumentos: se necesita saber el sistema de archivos, la ruta del dispositivo"
-else
-		sudo sfdisk $2 < ./disco.template
-		sudo mkdir /mnt/SA_TFG 
-	if [ $1 = "ext4" ]; then
-		sudo mkfs.ext4 -F -O ^64bit -L '' $2
-	fi
-
-	if [ $1 = "btrfs" ]; then
-		sudo mkfs.btrfs -f  -L '' $2
-	fi
-
-	if [ $1 = "xfs" ]; then
-		sudo mkfs.xfs -f  -L '' $2
-	fi
-
-	sudo mount $2 /mnt/SA_TFG
-fi
-\end{lstlisting}
-
-
-
-
+Crear particiones, sistemas de ficheros y montarlos de manera manual para poder lanzar las pruebas, es un proceso muy engorroso. Por ello se ha desarrollado un script en bash para automatización de dicha tarea. El código del script esta disponible en la sección \ref{montaje.sh}
 
 \section{Herramientas de \textit{benchmarking} y metodología}
-\subsection{Iozone}
-Iozone en general es utilizado para medir el rendimiento del sistema de archivos, utilizando distintos tipos de pruebas. Utilizamos esta herramienta para medir el rendimiento en operaciones de lectura, escritura, re-lectura, re-escritura, lectura aleatoria y escritura aleatoria. Se han seleccionado estas operaciones debido a que, son operaciones que son ejecutadas por las aplicaciones, bajo cualquier tipo de sistema de archivos. Iozone es una suite ampliamente extendida en el mundo de los \textit{benchmarks}, probablemente debido a su variedad de ajustes y es por ello por lo que la vamos a utilizar.
+\subsection{Iozone}\label{metodologia_iozone}
+Iozone en general es utilizado para medir el rendimiento del sistema de archivos, utilizando distintos tipos de pruebas. Se utilizará esta herramienta para medir el rendimiento en operaciones de lectura, escritura, re-lectura, re-escritura, lectura aleatoria y escritura aleatoria. Estas opciones se han seleccionado debido a que, son operaciones que ejecutan las aplicaciones, bajo cualquier tipo de carga.
+
+Los ajustes que se van a utilizar para la configuración de las pruebas son exactamente iguales para ext4, btrfs y xfs. La salida de \textit{iozone} se compone de una tabla donde cada fila el tamaño de archivo con el que se ejecuta el test y las columna es el tamaño de bloque. \\
+
+Se realizarán varías ejecuciones con el fin de obtener un promedio y desviación estándar. Una vez tengamos esos datos, se podrá aplicar la fórmula \ref{eqn:n-ejecuciones} para obtener el número de pruebas necesarias.\\
+
+Tras ello se realizarán tests Anova para comprobar si el tamaño de bloque o el tamaño de archivo afecta a la productividad. También se realizarán test correspondientes encargados de determinar si el uso de un S.A (sistema de archivos) u otro influye en la productividad.
+
+
 
 \subsection{Filebench}
-Utilizaremos esta herramienta principalmente por disponer de un lenguaje para modelar carga. Es decir, utilizaremos Filebench WML para crear benchmarks sintéticos. El objetivo es crear un benchmark desde 0, que se simule un uso real del disco por parte de una aplicación genérica o un usuario genérico. 
-%\subsection{iowatcher}
+Utilizaremos esta herramienta principalmente por disponer de un lenguaje para modelar carga. Es decir, utilizaremos \textit{Filebench} \textit{WML} para crear benchmarks. El objetivo es crear un benchmark, que se simule un uso del disco por parte de una aplicación genérica.\\
+
+Se procederá de la manera similar que con la aplicación \textit{iozone}.
+
 
 \subsection{KnowSeq}\label{metodologia_knowseq}
 KnowSeq es una herramienta que permite procesar y extraer biomarcadores relevantes, así como evaluarlos mediante enfoques de Machine Learning. El objetivo de KnowSeq es la extracción de conocimiento biológico a partir de biomarcadores. \\
 
 El primer del programa cauce se encarga del tratamiento de los datos en crudo. Este proceso consiste en extraer un conjunto de archivos provenientes de los datos en bruto alojados en internet. Partimos de unos archivos SRA y el objetivo es procesarlos para obtener unos ficheros llamados \textit{count files}. La transformación de un archivo SRA a \textit{count file} no es directa, si no que existen pasos intermedios que generan por tanto archivos intermedios. Estos ficheros se denominan \textit{FASTQ, BAM y SAM Files} y son archivos muy pesados (del orden de 10-15 GB). KnowSeq conforme va generando los FASTQ, BAM, SAM Files los va organizando en carpetas, es decir mueve archivos pesados, por lo que durante el proceso se hacen operaciones muy pesadas en el sistema de archivos. Para esta prueba obviaremos la parte final del proceso que consiste generar los \textit{count files} a partir de los \textit{SAM files}. Este proceso es muy pesado para el procesador, pero apenas hace uso del disco, y debido a ello se decide descartar su uso.\\
 
-Para esta prueba utilizaremos series relativas al Covid-19. KnowSeq en su repositorio tiene datos de 90 pacientes, pero desafortunadamente se utilizarán sólo datos de 5 de ellos, ya que al ser archivos tan pesados necesitaríamos una cantidad de espacio que no disponemos y el tiempo de procesamiento es demasiado elevado. Además al procesar los datos de cada paciente de uno en uno y siendo operaciones completamente aisladas entre pacientes, ello supone que el tiempo y las operaciones por cada uno de estos, es prácticamente el mismo. Por lo tanto, se puede asumir que el tiempo y espacio total utilizado se incrementa aproximadamente de forma lineal cada vez que se añade un paciente. Para confirmar esta hipótesis se lanzaron varias ejecuciones (3 por configuración) del programa con distinto número de pacientes, con el fin de determinar si la hipótesis que se plantea se cumple. Se puede observar que la desviación para dos y tres pacientes es prácticamente igual y para un paciente es menor, probablemente debido a que solo realiza una descarga de datos y la velocidad de transmisión de la red es muy cambiante. La desviación para dos y tres pacientes resulta de poco mas de un minuto y medio, por lo que no es, en general, una desviación alta. Respecto a los tiempos, se puede observar que el incremento entre las distintas configuraciones de número de pacientes es prácticamente lineal. Por tanto podríamos confirmar que la hipótesis se cumple. \\
+Para esta prueba utilizaremos series relativas al Covid-19. KnowSeq en su repositorio tiene datos de 90 pacientes, pero desafortunadamente se utilizarán sólo datos de 5 de ellos, ya que al ser archivos tan pesados necesitaríamos una cantidad de espacio que no disponemos y el tiempo de procesamiento es demasiado elevado. La variación en los genes es uno de los factores que modificaría el tiempo de ejecución, pero que dicha diferencia en los archivos elegidos es pequeña y, por tanto, la diferencia en el tiempo de ejecución también debería serla. Además al procesar los datos de cada paciente de uno en uno y siendo operaciones completamente aisladas entre pacientes, ello supone que el tiempo y las operaciones por cada uno de estos, es prácticamente el mismo. Por lo tanto, se puede asumir que el tiempo y espacio total utilizado se incrementa aproximadamente de forma lineal cada vez que se añade un paciente. Para confirmar esta hipótesis se lanzaron varias ejecuciones (3 por configuración) del programa con distinto número de pacientes, con el fin de determinar si la hipótesis que se plantea se cumple. Se puede observar que la desviación para dos y tres pacientes es prácticamente igual y para un paciente es menor, probablemente debido a que solo realiza una descarga de datos y la velocidad de transmisión de la red es muy cambiante. La desviación para dos y tres pacientes resulta de poco mas de un minuto y medio, por lo que no es, en general, una desviación alta. Respecto a los tiempos, se puede observar que el incremento entre las distintas configuraciones de número de pacientes es prácticamente lineal. Por tanto podríamos confirmar que la hipótesis se cumple. \\
 \begin{table}[h]
     \centering
     \resizebox{\columnwidth}{!}{\begin{tabular}{|c|c|c|c|c|c|}
@@ -271,7 +254,23 @@ Para esta prueba utilizaremos series relativas al Covid-19. KnowSeq en su reposi
 
 Para monitorizar la productividad de la entrada/salida se hace uso de la utilidad \textit{Iowatcher}. \textit{Iowatcher} internamente utiliza \textit{blktrace}, que es una herramienta de rastreo de E/S que proporciona información detallada sobre las operaciones en la cola de operaciones \cite{blktrace}. Una vez se capturan los eventos de la E/S, se utiliza internamente la herramienta \textit{blkparse} la cual transforma la salida de \textit{blktrace} en un archivo legible por el ser humano. Tras ello \textit{iowatcher} se encarga de procesar dicho archivo y generar las gráficas de los \textit{items} medidos.\\
 
-Para finalizar quedaría resolver una cuestión ¿cuántas veces se tiene que repetir la prueba para tener una medidas fiables? Tomamos como guía lo visto en la sección \ref{numejecs}. Realizamos varias medidas, partiendo de todas las características y restricciones adoptadas. Es decir, se ejecutará \textit{KnowSeq} para 5 pacientes y obviando el proceso de generación de los \textit{count files}. Se tomará la productividad como medida de referencia y calcularemos el número de ejecuciones para una confianza del 95\% y un error del 5\%. Con el fin de automatizar los cálculos, se ha desarrollado un pequeño \textit{script} en \textit{Python} que nos resuelve la tarea.
+Para finalizar quedaría resolver una cuestión ¿cuántas veces se tiene que repetir la prueba para tener una medidas fiables? Tomamos como guía lo visto en la sección \ref{numejecs}. Realizamos varias medidas, partiendo de todas las características y restricciones adoptadas. Es decir, se ejecutará \textit{KnowSeq} para 5 pacientes y obviando el proceso de generación de los \textit{count files}. Se tomará la productividad como medida de referencia y calcularemos el número de ejecuciones para una confianza del 90\% y un error del 7\%. Con el fin de automatizar los cálculos, se ha desarrollado un pequeño \textit{script} en \textit{Python} que resuelve la tarea.\\
+
+Aproximadamente, ¿cuántas mediciones se necesitarían si quisiéramos tener un 90\% de confianza en que el valor medio está dentro del 7\% del valor real? Con los datos de las mediciones realizadas obtenidas necesitaríamos 3,7 ejecuciones, es decir 4 ejecuciones. La tabla de datos ha sido la siguiente.
+
+\begin{table}[h]
+    \centering
+    \resizebox{\columnwidth}{!}{\begin{tabular}{|c|c|c|c|c|c|c|c|}
+    \hline
+         & Ejecución 1 & Ejecución 2 & Ejecución 3 & Ejecución 4 & Promedio (minutos) & Desviación & N. Ejecuciones\\ \hline\hline
+        Productividad en MB/s & 26,417152 & 28,511744 & 26,255872 & 25,803776 & 26,747136 & 1,204712862 & 3,726138142\\ \hline
+    \end{tabular}}
+    \caption{Productividad y número de ejecuciones necesarias para KnowSeq}
+    \label{tab:my_label}
+\end{table}
+\begin{table}[h]
+    \centering
+\end{table}
 
 \section{Instalación de paquetes}
 \subsection{Iozone}
@@ -286,16 +285,54 @@ iozone -v
 Y deberá mostrar la información del programa y la versión que hemos instalado.
 
 \subsection{Iowatcher}
-Iowatcher viene por defecto instalado en las distribuciones basadas en Ubuntu, pero no es suficiente ya que necesita de la herramienta \textit{blktrace} la cual no viene instalada por defecto. Para instalarla se hará uso de nuevo del gestor de paquetes. Para instalar la herramienta se deberá introducir en la terminal la siguiente orden:
+Iowatcher no viene por defecto instalado en las distribuciones basadas en Ubuntu, el paquete en el que se encuentra la herramienta se llama \textit{blktrace} por lo que es el paquete que debemos buscar en nuestro gestor de paquetes. En el caso de Ubuntu se instala con la orden mostrada a continuación.
 \begin{lstlisting}[language=bash]
 sudo apt-get install blktrace
 \end{lstlisting}
-Si se intentara ejecutar un \textit{iowatcher} de prueba veríamos que no funciona. Es necesario mas herramientas complementarias, concretamente \textit{mpstat}. Para instalarla hay que instalar el paquete sysstat
-
+Si ahora intentara ejecutar un \textit{iowatcher} de prueba se daría cuenta de que no es posible dado que muestra un error. Son necesarias mas herramientas aparte, concretamente \textit{mpstat}. Para instalarla hay que instalar el paquete \textit{sysstat}.
 \begin{lstlisting}[language=bash]
 sudo apt install sysstat
 \end{lstlisting}
-Tras esto ya es posible lanzar un iowatcher de prueba.
+Tras esto ya es posible lanzar un \textit{iowatcher} de prueba.
 
 \subsection{KnowSeq}
-\subsection{Filebecnh}
+KnowSeq es un paquete para R, por lo que si no se tiene R en la máquina instalada este será el primer paso. Primero se añade el repositorio.
+\begin{lstlisting}[language=bash]
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+
+sudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran40/'
+
+sudo apt update
+\end{lstlisting}
+El siguiente paso es la instalación de R
+\begin{lstlisting}[language=bash]
+sudo apt install r-base
+\end{lstlisting}
+A continuación entramos a R desde la terminal e instalamos \textit{BiocManager} que es un gestor de paquetes de R. Una vez esté instalado se utilizará para instalar \textit{KnowSeq}.
+\begin{lstlisting}[language=R]
+install.packages("BiocManager")
+
+BiocManager::install("KnowSeq")
+\end{lstlisting}
+Durante la instalación de \textit{KnowSeq} probablemente aparezcan avisos de dependencias no encontradas. En Ubuntu 18.04 algunas de ellas son las mostradas a continuación.
+
+\begin{lstlisting}[language=bash]
+ sudo apt-get install xml2
+ sudo apt-get install libxml2-dev
+ sudo apt-get install libcurl4-nss-dev
+ sudo apt-get install libssl-dev
+
+\end{lstlisting}
+\subsection{Filebench}
+La instalación de \textit{Filebecnh} es muy sencilla sólo tenemos que descargar el comprimido desde el \href{https://github.com/filebench/filebench/releases}{repositorio de \underline{GitHub}}. Antes de empezar debería comprobar si en la máquina se encuentra instalado Bison y Flex. En caso de que no sea así habrá que instalarlo a traves del gestor de paquetes. Una vez se resuelvan las dependencias nos situamos en la carpeta descomprida con una terminal y lanzamos las siguientes órdenes. 
+
+\begin{lstlisting}[language=bash]
+ ./configure
+ make
+ sudo make install
+\end{lstlisting}
+
+Tras esto debería ser posible ejecutar un test de prueba. Cómo por ejemplo:
+\begin{lstlisting}[language=bash]
+ filebench -f ./workloads/webserver.f
+\end{lstlisting}

@@ -1,25 +1,70 @@
-\chapter{Información adicional}
+\chapter{Scripts}
 
-\section{Sesión 1}
-\begin{enumerate}
-    \item Para apagar el sistema: halt, poweroff o init 0.
-    \item date -d @numero convierte tiempo epoch a humano UTC.
-    \item LFS significa Linux from Scratch (desde 0).
-    \item Cuando se crea un usuario con useradd o adduser, el administrador es quien debe establecerle la contraseña. Sino, cuando el usuario inicie sesión deberá de ejecutar passwd para establecer una.
-    \item Para averiguar el propietario de un archivo, nos fijamos en la tercera columna de un ls -la.
-    \item Un enlace blando o simbólico se hace mediante ln -s  origen destino
-    \item Un enlace duro se hace mediante ln origen destino
-    \item Los enlaces duros son copias fisicas y se destruyen si destruyes una de las copias.
-    \item Los enlaces blandos son copias simbolicas y se destruyen si destruyes el original.
-    \item Los enlaces blandos se ejecutan sobre directorios y archivos, mientras que los duros solo sobre archivos.
-    \item /usr/local está pensado para que el root construya los programas ahí (./configure, make, make install).
-    \item /opt está pensado para instalar las aplicaciones empaquetadas (por ejemplo sublime, spotify).
-\end{enumerate}
+\section{Anova.py}\label{Anova.py}
+\begin{lstlisting}[language=python]
+from scipy.stats import f_oneway
+import pandas as pd
 
-\section{Sesión 2}
-\begin{enumerate}
-    \item Los archivos de dispositivos o ficheros de dispositivos (en inglés device files) son archivos especiales usados en casi todos los sistemas operativos derivados de Unix y también en otros sistemas.
-    \item En los sistemas operativos Unix y GNU/Linux un archivo de dispositivo es un archivo especial estandarizado en Filesystem Hierarchy Standard que se establece en el directorio /dev (en el caso de Solaris en /devices) en cuyos subdirectorios se establece un contacto con dispositivos de la máquina, ya sean reales, como un disco duro, o virtuales, como /dev/null. Esta flexibilidad capaz de abstraer el dispositivo y considerar solo lo fundamental, la comunicación, le ha permitido adaptarse a la rapidez de los cambios y a la variación de dispositivos que ha enriquecido a la computación.
-    \item Los dispositivos orientados a bloques tienen la propiedad de que se pueden direccionar, esto es, el programador puede escribir o leer cualquier bloque del dispositivo realizando primero una operación de posicionamiento sobre el dispositivo. Los dispositivos más comunes orientados a bloques son los discos duros, la memoria, discos compactos y, posiblemente, unidades de cinta.
-    \item Los dispositivos orientados a caracteres son aquellos que trabajan con secuencias de bytes sin importar su longitud ni ninguna agrupación en especial. No son dispositivos direccionables. Ejemplos de estos dispositivos son el teclado, la pantalla o display y las impresoras.
-\end{enumerate}
+
+df = pd.read_csv('./test.csv')
+
+#saved_column = df.Alternativa2.tolist()
+m1 = df.Alternativa1.tolist()
+m2 = df.Alternativa2.tolist()
+m3 = df.Alternativa3.tolist()
+
+hipotesisnula="El rendimiento de los sistemas de archivos es el mismo"
+
+F,p = f_oneway(m1,m2,m3)
+print(F)
+print(p)
+
+if(p>0.05):
+        print("No podemos rechazar la hipotesis nula: " + hipotesisnula)
+else:
+        print("Rechazamos la hipotesis nula: " + hipotesisnula)
+
+\end{lstlisting}
+
+\section{Montaje Sistemas de Archivos}\label{montaje.sh}
+\begin{lstlisting}[language=bash]
+#!/bin/bash
+
+if [ $# -lt 2 ]
+then
+	echo "Numero erroneo de argumentos: se necesita saber el sistema de archivos, la ruta del dispositivo"
+else
+		sudo sfdisk $2 < ./disco.template
+		sudo mkdir /mnt/SA_TFG 
+	if [ $1 = "ext4" ]; then
+		sudo mkfs.ext4 -F -O ^64bit -L '' $2
+	fi
+
+	if [ $1 = "btrfs" ]; then
+		sudo mkfs.btrfs -f  -L '' $2
+	fi
+
+	if [ $1 = "xfs" ]; then
+		sudo mkfs.xfs -f  -L '' $2
+	fi
+
+	sudo mount $2 /mnt/SA_TFG
+fi
+\end{lstlisting}
+
+\section{Ejecución KnowSeq}\label{knowseq.sh}
+\begin{lstlisting}[language=bash]
+#!/bin/bash
+
+if [ $# -lt 1 ]
+then
+	echo ("Error en los argumentos: ./ejecuciones <ruta del dispositivo> <n-ejecuciones>")
+else
+        for (( c=1; c<=$2; c++ ))
+        do  
+                mkdir $HOME/Escritorio/ejec$c
+                sudo iowatcher -d $1 -t $HOME/Escritorio/ejec$c -p Rscript filesystemKnowSeqTest.R
+        done
+fi
+   
+\end{lstlisting}

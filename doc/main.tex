@@ -21,6 +21,7 @@
 
 	\tableofcontents
 	\listoffigures
+	\listoftables
 
 	\foreach \c in {1,...,8}{\input{insets/capitulos/\c.tex} }
 %   \input{insets/capitulos/1.tex}
@@ -32,8 +33,9 @@
 	
 	\bibliography{referencias.bib}
 	\bibliographystyle{plain} %ieeetr
-
-	
+    \appendix
+	\input{doc/insets/apendices/A}
+	\input{doc/insets/apendices/B}
 \end{document}
 
 % Para añadir hojas vacias: \thispagestyle{empty}
