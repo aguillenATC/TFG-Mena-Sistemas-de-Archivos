@@ -23,6 +23,7 @@
 \end{table}
 
 
+
 \subsection{Test Anova}
 
 \section{Iozone}
@@ -171,7 +172,7 @@ The top row is file sizes, the left column is record sizes in KB & & & & \\
 
 \newpage
 \begin{landscape}
-\subsection{Tabla de datos por operaciones para la realización del test anova para SA.}
+\subsection{Tabla de datos por operaciones para la realización del test anova para SA.} \label{tablas_anova_sa}
 \subsubsection{Record length 4KB}
 \begin{adjustwidth}{-2.5 cm}{-2.5 cm}\centering\begin{threeparttable}[!htb].
 \caption{Tabla de productividad de la operación \textit{read} utilizando un \textit{record length} de 4KB}\label{tab: }
@@ -182,9 +183,9 @@ The top row is file sizes, the left column is record sizes in KB & & & & \\
 Operación &\multicolumn{18}{c}{Read (Record size = 4KB)} \\\midrule
 T. Archivo &200MB &400MB &800MB &1.6GB &3.2GB &6GB &200MB &400MB &800MB &1.6GB &3.2GB &6GB &200MB &400MB &800MB &1.6GB &3.2GB &6GB \\\midrule
 E1 (KB/s) &5338884 &6098319 &6878829 &7108520 &7030054 &7501238 &5718434 &6584979 &7029883 &7192594 &7289892 &7170013 &4990352 &6016986 &6579176 &6533525 &7349406 &7299145 \\
-E2 (KB/s) &5262479 &6221528 &6738223 &7170679 &7067429 &7005802 &6059713 &6707616 &7103275 &7281288 &7409064 &7184560 &5466289 &6363720 &6747101 &6991880 &7103185 &7149017 \\
+E2 (KB/s) &5262479 &6221528 &6738223 &7170679 &7067429 &7405802 &6059713 &6707616 &7103275 &7281288 &7409064 &7184560 &5466289 &6363720 &6747101 &6991880 &7103185 &7149017 \\
 E3 (KB/s) &5173263 &5755635 &6625635 &6917925 &7196778 &7501429 &6279338 &6777073 &7323175 &7671778 &7407271 &7162370 &5141955 &5925424 &6529466 &6917744 &7052054 &7290232 \\
-E4 (KB/s) &5178658 &5989193 &6755512 &6946639 &7187084 &115438 &6515680 &6959137 &7513531 &7692526 &7472831 &7363489 &5429320 &6329979 &6638192 &6756872 &7005361 &7120180 \\
+E4 (KB/s) &5178658 &5989193 &6755512 &6946639 &7187084 &7500587 &6515680 &6959137 &7513531 &7692526 &7472831 &7363489 &5429320 &6329979 &6638192 &6756872 &7005361 &7120180 \\
 \bottomrule
 \end{tabular}
 \end{threeparttable}\end{adjustwidth}
@@ -574,6 +575,890 @@ E4 (KB/s) &3474807 &3536154 &3604476 &428582 &185058 &120503 &3904297 &4204571 &
 \end{tabular}
 \end{threeparttable}\end{adjustwidth}
 
+\end{landscape}
 
+\begin{landscape}
+
+
+\section{Resultados test Anova para el factor Sistema de Archivos}\label{tablas_anova_sa_por_operacion}
+\subsection{\textit{Record length 4kb}}
+
+\begin{table}[!htp]\centering
+\caption{Tabla de resultados de test Anova para la operación \textit{read} y un tamaño de \textit{record length} de 4KB}\label{tab: }
+\scriptsize
+\begin{tabular}{lrrrrrrrr}\toprule
+Tamaño Archivo &Source of Variation &SS &df &MS &F &P-value &F crit \\\midrule
+&Between Groups &2139824905132 &2 &1069912452566 &18.48 &0.000650 &4.256495 \\
+200 MB &Within Groups &520992423015 &9 &57888047002 & & & \\
+&Total &2660817328147 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &1236466468472.6875 &2 &618233234236.3438 &16.525952231553575 &0.0009706346294368062 &4.256494729093742 \\
+400 MB &Within Groups &336688562944.25 &9 &37409840327.138885 & & & \\
+&Total &1573155031416.9375 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &855997455580.125 &2 &427998727790.0625 &18.96711441623406 &0.0005920899689871861 &4.256494729093742 \\
+800 MB &Within Groups &203087747855.5 &9 &22565305317.27778 & & & \\
+&Total &1059085203435.625 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &893469402726.5 &2 &446734701363.25 &10.83032352581837 &0.00402230844979834 &4.256494729093742 \\
+1.6G &Within Groups &371236584270.5 &9 &41248509363.388885 & & & \\
+&Total &1264705986997 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &195722288499.5 &2 &97861144249.75 &8.069491553893709 &0.009829391085424799 &4.256494729093742 \\
+3.2G &Within Groups &109145699250.75 &9 &12127299916.75 & & & \\
+&Total &304867987750.25 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &180171461488.625 &2 &90085730744.3125 &13.38818172816277 &0.002008669197169577 &4.256494729093742 \\
+6G &Within Groups &60558751977 &9 &6728750219.666667 & & & \\
+&Total &240730213465.625 &11 & & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{landscape}
+\begin{landscape}
+\begin{table}[!htp]\centering
+\caption{Tabla de resultados de test Anova para la operación \textit{re-read} y un tamaño de \textit{record length} de 4KB}\label{tab: }
+\scriptsize
+\begin{tabular}{lrrrrrrrr}\toprule
+Tamaño de Archivo &Source of Variation &SS &df &MS &F &P-value &F crit \\\midrule
+&Between Groups &5123091860710 &2 &2561545930355.093750000 &96.058494708 &0.000000848 &4.256494729 \\
+200 MB &Within Groups &239998694997 &9 &26666521666.305557251 & & & \\
+&Total &5363090555707 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &4944247843168.6875 &2 &2472123921584.3438 &33.924566222807336 &0.00006437480575138821 &4.256494729093742 \\
+400 MB &Within Groups &655840818955 &9 &72871202106.11111 & & & \\
+&Total &5600088662123.6875 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &5310856451875.5 &2 &2655428225937.75 &72.04745281943886 &0.0000028957960078734857 &4.256494729093742 \\
+800 MB &Within Groups &331709909208.5 &9 &36856656578.72222 & & & \\
+&Total &5642566361084 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &5305498432020.5 &2 &2652749216010.25 &123.25627060889671 &2.8889251957320283e-7 &4.256494729093742 \\
+1.6GB &Within Groups &193700026993.75 &9 &21522225221.52778 & & & \\
+&Total &5499198459014.25 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &4010736697122.1875 &2 &2005368348561.0938 &87.4316302374276 &0.000001270176240852905 &4.256494729093742 \\
+3.2GB &Within Groups &206427754898.75 &9 &22936417210.97222 & & & \\
+&Total &4217164452020.9375 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &1589861141065.1875 &2 &794930570532.5938 &19.153239890666473 &0.0005714108046930289 &4.256494729093742 \\
+6GB &Within Groups &373533416572.5 &9 &41503712952.5 & & & \\
+&Total &1963394557637.6875 &11 & & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{landscape}
+\begin{landscape}
+
+
+\begin{table}[!htp]\centering
+\caption{Tabla de resultados de test Anova para la operación \textit{write} y un tamaño de \textit{record length} de 4KB}\label{tab: }
+\scriptsize
+\begin{tabular}{lrrrrrrrr}\toprule
+Tamaño Archivo &Source of Variation &SS &df &MS &F &P-value &F crit \\\midrule
+&Between Groups &1258322023655.164 &2 &629161011827.582 &31.52550299864555 &0.00008604 &4.256494729093742 \\
+200 MB &Within Groups &179614869481.75 &9 &19957207720.194443 & & & \\
+&Total &1437936893136.914 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &1012102624441.5 &2 &506051312220.75 &48.085176427499455 &0.00001569 &4.256494729093742 \\
+400 MB &Within Groups &94716545687.5 &9 &10524060631.944445 & & & \\
+&Total &1106819170129 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &1212922341465.5 &2 &606461170732.75 &78.03503185040431 &0.00000206 &4.256494729093742 \\
+800 MB &Within Groups &69944874848.75 &9 &7771652760.972222 & & & \\
+&Total &1282867216314.25 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &52022265441.16675 &2 &26011132720.583374 &5.801805144959498 &0.02406281 &4.256494729093742 \\
+1.6G &Within Groups &40349544432.5 &9 &4483282714.722222 & & & \\
+&Total &92371809873.66675 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &1532332143.166687 &2 &766166071.5833435 &191.315894013412 &0.00000004 &4.256494729093742 \\
+3.2G &Within Groups &36042455.75 &9 &4004717.3055555555 & & & \\
+&Total &1568374598.916687 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &336875535704.1666 &2 &168437767852.0833 &70.14313910140689 &0.00000324 &4.256494729093742 \\
+6G &Within Groups &21612091076.75 &9 &2401343452.9722223 & & & \\
+&Total &358487626780.9166 &11 & & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{landscape}
+
+\begin{landscape}
+\begin{table}[!htp]\centering
+\caption{Tabla de resultados de test Anova para la operación \textit{re-write} y un tamaño de \textit{record length} de 4KB}\label{tab: }
+\scriptsize
+\begin{tabular}{lrrrrrrrr}\toprule
+Tamaño Archivo &Source of Variation &SS &df &MS &F &P-value &F crit \\\midrule
+&Between Groups &2509204384315.172 &2 &1254602192157.586 &73.64871159546385 &0.00000263820 &4.256494729093742 \\
+200 MB &Within Groups &153314558867.5 &9 &17034950985.277779 & & & \\
+&Total &2662518943182.672 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &3077173012079.172 &2 &1538586506039.586 &75.24723775795256 &0.00000240844 &4.256494729093742 \\
+400 MB &Within Groups &184023745813.75 &9 &20447082868.194443 & & & \\
+&Total &3261196757892.922 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &4382794556408.672 &2 &2191397278204.336 &113.29402100283144 &0.00000041630 &4.256494729093742 \\
+800 MB & & & & & & & \\
+&Total &4556877666260.922 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &60169543838.16675 &2 &30084771919.083374 &11.058636312701903 &0.00376343510 &4.256494729093742 \\
+1.6G &Within Groups &24484298028.75 &9 &2720477558.75 & & & \\
+&Total &84653841866.91675 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &844269738.666687 &2 &422134869.3333435 &65.10325418311183 &0.00000444246 &4.256494729093742 \\
+3.2G &Within Groups &58356742.25 &9 &6484082.472222222 & & & \\
+&Total &902626480.916687 &11 & & & & \\
+&Between Groups &241670495308.66663 &2 &120835247654.33331 &21.82160117106039 &0.00035322460037023884 &4.256494729093742 \\
+6G &Within Groups &49836729228.25 &9 &5537414358.694445 & & & \\
+&Total &291507224536.9166 &11 & & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{landscape}
+
+
+
+\begin{landscape}
+%Please add the following packages if necessary:
+%\usepackage{booktabs, multirow} % for borders and merged ranges
+%\usepackage{soul}% for underlines
+%\usepackage[table]{xcolor} % for cell colors
+%\usepackage{changepage,threeparttable} % for wide tables
+%If the table is too wide, replace \begin{table}[!htp]...\end{table} with
+%\begin{adjustwidth}{-2.5 cm}{-2.5 cm}\centering\begin{threeparttable}[!htb]...\end{threeparttable}\end{adjustwidth}
+\begin{table}[!htp]\centering
+\caption{Tabla de resultados de test Anova para la operación \textit{random read} y un tamaño de \textit{record length} de 4KB}\label{tab: }
+\scriptsize
+\begin{tabular}{lrrrrrrrr}\toprule
+Tamaño Archivo &Source of Variation &SS &df &MS &F &P-value &F crit \\\midrule
+&Between Groups &1280742743919.5 &2 &640371371959.75 &1.1927000341881961 &0.34715542911146724 &4.256494729093742 \\
+200 MB &Within Groups &4832180919287.5 &9 &536908991031.94446 & & & \\
+&Total &6112923663207 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &1621905046370.1562 &2 &810952523185.0781 &1.6716726472735062 &0.24134779794265326 &4.256494729093742 \\
+400 MB &Within Groups &4366029868688.5 &9 &485114429854.2778 & & & \\
+&Total &5987934915058.656 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &1131173007231.1562 &2 &565586503615.5781 &1.0744790856006072 &0.38153730274332776 &4.256494729093742 \\
+800 MB &Within Groups &4737438448785.5 &9 &526382049865.05554 & & & \\
+&Total &5868611456016.656 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &122100294434.65625 &2 &61050147217.328125 &1.54509187475824 &0.2649373793589076 &4.256494729093742 \\
+1.6G &Within Groups &355610778836 &9 &39512308759.55556 & & & \\
+&Total &477711073270.65625 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &52721417053.5 &2 &26360708526.75 &1.0060513890898883 &0.40334357196201087 &4.256494729093742 \\
+3.2G &Within Groups &235819342146.5 &9 &26202149127.38889 & & & \\
+&Total &288540759200 &11 & & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{landscape}
+
+\begin{landscape}
+\begin{table}[!htp]\centering
+\caption{Tabla de resultados de test Anova para la operación \textit{random write} y un tamaño de \textit{record length} de 4KB}\label{tab: }
+\scriptsize
+\begin{tabular}{lrrrrrrrr}\toprule
+Tamaño Archivo &Source of Variation &SS &df &MS &F &P-value &F crit \\\midrule
+&Between Groups &5103569087623.5 &2 &2551784543811.75 &4.3516840685081455 &0.04762552106231466 &4.256494729093742 \\
+200 MB &Within Groups &5277511081400.5 &9 &586390120155.6111 & & & \\
+&Total &10381080169024 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &5147139356926.164 &2 &2573569678463.082 &4.556727974969942 &0.04296208556790371 &4.256494729093742 \\
+400 MB &Within Groups &5083061186315.5 &9 &564784576257.2778 & & & \\
+&Total &10230200543241.664 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &5690189741213.164 &2 &2845094870606.582 &4.924658133626962 &0.035913777374712574 &4.256494729093742 \\
+800 MB &Within Groups &5199519061153.75 &9 &577724340128.1945 & & & \\
+&Total &10889708802366.914 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &357078204084.5 &2 &178539102042.25 &1229.809795996657 &1.0667133842900967e-11 &4.256494729093742 \\
+1.6G &Within Groups &1306585720.5 &9 &145176191.16666666 & & & \\
+&Total &358384789805 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &8954147317.166668 &2 &4477073658.583334 &4.627753287233182 &0.04147809415483572 &4.256494729093742 \\
+3.2G &Within Groups &8706960035.75 &9 &967440003.9722222 & & & \\
+&Total &17661107352.916668 &11 & & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{landscape}
+
+\begin{landscape}
+\subsection{\textit{Record length 256KB}}
+%Please add the following packages if necessary:
+%\usepackage{booktabs, multirow} % for borders and merged ranges
+%\usepackage{soul}% for underlines
+%\usepackage[table]{xcolor} % for cell colors
+%\usepackage{changepage,threeparttable} % for wide tables
+%If the table is too wide, replace \begin{table}[!htp]...\end{table} with
+%\begin{adjustwidth}{-2.5 cm}{-2.5 cm}\centering\begin{threeparttable}[!htb]...\end{threeparttable}\end{adjustwidth}
+\begin{table}[!htp]\centering
+\caption{Tabla de resultados de test Anova para la operación \textit{read} y un tamaño de \textit{record length} de 256KB}\label{tab: }
+\scriptsize
+\begin{tabular}{lrrrrrrrr}\toprule
+Tamaño Archivo &Source of Variation &SS &df &MS &F &P-value &F crit \\\midrule
+&Between Groups &6795094607570 &2 &3397547303785 &31.4731 &0.0001 &4.2565 \\
+200 MB &Within Groups &971557420263 &9 &107950824474 & & & \\
+&Total &7766652027832 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &5369982966273.625 &2 &2684991483136.8125 &28.444300798928907 &0.00012866042633075114 &4.256494729093742 \\
+400 MB &Within Groups &849552376732.75 &9 &94394708525.86111 & & & \\
+&Total &6219535343006.375 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &4124522822958.5 &2 &2062261411479.25 &23.289265963941528 &0.00027670020002146245 &4.256494729093742 \\
+800 MB &Within Groups &796948806031.5 &9 &88549867336.83333 & & & \\
+&Total &4921471628990 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &3450303906278 &2 &1725151953139 &6.848801015726473 &0.015566156619483684 &4.256494729093742 \\
+1.6G &Within Groups &2267019810124.25 &9 &251891090013.80554 & & & \\
+&Total &5717323716402.25 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &1316038674658.5 &2 &658019337329.25 &4.349333882344813 &0.047682464774921995 &4.256494729093742 \\
+3.2G &Within Groups &1361627825355.75 &9 &151291980595.08334 & & & \\
+&Total &2677666500014.25 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &152181650578005.2 &2 &76090825289002.6 &4.495448983399095 &0.04429487803031118 &4.256494729093742 \\
+6G &Within Groups &152335713324727.75 &9 &16926190369414.195 & & & \\
+&Total &304517363902732.94 &11 & & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{landscape}
+
+\begin{landscape}
+%Please add the following packages if necessary:
+%\usepackage{booktabs, multirow} % for borders and merged ranges
+%\usepackage{soul}% for underlines
+%\usepackage[table]{xcolor} % for cell colors
+%\usepackage{changepage,threeparttable} % for wide tables
+%If the table is too wide, replace \begin{table}[!htp]...\end{table} with
+%\begin{adjustwidth}{-2.5 cm}{-2.5 cm}\centering\begin{threeparttable}[!htb]...\end{threeparttable}\end{adjustwidth}
+\begin{table}[!htp]\centering
+\caption{Tabla de resultados de test Anova para la operación \textit{re-read} y un tamaño de \textit{record length} de 256KB}\label{tab: }
+\scriptsize
+\begin{tabular}{lrrrrrrrr}\toprule
+Tamaño Archivo &Source of Variation &SS &df &MS &F &P-value &F crit \\\midrule
+&Between Groups &20749655456497 &2 &10374827728248 &48.5753 &0.0000 &4.2565 \\
+200 MB &Within Groups &1922241882098 &9 &213582431344 & & & \\
+&Total &22671897338594 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &18880482581566.125 &2 &9440241290783.062 &58.86373105215488 &0.000006779114562927013 &4.256494729093742 \\
+400 MB &Within Groups &1443370477854.5 &9 &160374497539.3889 & & & \\
+&Total &20323853059420.625 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &16274627267078.125 &2 &8137313633539.0625 &87.20015180677717 &0.000001284668472711914 &4.256494729093742 \\
+800 MB &Within Groups &839858889972.25 &9 &93317654441.36111 & & & \\
+&Total &17114486157050.375 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &17096213694580.625 &2 &8548106847290.3125 &58.01662488859462 &0.000007202387046434389 &4.256494729093742 \\
+1.6G &Within Groups &1326050279094 &9 &147338919899.33334 & & & \\
+&Total &18422263973674.625 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &12810100824756.125 &2 &6405050412378.0625 &98.05519208059481 &7.765096841083619e-7 &4.256494729093742 \\
+3.2G &Within Groups &587887826113.5 &9 &65320869568.166664 & & & \\
+&Total &13397988650869.625 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &205126053505120.2 &2 &102563026752560.1 &14.972729532733574 &0.0013709940473449755 &4.256494729093742 \\
+6G &Within Groups &61649897485626.75 &9 &6849988609514.083 & & & \\
+&Total &266775950990746.94 &11 & & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{landscape}
+
+\begin{landscape}
+%Please add the following packages if necessary:
+%\usepackage{booktabs, multirow} % for borders and merged ranges
+%\usepackage{soul}% for underlines
+%\usepackage[table]{xcolor} % for cell colors
+%\usepackage{changepage,threeparttable} % for wide tables
+%If the table is too wide, replace \begin{table}[!htp]...\end{table} with
+%\begin{adjustwidth}{-2.5 cm}{-2.5 cm}\centering\begin{threeparttable}[!htb]...\end{threeparttable}\end{adjustwidth}
+\begin{table}[!htp]\centering
+\caption{Tabla de resultados de test Anova para la operación \textit{write} y un tamaño de \textit{record length} de 256KB}\label{tab: }
+\scriptsize
+\begin{tabular}{lrrrrrrrr}\toprule
+Tamaño Archivo &Source of Variation &SS &df &MS &F &P-value &F crit \\\midrule
+&Between Groups &3081967030443 &2 &1540983515222 &773.3824 &0.0000 &4.2565 \\
+200 MB &Within Groups &17932722634 &9 &1992524737 & & & \\
+&Total &3099899753077 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &3502881148758.172 &2 &1751440574379.086 &311.1356717747643 &4.933089048364536e-9 &4.256494729093742 \\
+400 MB &Within Groups &50662674194.5 &9 &5629186021.611111 & & & \\
+&Total &3553543822952.672 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &3035070257973.172 &2 &1517535128986.586 &1345.571415492636 &7.12607750585903e-12 &4.256494729093742 \\
+800 MB &Within Groups &10150197903.75 &9 &1127799767.0833333 & & & \\
+&Total &3045220455876.922 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &81649194516.16675 &2 &40824597258.083374 &112.98171790447549 &4.2129859800787983e-7 &4.256494729093742 \\
+1.6G &Within Groups &3252042738.75 &9 &361338082.0833333 & & & \\
+&Total &84901237254.91675 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &1438088448.666687 &2 &719044224.3333435 &83.08542546620735 &0.0000015794759373743972 &4.256494729093742 \\
+3.2G &Within Groups &77888486.25 &9 &8654276.25 & & & \\
+&Total &1515976934.916687 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &2501201779.1666565 &2 &1250600889.5833282 &585.971548234029 &2.9448343763505136e-10 &4.256494729093742 \\
+6G &Within Groups &19208113.5 &9 &2134234.8333333335 & & & \\
+&Total &2520409892.6666565 &11 & & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{landscape}
+
+\begin{landscape}
+\begin{table}[!htp]\centering
+\caption{Tabla de resultados de test Anova para la operación \textit{re-write} y un tamaño de \textit{record length} de 256KB}\label{tab: }
+\scriptsize
+\begin{tabular}{lrrrrrrrr}\toprule
+Tamaño Archivo &Source of Variation &SS &df &MS &F &P-value &F crit \\\midrule
+&Between Groups &947258431924 &2 &473629215962 &55.8558 &0.0000 &4.2565 \\
+200 MB &Within Groups &76315465818 &9 &8479496202 & & & \\
+&Total &1023573897741 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &997792411848.5 &2 &498896205924.25 &118.79822734772314 &3.389616494153813e-7 &4.256494729093742 \\
+400 MB &Within Groups &37795731077.5 &9 &4199525675.2777777 & & & \\
+&Total &1035588142926 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &1578050968454.1562 &2 &789025484227.0781 &132.1402871697536 &2.134773802175971e-7 &4.256494729093742 \\
+800 MB &Within Groups &53740078140.75 &9 &5971119793.416667 & & & \\
+&Total &1631791046594.9062 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &82692372648.66675 &2 &41346186324.333374 &106.18469524140309 &5.508866280923286e-7 &4.256494729093742 \\
+1.6G &Within Groups &3504419126.25 &9 &389379902.9166667 & & & \\
+&Total &86196791774.91675 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &1478282284.5 &2 &739141142.25 &51.52824131832871 &0.000011793015100236559 &4.256494729093742 \\
+3.2G &Within Groups &129099501.75 &9 &14344389.083333334 & & & \\
+&Total &1607381786.25 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &2366387796.5 &2 &1183193898.25 &351.6753097646231 &2.863974613021014e-9 &4.256494729093742 \\
+6G &Within Groups &30280047.5 &9 &3364449.722222222 & & & \\
+&Total &2396667844 &11 & & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{landscape}
+
+
+\begin{landscape}
+%Please add the following packages if necessary:
+%\usepackage{booktabs, multirow} % for borders and merged ranges
+%\usepackage{soul}% for underlines
+%\usepackage[table]{xcolor} % for cell colors
+%\usepackage{changepage,threeparttable} % for wide tables
+%If the table is too wide, replace \begin{table}[!htp]...\end{table} with
+%\begin{adjustwidth}{-2.5 cm}{-2.5 cm}\centering\begin{threeparttable}[!htb]...\end{threeparttable}\end{adjustwidth}
+\begin{table}[!htp]\centering
+\caption{Tabla de resultados de test Anova para la operación \textit{random read} y un tamaño de \textit{record length} de 256KB}\label{tab: }
+\scriptsize
+\begin{tabular}{lrrrrrrrr}\toprule
+Tamaño Archivo &Source of Variation &SS &df &MS &F &P-value &F crit \\\midrule
+&Between Groups &15584169984866 &2 &7792084992433 &71.0860 &0.0000 &4.2565 \\
+200 MB &Within Groups &986533770022 &9 &109614863336 & & & \\
+&Total &16570703754888 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &9803255341965.5 &2 &4901627670982.75 &41.78218557088505 &0.00002786723917358458 &4.256494729093742 \\
+400 MB &Within Groups &1055824352797.5 &9 &117313816977.5 & & & \\
+&Total &10859079694763 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &3423214194963.5 &2 &1711607097481.75 &14.298071536443027 &0.0016067432017597971 &4.256494729093742 \\
+800 MB &Within Groups &1077380529120.5 &9 &119708947680.05556 & & & \\
+&Total &4500594724084 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &2349451171218.75 &2 &1174725585609.375 &6.348562267908271 &0.0190669608436832 &4.256494729093742 \\
+1.6G &Within Groups &1665342454610.25 &9 &185038050512.25 & & & \\
+&Total &4014793625829 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &1581390095304.5 &2 &790695047652.25 &6.789097473578146 &0.015940054758598388 &4.256494729093742 \\
+3.2G &Within Groups &1048188725609.75 &9 &116465413956.63889 & & & \\
+&Total &2629578820914.25 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &260314865202073.2 &2 &130157432601036.6 &2791.488209237301 &2.6922908347160046e-13 &4.256494729093742 \\
+6G &Within Groups &419638846953.75 &9 &46626538550.416664 & & & \\
+&Total &260734504049026.94 &11 & & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{landscape}
+
+\begin{landscape}
+\begin{table}[!htp]\centering
+\caption{Tabla de resultados de test Anova para la operación \textit{random write} y un tamaño de \textit{record length} de 256KB}\label{tab: }
+\scriptsize
+\begin{tabular}{lrrrrrrrr}\toprule
+Tamaño Archivo &Source of Variation &SS &df &MS &F &P-value &F crit \\\midrule
+&Between Groups &1280311059495 &2 &640155529748 &30.4473 &0.0001 &4.2565 \\
+200 MB &Within Groups &189225077390 &9 &21025008599 & & & \\
+&Total &1469536136885 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &1526713665602.1562 &2 &763356832801.0781 &155.07593650763405 &1.0619473944650792e-7 &4.256494729093742 \\
+400 MB &Within Groups &44302240888.75 &9 &4922471209.861111 & & & \\
+&Total &1571015906490.9062 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &1213339717164.5 &2 &606669858582.25 &132.88671194261312 &2.0830755820266944e-7 &4.256494729093742 \\
+800 MB &Within Groups &41087845785.5 &9 &4565316198.388889 & & & \\
+&Total &1254427562950 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &108271784089.5 &2 &54135892044.75 &60.52442377137234 &0.000006034093101181526 &4.256494729093742 \\
+1.6G &Within Groups &8050023412.75 &9 &894447045.8611112 & & & \\
+&Total &116321807502.25 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &21349767580.666656 &2 &10674883790.333328 &1045.3785501029233 &2.2096879881416953e-11 &4.256494729093742 \\
+3.2G &Within Groups &91903506.25 &9 &10211500.694444444 & & & \\
+&Total &21441671086.916656 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &24075142318.16667 &2 &12037571159.083336 &3536.1900759841856 &9.303668946358812e-14 &4.256494729093742 \\
+6G &Within Groups &30636967.5 &9 &3404107.5 & & & \\
+&Total &24105779285.66667 &11 & & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{landscape}
+
+
+
+
+
+
+
+\begin{landscape}
+\subsubsection{\textit{Record length 1024KB}}
+\begin{table}[!htp]\centering
+\caption{Tabla de resultados de test Anova para la operación \textit{read} y un tamaño de \textit{record length} de 1024KB}\label{tab: }
+\scriptsize
+\begin{tabular}{lrrrrrrrr}\toprule
+Tamaño Archivo &Source of Variation &SS &df &MS &F &P-value &F crit \\\midrule
+&Between Groups &3238537431626 &2 &1619268715813 &7.1078 &0.0141 &4.2565 \\
+200 MB &Within Groups &2050340611430 &9 &227815623492 & & & \\
+&Total &5288878043056 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &5258922012584.75 &2 &2629461006292.375 &22.67033620092097 &0.0003062166186033055 &4.256494729093742 \\
+400 MB &Within Groups &1043881698396.25 &9 &115986855377.36111 & & & \\
+&Total &6302803710981 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &4976776187695.125 &2 &2488388093847.5625 &72.66268568504289 &0.000002793336808304403 &4.256494729093742 \\
+800 MB &Within Groups &308211740778.5 &9 &34245748975.38889 & & & \\
+&Total &5284987928473.625 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &1319681542583.25 &2 &659840771291.625 &70.32357217988145 &0.0000032083618251022017 &4.256494729093742 \\
+1.6G &Within Groups &84446320878.5 &9 &9382924542.055555 & & & \\
+&Total &1404127863461.75 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &1319681542583.25 &2 &659840771291.625 &70.32357217988145 &0.0000032083618251022017 &4.256494729093742 \\
+3.2G &Within Groups &84446320878.5 &9 &9382924542.055555 & & & \\
+&Total &1404127863461.75 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &281756517688773.1 &2 &140878258844386.56 &9670.198183043578 &9.992007221626409e-16 &4.256494729093742 \\
+6G &Within Groups &131114616846.5 &9 &14568290760.722221 & & & \\
+&Total &281887632305619.6 &11 & & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{landscape}
+
+\begin{landscape}
+\begin{table}[!htp]\centering
+\caption{Tabla de resultados de test Anova para la operación \textit{re-read} y un tamaño de \textit{record length} de 1024KB}\label{tab: }
+
+\scriptsize
+\begin{tabular}{lrrrrrrrr}\toprule
+Tamaño Archivo &Source of Variation &SS &df &MS &F &P-value &F crit \\\midrule
+&Between Groups &15940914914429 &2 &7970457457215 &49.1139 &0.0000 &4.2565 \\
+200 MB &Within Groups &1460566128584 &9 &162285125398 & & & \\
+&Total &17401481043013 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &15891524516794.625 &2 &7945762258397.3125 &53.0515280720698 &0.000010452025134832788 &4.256494729093742 \\
+400 MB &Within Groups &1347969849773.75 &9 &149774427752.6389 & & & \\
+&Total &17239494366568.375 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &17866702468940.125 &2 &8933351234470.062 &157.16813719438812 &1.0014894025189847e-7 &4.256494729093742 \\
+800 MB &Within Groups &511555093452.5 &9 &56839454828.05556 & & & \\
+&Total &18378257562392.625 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &15428703981657.25 &2 &7714351990828.625 &414.7362838542554 &1.3752810001932403e-9 &4.256494729093742 \\
+1.6G &Within Groups &167405579449.75 &9 &18600619938.86111 & & & \\
+&Total &15596109561107 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &12716216040662.125 &2 &6358108020331.0625 &504.00737326487166 &5.769240640773887e-10 &4.256494729093742 \\
+3.2G &Within Groups &113535982246.25 &9 &12615109138.472221 & & & \\
+&Total &12829752022908.375 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &247616185394098.5 &2 &123808092697049.25 &20440.57493169474 &0 &4.256494729093742 \\
+6G &Within Groups &54512793206.5 &9 &6056977022.944445 & & & \\
+&Total &247670698187305 &11 & & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{landscape}
+
+\begin{landscape}
+\begin{table}[!htp]\centering
+\caption{Tabla de resultados de test Anova para la operación \textit{write} y un tamaño de \textit{record length} de 1024KB}\label{tab: }
+\scriptsize
+\begin{tabular}{lrrrrrrrr}\toprule
+Tamaño Archivo &Source of Variation &SS &df &MS &F &P-value &F crit \\\midrule
+&Between Groups &2056709518570 &2 &1028354759285 &290.7290 &0.0000 &4.2565 \\
+200 MB &Within Groups &31834428831 &9 &3537158759 & & & \\
+&Total &2088543947401 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &2118242493181.5 &2 &1059121246590.75 &297.3192915725217 &6.033854527132121e-9 &4.256494729093742 \\
+400 MB &Within Groups &32060116815.5 &9 &3562235201.7222223 & & & \\
+&Total &2150302609997 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &2012813794773.1719 &2 &1006406897386.5859 &638.970067584446 &2.0002244305317163e-10 &4.256494729093742 \\
+800 MB &Within Groups &14175409046.5 &9 &1575045449.6111112 & & & \\
+&Total &2026989203819.6719 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &73072967853.5 &2 &36536483926.75 &50.50810115239259 &0.000012809623663789793 &4.256494729093742 \\
+1.6G &Within Groups &6510408188.75 &9 &723378687.6388888 & & & \\
+&Total &79583376042.25 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &3504419694.5 &2 &1752209847.25 &1466.979415979928 &4.836797629081957e-12 &4.256494729093742 \\
+3.2G &Within Groups &10749904.5 &9 &1194433.8333333333 & & & \\
+&Total &3515169599 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &3623727021.5 &2 &1811863510.75 &549.691359644823 &3.917305368972279e-10 &4.256494729093742 \\
+6G &Within Groups &29665322.75 &9 &3296146.972222222 & & & \\
+&Total &3653392344.25 &11 & & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{landscape}
+
+
+\begin{landscape}
+\begin{table}[!htp]\centering
+\caption{Tabla de resultados de test Anova para la operación \textit{re-write} y un tamaño de \textit{record length} de 1024KB}\label{tab: }
+\scriptsize
+\begin{tabular}{lrrrrrrrr}\toprule
+Tamaño Archivo &Source of Variation &SS &df &MS &F &P-value &F crit \\\midrule
+&Between Groups &490181496898 &2 &245090748449 &59.4431 &0.0000 &4.2565 \\
+200 MB &Within Groups &37108044065 &9 &4123116007 & & & \\
+&Total & & & & & & \\
+& & & & & & & \\
+&Between Groups &644199249613.5 &2 &322099624806.75 &65.96523685419238 &0.00000420309484050474 &4.256494729093742 \\
+400 MB &Within Groups &43945823004.75 &9 &4882869222.75 & & & \\
+&Total & & & & & & \\
+& & & & & & & \\
+&Between Groups &926543704720.6562 &2 &463271852360.3281 &160.69076862631516 &9.089088437441717e-8 &4.256494729093742 \\
+800 MB &Within Groups &25947020522 &9 &2883002280.2222223 & & & \\
+&Total & & & & & & \\
+& & & & & & & \\
+&Between Groups &SS &df &MS &F &P-value &F crit \\
+1.6G &Within Groups &68326855751.16675 &2 &34163427875.583374 &41.865875156606876 &0.000027641603637884593 &4.256494729093742 \\
+&Total &7344187831.5 &9 &816020870.1666666 & & & \\
+& & & & & & & \\
+&Between Groups &SS &df &MS &F &P-value &F crit \\
+3.2G &Within Groups &3367832095.5 &2 &1683916047.75 &551.0435960081489 &3.8745806563156293e-10 &4.256494729093742 \\
+&Total &27502804.75 &9 &3055867.1944444445 & & & \\
+& & & & & & & \\
+&Between Groups &SS &df &MS &F &P-value &F crit \\
+6G &Within Groups &3597774093.5 &2 &1798887046.75 &572.6634496701442 &3.2629587920496306e-10 &4.256494729093742 \\
+&Total &28271375.5 &9 &3141263.9444444445 & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{landscape}
+
+
+\begin{landscape}
+\begin{table}[!htp]\centering
+\caption{Tabla de resultados de test Anova para la operación \textit{random read} y un tamaño de \textit{record length} de 1024KB}\label{tab: }
+\scriptsize
+\begin{tabular}{lrrrrrrrr}\toprule
+Tamaño Archivo &Source of Variation &SS &df &MS &F &P-value &F crit \\\midrule
+&Between Groups &16001844752921 &2 &8000922376461 &48.8454 &0.0000 &4.2565 \\
+200 MB &Within Groups &1474207328448 &9 &163800814272 & & & \\
+&Total &17476052081369 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &11979346527331.125 &2 &5989673263665.5625 &63.02104871446427 &0.000005093074237239037 &4.256494729093742 \\
+400 MB &Within Groups &855381820401.5 &9 &95042424489.05556 & & & \\
+&Total &12834728347732.625 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &1882166813124.75 &2 &941083406562.375 &13.160136585706171 &0.002128055990559763 &4.256494729093742 \\
+800 MB &Within Groups &643591394656.25 &9 &71510154961.80556 & & & \\
+&Total &2525758207781 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &1909002982674.75 &2 &954501491337.375 &22.659127588923855 &0.0003067857216946246 &4.256494729093742 \\
+1.6G &Within Groups &379119336714.25 &9 &42124370746.02778 & & & \\
+&Total &2288122319389 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &1271984444402.25 &2 &635992222201.125 &62.185724634186435 &0.000005386521226502516 &4.256494729093742 \\
+3.2G &Within Groups &92045723250.5 &9 &10227302583.38889 & & & \\
+&Total &1364030167652.75 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &278055828013576.12 &2 &139027914006788.06 &11219.808104902168 &5.551115123125783e-16 &4.256494729093742 \\
+6G &Within Groups &111521624466.5 &9 &12391291607.38889 & & & \\
+&Total &278167349638042.62 &11 & & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{landscape}
+
+\begin{landscape}
+\begin{table}[!htp]\centering
+\caption{Tabla de resultados de test Anova para la operación \textit{random write} y un tamaño de \textit{record length} de 1024KB}\label{tab: }
+\scriptsize
+\begin{tabular}{lrrrrrrrr}\toprule
+Tamaño Archivo &Source of Variation &SS &df &MS &F &P-value &F crit \\\midrule
+&Between Groups &822055425573 &2 &411027712787 &35.4119 &0.0001 &4.2565 \\
+200 MB &Within Groups &104463344501 &9 &11607038278 & & & \\
+&Total &926518770074 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &1061259302586.1562 &2 &530629651293.0781 &66.63674095618465 &0.000004027480730028898 &4.256494729093742 \\
+400 MB &Within Groups &71667173290.75 &9 &7963019254.527778 & & & \\
+&Total &1132926475876.9062 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &847784495213.1562 &2 &423892247606.5781 &42.94567249396432 &0.000024921350993856173 &4.256494729093742 \\
+800 MB &Within Groups &88833868627.75 &9 &9870429847.527779 & & & \\
+&Total &936618363840.9062 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &73836640132.66675 &2 &36918320066.333374 &106.28204871066839 &5.487114798086168e-7 &4.256494729093742 \\
+1.6G &Within Groups &3126255888.25 &9 &347361765.3611111 & & & \\
+&Total &76962896020.91675 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &10038257412.5 &2 &5019128706.25 &673.0402939335096 &1.5857992696766132e-10 &4.256494729093742 \\
+3.2G &Within Groups &67116573.5 &9 &7457397.055555556 & & & \\
+&Total &10105373986 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &11688383228.666656 &2 &5844191614.333328 &1798.0431429034375 &1.940780869347236e-12 &4.256494729093742 \\
+6G &Within Groups &29252760 &9 &3250306.6666666665 & & & \\
+&Total &11717635988.666656 &11 & & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{landscape}
+
+
+
+\begin{landscape}
+\subsubsection{Record length 16384KB}
+%Please add the following packages if necessary:
+%\usepackage{booktabs, multirow} % for borders and merged ranges
+%\usepackage{soul}% for underlines
+%\usepackage[table]{xcolor} % for cell colors
+%\usepackage{changepage,threeparttable} % for wide tables
+%If the table is too wide, replace \begin{table}[!htp]...\end{table} with
+%\begin{adjustwidth}{-2.5 cm}{-2.5 cm}\centering\begin{threeparttable}[!htb]...\end{threeparttable}\end{adjustwidth}
+\begin{table}[!htp]\centering
+\caption{Tabla de resultados de test Anova para la operación \textit{read} y un tamaño de \textit{record length} de 16384KB}\label{tab: }
+\scriptsize
+\begin{tabular}{lrrrrrrrr}\toprule
+Tamaño Archivo &Source of Variation &SS &df &MS &F &P-value &F crit \\\midrule
+&Between Groups &1429895664106 &2 &714947832053 &1092.8292 &0.0000 &4.2565 \\
+200 MB &Within Groups &5887956421 &9 &654217380 & & & \\
+&Total &1435783620526 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &836593089796.5 &2 &418296544898.25 &92.96726562988626 &9.763191122225123e-7 &4.256494729093742 \\
+400 MB &Within Groups &40494564173.5 &9 &4499396019.277778 & & & \\
+&Total &877087653970 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &496017345546 &2 &248008672773 &51.997657708946385 &0.00001135845646826894 &4.256494729093742 \\
+800 MB &Within Groups &42926511564.25 &9 &4769612396.027778 & & & \\
+&Total &538943857110.25 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &293244651488.65625 &2 &146622325744.32812 &308.7370321981329 &5.105371569946726e-9 &4.256494729093742 \\
+1.6G &Within Groups &4274190635 &9 &474910070.5555556 & & & \\
+&Total &297518842123.65625 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &177589749766.1875 &2 &88794874883.09375 &40.60200050234649 &0.00003130222345526512 &4.256494729093742 \\
+3.2G &Within Groups &19682623123.5 &9 &2186958124.8333335 & & & \\
+&Total &197272372889.6875 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &34643931279404.656 &2 &17321965639702.328 &9.225482642178177 &0.006615794397226593 &4.256494729093742 \\
+6G &Within Groups &16898594556405 &9 &1877621617378.3333 & & & \\
+&Total &51542525835809.66 &11 & & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{landscape}
+
+\begin{landscape}
+\begin{table}[!htp]\centering
+\caption{Tabla de resultados de test Anova para la operación \textit{re-read} y un tamaño de \textit{record length} de 16384KB}\label{tab: }
+\scriptsize
+\begin{tabular}{lrrrrrrrr}\toprule
+Tamaño Archivo &Source of Variation &SS &df &MS &F &P-value &F crit \\\midrule
+&Between Groups &1739787538885 &2 &869893769442 &85.7256 &0.0000 &4.2565 \\
+200 MB &Within Groups &91326741278 &9 &10147415698 & & & \\
+&Total &1831114280162 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &1235304167682.1562 &2 &617652083841.0781 &67.34318539204374 &0.000003852309773177964 &4.256494729093742 \\
+400 MB &Within Groups &82545378900.75 &9 &9171708766.75 & & & \\
+&Total &1317849546582.9062 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &947994241851.5 &2 &473997120925.75 &105.39428457582433 &5.689424449339953e-7 &4.256494729093742 \\
+800 MB &Within Groups &40476332331.5 &9 &4497370259.055555 & & & \\
+&Total &988470574183 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &597257971016 &2 &298628985508 &635.8873062731694 &2.0439205883349132e-10 &4.256494729093742 \\
+1.6G &Within Groups &4226630793 &9 &469625643.6666667 & & & \\
+&Total &601484601809 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &SS &df &MS &F &P-value &F crit \\
+3.2G &Within Groups &504057915099.5 &2 &252028957549.75 &24.329706153140712 &0.0002345175457525439 &4.256494729093742 \\
+&Total & & & & & & \\
+& & & & & & & \\
+&Between Groups &30552439431.5 &2 &15276219715.75 &5.049976540900854 &0.03384121449065747 &4.256494729093742 \\
+6G &Within Groups &27225072498.5 &9 &3025008055.388889 & & & \\
+&Total &57777511930 &11 & & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{landscape}
+
+\begin{landscape}
+%Please add the following packages if necessary:
+%\usepackage{booktabs, multirow} % for borders and merged ranges
+%\usepackage{soul}% for underlines
+%\usepackage[table]{xcolor} % for cell colors
+%\usepackage{changepage,threeparttable} % for wide tables
+%If the table is too wide, replace \begin{table}[!htp]...\end{table} with
+%\begin{adjustwidth}{-2.5 cm}{-2.5 cm}\centering\begin{threeparttable}[!htb]...\end{threeparttable}\end{adjustwidth}
+\begin{table}[!htp]\centering
+\caption{Tabla de resultados de test Anova para la operación \textit{write} y un tamaño de \textit{record length} de 16384KB}\label{tab: }
+\scriptsize
+\begin{tabular}{lrrrrrrrr}\toprule
+Tamaño Archivo &Source of Variation &SS &df &MS &F &P-value &F crit \\\midrule
+&Between Groups &2258150649437 &2 &1129075324719 &1063.7537 &0.0000 &4.2565 \\
+200 MB &Within Groups &9552660353 &9 &1061406706 & & & \\
+&Total &2267703309790 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &2050982182711.5 &2 &1025491091355.75 &478.10856011283374 &7.299257864801234e-10 &4.256494729093742 \\
+400 MB &Within Groups &19304025470.75 &9 &2144891718.9722223 & & & \\
+&Total &2070286208182.25 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &1998379708054.1719 &2 &999189854027.0859 &1121.1588758869325 &1.6148304915475364e-11 &4.256494729093742 \\
+800 MB &Within Groups &8020904868.75 &9 &891211652.0833334 & & & \\
+&Total &2006400612922.9219 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &96258688846.16675 &2 &48129344423.083374 &758.7000954631811 &9.280753943130549e-11 &4.256494729093742 \\
+1.6G &Within Groups &570929280.75 &9 &63436586.75 & & & \\
+&Total &96829618126.91675 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &10918679796.5 &2 &5459339898.25 &474.7434299760925 &7.532749979333175e-10 &4.256494729093742 \\
+3.2G &Within Groups &103496027.5 &9 &11499558.611111112 & & & \\
+&Total &11022175824 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &4746105603.1666565 &2 &2373052801.5833282 &1154.5614997499615 &1.4157230943112609e-11 &4.256494729093742 \\
+6G &Within Groups &18498343.5 &9 &2055371.5 & & & \\
+&Total &4764603946.6666565 &11 & & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{landscape}
+
+\begin{landscape}
+\begin{table}[!htp]\centering
+\caption{Tabla de resultados de test Anova para la operación \textit{re-write} y un tamaño de \textit{record length} de 16384KB}\label{tab: }
+\scriptsize
+\begin{tabular}{lrrrrrrrr}\toprule
+Tamaño Archivo &Source of Variation &SS &df &MS &F &P-value &F crit \\\midrule
+&Between Groups &402815246325 &2 &201407623162 &47.1443 &0.0000 &4.2565 \\
+200 MB &Within Groups &38449402463 &9 &4272155829 & & & \\
+&Total &441264648788 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &506123988036.5 &2 &253061994018.25 &25.521383631961864 &0.00019544211014588253 &4.256494729093742 \\
+400 MB &Within Groups &89241162587.75 &9 &9915684731.972221 & & & \\
+&Total &595365150624.25 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &963695167641.5 &2 &481847583820.75 &265.70388600927555 &9.927597299785873e-9 &4.256494729093742 \\
+800 MB &Within Groups &16321282761.5 &9 &1813475862.3888888 & & & \\
+&Total &980016450403 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &92003593204.5 &2 &46001796602.25 &98.47402335122193 &7.62397993625541e-7 &4.256494729093742 \\
+1.6G &Within Groups &4204318614.5 &9 &467146512.7222222 & & & \\
+&Total &96207911819 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &10266899946.166687 &2 &5133449973.0833435 &7468.175466412941 &3.219646771412954e-15 &4.256494729093742 \\
+3.2G &Within Groups &6186390.5 &9 &687376.7222222222 & & & \\
+&Total &10273086336.666687 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &4647350504.1666565 &2 &2323675252.0833282 &1144.167187454669 &1.474287358860238e-11 &4.256494729093742 \\
+6G &Within Groups &18277990.75 &9 &2030887.861111111 & & & \\
+&Total &4665628494.9166565 &11 & & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{landscape}
+
+\begin{landscape}
+\begin{table}[!htp]\centering
+\caption{Tabla de resultados de test Anova para la operación \textit{random read} y un tamaño de \textit{record length} de 16384KB}\label{tab: }
+\scriptsize
+\begin{tabular}{lrrrrrrrr}\toprule
+Tamaño Archivo &Source of Variation &SS &df &MS &F &P-value &F crit \\\midrule
+&Between Groups &1181536295028 &2 &590768147514 &302 &0 &4 \\
+200 MB &Within Groups &17589885753 &9 &1954431750 & & & \\
+&Total &1199126180781 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &962738715050 &2 &481369357525 &272.6813299165815 &8.851531729803241e-9 &4.256494729093742 \\
+400 MB &Within Groups &15887865220 &9 &1765318357.7777777 & & & \\
+&Total &978626580270 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &535009345718 &2 &267504672859 &140.12509013695262 &1.6533314239897123e-7 &4.256494729093742 \\
+800 MB &Within Groups &17181377392 &9 &1909041932.4444444 & & & \\
+&Total &552190723110 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &252092772788.15625 &2 &126046386394.07812 &349.5008206110484 &2.943995269788502e-9 &4.256494729093742 \\
+1.6G &Within Groups &3245822071.5 &9 &360646896.8333333 & & & \\
+&Total &255338594859.65625 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &172195160288.1875 &2 &86097580144.09375 &36.52040691506815 &0.00004796853701560799 &4.256494729093742 \\
+3.2G &Within Groups &21217677642.5 &9 &2357519738.0555553 & & & \\
+&Total &193412837930.6875 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &662442141241.1562 &2 &331221070620.5781 &10.312965565619667 &0.0046942612123308525 &4.256494729093742 \\
+6G &Within Groups &289052612133.5 &9 &32116956903.72222 & & & \\
+&Total &951494753374.6562 &11 & & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{landscape}
+
+
+\begin{landscape}
+\begin{table}[!htp]\centering
+\caption{Tabla de resultados de test Anova para la operación \textit{random write} y un tamaño de \textit{record length} de 16384KB}\label{tab: }
+\scriptsize
+\begin{tabular}{lrrrrrrrr}\toprule
+Tamaño de Archivo &Source of Variation &SS &df &MS &F &P-value &F crit \\\midrule
+&Between Groups &463389350386.15625 &2 &231694675193.07812 &203.6984368815897 &3.208541943244825e-8 &4.256494729093742 \\
+200 MB &Within Groups &10236956692.75 &9 &1137439632.5277777 & & & \\
+&Total &473626307078.90625 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &647489512044.6562 &2 &323744756022.3281 &48.232166060997876 &0.000015492305847963905 &4.256494729093742 \\
+400 MB &Within Groups &60409951328.25 &9 &6712216814.25 & & & \\
+&Total &707899463372.9062 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &545678549206.15625 &2 &272839274603.07812 &26.42034622193635 &0.00017114205608081967 &4.256494729093742 \\
+800MB &Within Groups &92941759763.5 &9 &10326862195.944445 & & & \\
+&Total &638620308969.6562 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &94756807358.16675 &2 &47378403679.083374 &531.4775860845884 &4.5529879866279543e-10 &4.256494729093742 \\
+1.6GB &Within Groups &802302193.5 &9 &89144688.16666667 & & & \\
+&Total &95559109551.66675 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &8320752552.666687 &2 &4160376276.3333435 &181.8280011860052 &5.28694447110567e-8 &4.256494729093742 \\
+3.2GB &Within Groups &205927504.25 &9 &22880833.805555556 & & & \\
+&Total &8526680056.916687 &11 & & & & \\
+& & & & & & & \\
+&Between Groups &5153477843.1666565 &2 &2576738921.5833282 &829.1487301571424 &6.237810268316935e-11 &4.256494729093742 \\
+6GB &Within Groups &27969228.5 &9 &3107692.0555555555 & & & \\
+&Total &5181447071.6666565 &11 & & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
 \end{landscape}
 
