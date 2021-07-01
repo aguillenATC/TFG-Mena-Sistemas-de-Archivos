@@ -1,28 +1,29 @@
 \cleardoublepage
-\clearpage{}
 
 %[Lo que va en el índice]{Lo que va en el documento}
 \chapter[Implementación y experimentación]{Implementación y experimentación}
 
-\section{KnowSeq}
-Tras realizar las ejecuciones de \textit{KnowSeq} en los tres sistemas de archivos se obtuvieron los resultados que aparecen en el anexo \ref{resultados_knowseq}. Se han seguido las pautas especificadas en la metodología. \\
+\textcolor{blue}{BREVE DESCRIPCION DEL CAPITULO EN VEZ DE EMPEZAR DIRECTAMENTE CON KNOWSEQ.}
 
-En primer lugar se creó la partición /dev/sda1 en el disco destinado a las pruebas. Acto seguido se creó y se montó el sistema de archivos. Tras esto el siguiente paso conseistía en  copiar los archivos necesarios para la ejecución de \textit{KnowSeq} en el disco y tras ello lanzar el script que automatiza la ejecución de la prueba y la recogida de datos a través de \textit{iowatcher}. Estos pasos se repitieron para cada uno de los tres sistemas de archivos.\\
+\section{KnowSeq \textcolor{blue}{PONLE UN TITULO MAS DESCRIPTIVO}}
+Tras realizar las ejecuciones de \textit{KnowSeq} en los tres sistemas de archivos se obtuvieron los resultados que aparecen en el anexo \ref{resultados_knowseq}. Se han seguido las pautas especificadas en la metodología. 
 
-La salida de \textit{iowatcher} consiste en una gráfica de la productividad en MB/s a través del tiempo y un archivo de texto con los ítems medidos, cuyo formato es poco amigable. La salida de \textit{iowatcher} para los tres sistemas es la que se muestran a continuación.\\ 
+En primer lugar, se creó la partición /dev/sda1 en el disco destinado a las pruebas. Acto seguido se creó y se montó el sistema de archivos. Tras esto el siguiente paso consistió en copiar los archivos necesarios para la ejecución de \textit{KnowSeq} en el disco y tras ello lanzar el script que automatiza la ejecución de la prueba y la recogida de datos a través de \textit{iowatcher}. Estos pasos se repitieron para cada uno de los tres sistemas de archivos.
+
+La salida de \textit{iowatcher} consiste en una gráfica de la productividad en MB/s a través del tiempo y un archivo de texto con los ítems medidos, cuyo formato es poco amigable \textcolor{blue}{¿POR QUÉ?}. La salida de \textit{iowatcher} para los tres sistemas es la que se muestran a continuación.\\ 
 
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.35]{doc/assets/images/Capitulo4/Knowseq/knowseq_ext4.png}
     \includegraphics[scale=0.35]{doc/assets/images/Capitulo4/Knowseq/knowseq_btrfs.png}
     \includegraphics[scale=0.35]{doc/assets/images/Capitulo4/Knowseq/knowseq_xfs.png}
-    \caption{Gráfica del rendimiento en \textit{KnowSeq} para cada sistema de archivos}
+    \caption{Gráfica del rendimiento en \textit{KnowSeq} para cada sistema de archivos.  \textcolor{blue}{NO SE VE QUE COLOR ES WRITE Y CUAL READS EN NINGUNA DE LAS TRES LEYENDAS. ADEMÁS LA PRIMERA LEYENDA SE SALE DEL GRÁFICO}}
     \label{fig:my_label}
 \end{figure}
 
-Como se observa en las imágenes el patrón de velocidad de lecturas/escrituras es similar, esta situación puede ayudar a determinar que las pruebas han sido ejecutadas de forma correcta y que el programa en todos los casos realizó las mismas operaciones.
+Como se observa en las imágenes \textcolor{blue}{REFERENCIA LA IMAGEN DE LA. QUE HABLAS CON REF Y EL LABEL} el patrón de velocidad de lecturas/escrituras es similar, esta situación puede ayudar a determinar que las pruebas han sido ejecutadas de forma correcta y que el programa en todos los casos realizó las mismas operaciones.
 
-El siguiente paso consiste en transformar el archivo de texto que proporciona \textit{iowatcher} como salida ya que dicho documento no se encuentra en formato legible por el ser humano, para ello se utiliza \textit{blkparse}. La salida de \textit{blkparse}, entre otros muchos datos, nos proporciona la productividad en KiB/s. Con el fin de trabajar con unas unidades más usuales se decide transformar a MB/s y anotarlo en una hoja de cálculo y tras ello se calcula la media y desviación. Tal y como se puede ver en la tabla.
+El siguiente paso consiste en transformar el archivo de texto que proporciona \textit{iowatcher} como salida ya que dicho documento no se encuentra en formato legible por el ser humano, para ello se utiliza \textit{blkparse}. La salida de \textit{blkparse}, entre otros muchos datos, nos proporciona la productividad en KiB/s. Con el fin de trabajar con unas unidades más usuales se decide transformar a MB/s y anotarlo en una hoja de cálculo y tras ello se calcula la media y desviación. Tal y como se puede ver en la tabla\textcolor{blue}{LO MISMO QUE CON LA FIGURA, REFERENCIA LA TABLA EN EL TEXTO}.
 
 \begin{table}[H]\centering 
 \caption{Productividad de la prueba KnowSeq para EXT4, BTRFS y XFS} 
@@ -49,15 +50,15 @@ A partir de los datos de la tabla anterior podemos generar una gráfica con la m
     \label{aa}
 \end{figure}
 
-Se podría pensar que viendo la imagen \ref{aa} es suficiente para afirmar que BTRFS es mejor para el trabajo que realiza \textit{KnowSeq}. Pero surgen varias cuestiones ¿Es realmente mas productivo, o simplemente es casualidad o error en las mediciones?  ¿El utilizar un sistema de archivos u otro tiene que ver con la mejora de productividad?\\
+Se podría pensar que viendo la imagen \ref{aa} es suficiente para afirmar que BTRFS es mejor para el trabajo que realiza \textit{KnowSeq}. Pero surgen varias cuestiones ¿Es realmente más productivo, o simplemente es casualidad o error en las mediciones?  ¿El utilizar un sistema de archivos u otro tiene que ver con la mejora de productividad?\\
 
-Se decide por tanto realizar dos tests Anova del cual se habló en la sección \ref{anova_section}. Si tanto para lectura como para escritura se llega a la conclusión de que el factor sistema de archivos importa y es determinante.\\
+Se decide por tanto realizar dos tests Anova del cual se habló en la sección \ref{anova_section}. \textcolor{blue}{ESTA FASE ESTÁ COMO INCOMPLETA, EMPIEZAS CON UN CONDICIONAL PERO NO CONCLUYES} Si tanto para lectura como para escritura se llega a la conclusión de que el factor sistema de archivos importa y es determinante.\\
 
-Partimos de la hipótesis de que el rendimiento en lectura es igual para los tres sistemas de archivos y que el sistema de archivos no influye. Definimos la prueba al 95\% de confianza, es decir, $\alpha = 0.05$.\\
+\textcolor{blue}{TERCERAS PERSONAS} Partimos de la hipótesis de que el rendimiento en lectura es igual para los tres sistemas de archivos y que el sistema de archivos no influye. Definimos la prueba al 95\% de confianza, es decir, $\alpha = 0.05$.\\
 
-Generamos un csv con los datos en MB/s para cada sistema de archivos en lecturas y ejecutamos el script \ref{Anova.py} para el cálculo del \textit{p-value}. Obtenemos que el p-valor es $6.8424*10^{-9}$.\\
+\textcolor{blue}{TERCERAS PERSONAS} Generamos un csv con los datos en MB/s para cada sistema de archivos en lecturas y ejecutamos el script \ref{Anova.py} para el cálculo del \textit{p-value}. Obtenemos que el p-valor es $6.8424*10^{-9}$.\\
 
-Para confirmar dicho resultado se repite el test con los mismos datos en la hoja de cálculo, cuyo resultado se refleja en la siguiente tabla. Se observa que obtenemos el mismo el p-valor. 
+Para confirmar dicho resultado se repite el test con los mismos datos en la hoja de cálculo, cuyo resultado se refleja en la siguiente tabla \textcolor{blue}{REFERENCIA LA TABLA}. Se observa que obtenemos el mismo el p-valor. 
 
 \begin{table}[!htp]\centering
 \scriptsize
@@ -72,7 +73,7 @@ Total &35.452 &11.0 & & & & \\
 \caption{Resultado test Anova para las lecturas de \textit{KnowSeq}}\label{tab: }
 \end{table}
 
-Procedemos de la misma manera para realizar el test Anova para escritura con el objetivo de obtener un p-valor. Partimos de la hipótesis de que el rendimiento en escritura es igual en los tres sistemas de archivos. Ejecutamos el test Anova, y el resultado obtenido es el que se muestra en la siguiente tabla.
+\textcolor{blue}{TERCERAS PERSONAS} Procedemos de la misma manera para realizar el test Anova para escritura con el objetivo de obtener un p-valor. Partimos de la hipótesis de que el rendimiento en escritura es igual en los tres sistemas de archivos. Ejecutamos el test Anova, y el resultado obtenido es el que se muestra en la siguiente tabla \textcolor{blue}{REFERENCIA LA TABLA}.
 
 \begin{table}[!htp]\centering
 \scriptsize
@@ -97,7 +98,7 @@ Siguiendo las consideraciones que se detallaron en la sección \ref{metodologia_
 La salida de \textit{iozone} se presenta en formato tabla. La productividad depende del tamaño de archivo y del \textit{record length}. Con esta situación cabe preguntarse si las variaciones de dichos tamaños afectan realmente al rendimiento o no. Por ello se realiza un test Anova para comprobarlo.
 
 \subsection{Test Anova para tamaño de archivo}
-Para la realización de este test se realizaron 4 mediciones para tres configuraciones distintas de \textit{record size}. Por lo tanto se necesitan tres test, uno para cada tamaño de \textit{record size}.  Los resultados de dichas mediciones se pueden consultar en el Anexo \ref{tab:tabla_salida_anova_archivo}. Tras generar las tablas, se procede a ejecutar los test Anova. Antes se necesita especificar cual es la hipótesis nula, en este caso, la hipótesis es que el rendimiento es  igual para cualquier tamaño de archivo. La salida obtenida es la siguiente. 
+Para la realización de este test se realizaron 4 mediciones para tres configuraciones distintas de \textit{record size}. Por lo tanto se necesitan tres test, uno para cada tamaño de \textit{record size}.  Los resultados de dichas mediciones se pueden consultar en el Anexo \ref{tab:tabla_salida_anova_archivo}. Tras generar las tablas \textcolor{blue}{REFERENCIALAS}, se procede a ejecutar los test Anova. Antes se necesita especificar cual es la hipótesis nula, en este caso, la hipótesis es que el rendimiento es igual para cualquier tamaño de archivo. La salida obtenida es la siguiente. 
 
 \begin{table}[H]\centering
 \scriptsize
@@ -141,7 +142,7 @@ Total &12372070269348 &39 & & & & \\
 Como para los tres tamaños de \textit{record size} $p-value < 0.05$ se rechaza la hipótesis planteada. El tamaño de archivo \textbf{si} es un factor que influye en la productividad.
 
 \subsection{Test Anova para \textit{record size}}
-De igual manera se procede en este caso. Fijamos tres tamaños de archivos, en este caso 512MB, 2GB y 8GB. Los tamaños de record size van a ser los que varíen. Igual que en el test anterior se ha repetido la prueba 4 veces para cada tamaño de archivo. La hipótesis nula es que el \textit{record size} no es un factor que influya en el rendimiento. Los resultados para los tres test son los siguientes:
+De igual manera se procede en este caso. Fijamos tres tamaños de archivos, en este caso 512MB, 2GB y 8GB. Los tamaños de record size van a ser los que varíen. Igual que en el test anterior se ha repetido la prueba 4 veces para cada tamaño de archivo. La hipótesis nula es que el \textit{record size} no es un factor que influya en el rendimiento. Los resultados para los tres test son los siguientes \textcolor{blue}{REFERENCIALAS}:
 
 \begin{table}[H]\centering
 \scriptsize
@@ -197,9 +198,7 @@ Para la realización de los test siguientes se han seguido las siguientes pautas
     \item En las operaciones \textit{random read / random write} para tamaños de \textit{record size} de 4KB el tamaño de archivo máximo es 3.2GB y no 6GB, debido posiblemente, a un bug de \textit{iozone} que imposibilita acabar el test.
 \end{itemize}
 
-El objetivo consiste en analizar para cada una de las operaciones si el sistema de archivos afecta al rendimiento para ello se han fijado tamaño de archivo y \textit{record length} concretos. En resumen se han ejecutado pruebas para todas las combinaciones de operaciones, tamaño de archivos y tamaño de \textit{record length} anteriormente citadas. Se realizarán tests Anova utilizando dichas salidas. Los resultados de ejecutar iozone para cada test se encuentran en el anexo \ref{tablas_anova_sa}.\\
-
-
+El objetivo consiste en analizar para cada una de las operaciones si el sistema de archivos afecta al rendimiento, para ello se han fijado tamaño de archivo y \textit{record length} concretos. En resumen se han ejecutado pruebas para todas las combinaciones de operaciones, tamaño de archivos y tamaño de \textit{record length} anteriormente citadas. Se realizarán tests Anova utilizando dichas salidas. Los resultados de ejecutar iozone para cada test se encuentran en el anexo \ref{tablas_anova_sa}.\\
 
 Para cada uno de los tests que se van a realizar a continuación la hipótesis nula es que el factor Sistema de Archivos \textbf{no} influye en el rendimiento. Para cada una de las operaciones hay seis test Anova, uno por cada tamaño de archivo. Los resultados de los tests se encuentran en el anexo \ref{tablas_anova_sa_por_operacion}
 \subsubsection{Test Anova para factor Sistema de Archivos: \textit{record length} 4KB}
@@ -297,6 +296,8 @@ Cómo los p-valores para todos los tamaños son menores que $\alpha$ = 0,05 pode
 
 
 \subsubsection{Test Anova para factor Sistema de Archivos: \textit{record length} 256KB}
+
+\textcolor{blue}{COMENTAS EL MISMO PARRAFO PARA CADA TABLA, NO PONGAS EXACTAMENTE LO MISMO PORQUE SE HACE MUY PESADA LA LECTURA. LO MISMO VA PARA LAS SECCIONES ANTERIORES Y LAS SIGUIENTES QUE ESTÁN ASÍ.}
 
 \subsubsection{Read}
 \begin{table}[!htp]\centering
@@ -624,7 +625,7 @@ Operación &Record Length &\multicolumn{6}{c}{Tamaño de Archivo} \\\cmidrule{1-
 \end{table}
 
 \section{Filebench}
-El objetivo de esta prueba es familiarizarse con el lenguaje de modelación de carga de \textit{Filebench}. Se optó por generar un script con una funcionalidad general, puesto que el apartado de carga real ya había sido cubierto por el test que ejecutaba \textit{KnowSeq}. Esta prueba se decide orientar a realizar operaciones de lectura y escritura con archivos pequeños, de unos 8 megabytes aproximadamente. Se elige este tamaño de archivo ya que en las dos pruebas anteriores se manejaba un rango de tamaños mucho mayor, en el caso de \textit{KnowSeq} de varios megabytes y en el caso de \textit{iozone} de mas de 200 MB, y quedaba sin cubir este tipo de tamaño mucho mas pequeño. El código del script en WML se encuentra en el Anexo \ref{wml.f}.\\
+El objetivo de esta prueba es familiarizarse con el lenguaje de modelado de carga de \textit{Filebench}. Se optó por generar un script con una funcionalidad general, puesto que el apartado de carga real ya había sido cubierto por el test que ejecutaba \textit{KnowSeq}. Esta prueba se decide orientar a realizar operaciones de lectura y escritura con archivos pequeños, de unos 8 megabytes aproximadamente. Se elige este tamaño de archivo ya que en las dos pruebas anteriores se manejaba un rango de tamaños mucho mayor, en el caso de \textit{KnowSeq} de varios megabytes y en el caso de \textit{iozone} de mas de 200 MB, y quedaba sin cubrir este tipo de tamaño mucho mas pequeño. El código del script en WML se encuentra en el Anexo \ref{wml.f}.\\
 
 En esta prueba, se sigue la misma metodología que en las dos anteriores. En primer lugar se monta el sistema de archivos que se quiere evaluar haciendo uso del script \ref{montaje.sh}. En segundo lugar se necesita saber cuantas ejecuciones son necesarias para asegurar al 95\% de confianza y un error del 5\%. Se realizan cuatro mediciones con el fin de obtener datos para sustituir en la ecuación \ref{eqn:n-ejecuciones}. Sustituyendo con los datos obtenidos de las cuatro ejecuciones anteriores resulta: $$
 n=\left(\frac{z_{1-\alpha / 2} s}{e \bar{x}}\right)^{2} = \left(\frac{2,135*1,67620}{0,025*72,78333}\right)^{2} = 3,85728
@@ -632,7 +633,7 @@ $$\\
 
 Habría que ejecutar las pruebas aproximadamente cuatro veces, pero dado que el tiempo de ejecución es pequeño se deciden ejecutar seis veces.
 
- Tras ello se lanza la orden que inicia la prueba y los resultados se almacenan en una hoja de cálculo. En el caso de \textit{filebench} estos resultados se expresan en megabytes por segundo. La tabla de ejecuciones resultante se muestra a continuación.
+Tras ello se lanza la orden que inicia la prueba y los resultados se almacenan en una hoja de cálculo. En el caso de \textit{filebench} estos resultados se expresan en megabytes por segundo. La tabla de ejecuciones resultante se muestra a continuación \textcolor{blue}{REFERENCIA DE LA TABLA}.
  
 \begin{table}[!htp]\centering
 \scriptsize
