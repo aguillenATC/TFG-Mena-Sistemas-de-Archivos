@@ -4,128 +4,24 @@
 \clearpage{}
 
 %[Lo que va en el índice]{Lo que va en el documento}
-\chapter[Planificación]{Planificación}
-\section{Previa}
+\chapter[Presupuesto]{Presupuesto
+}
+Teniendo en cuenta el diagrama de Gantt \ref{fig:gantt-chart-post}, donde se muestra la duración de las diferentes tareas, podemos estimar el coste real del desarrollo. El desarrollo del proyecto se ha llevado a cabo de manera continua. El proyecto ha durado aproximadamente 22 semanas, de media se le han dedicado una 15 horas por semana, es decir 3 horas al día (sin contar fin de semana) por lo que en total se le ha dedicado aproximadamente 330 horas al proyecto.\\
 
-\begin{figure}[H]
-    \centering
-    \scalebox{0.60}{
-\begin{ganttchart}[%Specs
-     y unit title=0.5cm,
-     y unit chart=0.7cm,
-     vgrid,hgrid,
-     title height=1,
-     title label font=\bfseries\footnotesize,
-     bar/.style={fill=blue},
-     bar height=0.4,
-     group right shift=0,
-     group top shift=0.7,
-     group height=.3,
-     group peaks width={0.2},
-     inline]{1}{36}
-    %labels
-    \gantttitle{Nov}{4} %1-4
-    \gantttitle{Dic}{4} 
-    \gantttitle{Ene}{4}
-    \gantttitle{Feb}{4}
-    \gantttitle{Mar}{4}
-    \gantttitle{Abr}{4}
-    \gantttitle{May}{4}
-    \gantttitle{Jun}{4}
-    \gantttitle{Jul}{4}\\
-    % Setting group if any
-    \ganttgroup[inline=false]{Estudio}{3}{7}\\
-    \ganttbar[inline=false, bar/.style={fill=red}]{Planificación}{3}{4}\\
-    \ganttbar[inline=false, bar/.style={fill=red}]{Investigación sobre el tema}{5}{7}\\
-    \ganttbar[inline=false, bar/.style={fill=red}]{Busqueda de trabajos similares}{4}{7}\\
-
-    
-    \ganttgroup[inline=false]{Documentación}{8}{32}\\
-    \ganttbar[inline=false, bar/.style={fill=cyan}]{Introducción}{8}{9}\\
-    \ganttbar[inline=false, bar/.style={fill=cyan}]{Fundementos y Estado del Arte}{9}{11}\\
-    \ganttbar[inline=false, bar/.style={fill=cyan}]{Metodología}{12}{14}\\
-    \ganttbar[inline=false, bar/.style={fill=cyan}]{Experimentación}{15}{27}\\
-    \ganttbar[inline=false, bar/.style={fill=cyan}]{Conclusión, planificacion y presupuesto}{28}{29}\\
-    \ganttbar[inline=false, bar/.style={fill=cyan}]{Revisión}{30}{32}\\
-    
-    \ganttgroup[inline=false]{Experimentación}{15}{23}\\
-    \ganttbar[inline=false, bar/.style={fill=purple}]{Instalación de herramientas}{15}{15}\\
-    \ganttbar[inline=false, bar/.style={fill=purple}]{Ejecución test KnowSeq}{16}{17}\\
-    \ganttbar[inline=false, bar/.style={fill=purple}]{Ejecución test Iozone}{19}{20}\\
-    \ganttbar[inline=false, bar/.style={fill=purple}]{Creación del test y ejecución de Filebench}{22}{23}\\
-    
-      \ganttgroup[inline=false]{Preparación de datos}{18}{27}\\
-    \ganttbar[inline=false, bar/.style={fill=orange}]{Creación de tablas de datos de KnowSeq}{18}{18}\\
-    \ganttbar[inline=false, bar/.style={fill=orange}]{Creación de tablas de datos de Iozone}{21}{21}\\
-    \ganttbar[inline=false, bar/.style={fill=orange}]{Creación de tablas de datos de  Filebench}{24}{24}\\
-    \ganttbar[inline=false, bar/.style={fill=orange}]{Realización de Tests Anova}{25}{27}\\
-    
-    
-\end{ganttchart}}
-    \caption{Diagrama de Gantt que muestra la temporización esperada del proyecto.}
-    \label{fig:gantt-chart-prev}
-\end{figure}
-\section{Posterior}
-\begin{figure}[H]
-    \centering
-    \scalebox{0.60}{
-\begin{ganttchart}[%Specs
-     y unit title=0.5cm,
-     y unit chart=0.7cm,
-     vgrid,hgrid,
-     title height=1,
-     title label font=\bfseries\footnotesize,
-     bar/.style={fill=blue},
-     bar height=0.4,
-     group right shift=0,
-     group top shift=0.7,
-     group height=.3,
-     group peaks width={0.2},
-     inline]{1}{36}
-    %labels
-    \gantttitle{Nov}{4} %1-4
-    \gantttitle{Dic}{4} 
-    \gantttitle{Ene}{4}
-    \gantttitle{Feb}{4}
-    \gantttitle{Mar}{4}
-    \gantttitle{Abr}{4}
-    \gantttitle{May}{4}
-    \gantttitle{Jun}{4}
-    \gantttitle{Jul}{4}\\
-    % Setting group if any
-    \ganttgroup[inline=false]{Estudio}{3}{7}\\
-    \ganttbar[inline=false, bar/.style={fill=red}]{Planificación}{3}{4}\\
-    \ganttbar[inline=false, bar/.style={fill=red}]{Investigación sobre el tema}{5}{7}\\
-    \ganttbar[inline=false, bar/.style={fill=red}]{Busqueda de trabajos similares}{4}{7}\\
-
-    
-    \ganttgroup[inline=false]{Documentación}{12}{33}\\
-    \ganttbar[inline=false, bar/.style={fill=cyan}]{Introducción}{12}{16}\\
-    \ganttbar[inline=false, bar/.style={fill=cyan}]{Fundementos y Estado del Arte}{17}{20}\\
-    \ganttbar[inline=false, bar/.style={fill=cyan}]{Metodología}{21}{25}\\
-    \ganttbar[inline=false, bar/.style={fill=cyan}]{Experimentación}{26}{31}\\
-    \ganttbar[inline=false, bar/.style={fill=cyan}]{Conclusión, planificacion y presupuesto}{32}{32}\\
-    \ganttbar[inline=false, bar/.style={fill=cyan}]{Revisión}{32}{33}\\
-    
-    \ganttgroup[inline=false]{Experimentación}{23}{30}\\
-    \ganttbar[inline=false, bar/.style={fill=purple}]{Instalación de herramientas y testeo}{23}{24}\\
-    \ganttbar[inline=false, bar/.style={fill=purple}]{Ejecución test KnowSeq}{26}{27}\\
-    \ganttbar[inline=false, bar/.style={fill=purple}]{Ejecución test Iozone}{28}{29}\\
-    \ganttbar[inline=false, bar/.style={fill=purple}]{Creación del test y ejecución de Filebench}{30}{30}\\
-    
-      \ganttgroup[inline=false]{Preparación de datos}{27}{30}\\
-    \ganttbar[inline=false, bar/.style={fill=orange}]{Creación de tablas de datos de KnowSeq}{27}{27}\\
-    \ganttbar[inline=false, bar/.style={fill=orange}]{Creación de tablas de datos de Iozone}{29}{29}\\
-    \ganttbar[inline=false, bar/.style={fill=orange}]{Creación de tablas de datos de  Filebench}{30}{30}\\
-    \ganttbar[inline=false, bar/.style={fill=orange}]{Realización de Tests Anova}{27}{30}\\
-    
-    
-\end{ganttchart}}
-    \caption{Diagrama de Gantt que muestra la temporización esperada del proyecto.}
-    \label{fig:gantt-chart-post}
-\end{figure}
+Según la web \textit{Glassdoor} el sueldo medio de un ingeniero junior en España al año es de 24.887€ \cite{glassdoor}. Si partimos de la base de que este sueldo se divide en 14 pagas, obtenemos que el sueldo mensual es de 1777,64€ \textcolor{blue}{¿NETO/BRUTO?}. Si se trabajan 8 horas diarias, 5 días por semana se obtiene que el sueldo por hora es de 11,11€/h. También se deben contabilizar en el precio del proyecto, las horas dedicadas por los tutores puesto que en condiciones reales, se hubiese tenido que consultar con un especialista. El salario por hora de un profesor titular universitario en 2019 según el portal de transparencia de la Universidad de Sevilla \cite{sueldo-US} es de 15,26€/h y se habrán invertido unas 20 horas en tutorías. El precio del proyecto aproximadamente se detalla en la siguiente tabla.
 
 
-En la planificación inicial se pretendía no simultanear varias tareas a la vez, por ello las tareas de experimentación y preparación de datos están más dilatadas en el tiempo. Finalmente no fue posible seguir esta planificación, principalmente, por que el trabajo se empezó a desarrollar más tarde de lo esperado. Conllevó que la planificación finalmente fuese  muy distinta, teniendo que simultanear las tareas de documentación, experimentación y preparación de datos. El retraso trajo consigo la disminución general de tiempo para todas las tareas
+\begin{table}[H]\centering
+\scriptsize
+\begin{tabular}{lrrrr}\toprule
+Recurso &Precio/hora &Horas totales &Precio total \\\midrule
+Ingeniero Junior &11.11000€ &330 &3666.3€ \\
+Profesional &15.26000€ &20 &305.2€ \\
+& & &3971.5€\\
+\bottomrule
+\end{tabular}
+\caption{Tabla de costo del proyecto detallado.}
+\end{table}
+
 
 

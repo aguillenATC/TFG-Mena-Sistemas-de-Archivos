@@ -11,7 +11,7 @@ Se abordarán los conceptos relevantes que atañen a los \textcolor{brown}{siste
 \section{Información adicional sobre sistemas de archivos.}
 En el capítulo anterior se definió qué era un \textcolor{magenta}{S.A}. En esta sección vamos a profundizar en las partes que lo componen y hablaremos sobre los métodos de reserva de espacio utilizados más comunes.\\
 
-Linux contempla a todos los \textcolor{brown}{sistemas de archivos} como un conjunto de objetos, dichos objetos se dividen principalmente en cuatro categorías. La primera de ellas, el superbloque (\textit{superblock}) se encarga de describir la estructura y \textcolor{magenta}{almacena} el estado. \\
+Linux contempla a todos los \textcolor{brown}{sistemas de archivos} como un conjunto de objetos, dichos objetos se dividen principalmente en cuatro categorías. La primera de ellas, el superbloque (\textit{superblock}) se encarga de describir la estructura y \textcolor{magenta}{almacena el estado de este}. \\
 
 
  La segunda categoría de objeto encontramos al inodo, el cual contiene metadatos que utiliza el S.A para especificar qué tipo de operaciones se pueden hacer sobre esos objetos. El tercer tipo es la entrada de directorio (\textit{dentry}). Por último, tenemos el objeto archivo, que representa un archivo abierto el cual esta asociado a un proceso \cite{jones_2007}. A continuación se profundizará en cada uno de los objetos citados.\\

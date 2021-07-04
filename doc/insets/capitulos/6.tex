@@ -1,27 +1,84 @@
+%\cleardoublepage
+%\clearpage{}
 
+%[Lo que va en el índice]{Lo que va en el documento}
+%\chapter[Discusión]{Discusión}
 
 \cleardoublepage
 \clearpage{}
 
 %[Lo que va en el índice]{Lo que va en el documento}
-\chapter[Presupuesto]{Presupuesto
-}
-Teniendo en cuenta el diagrama de Gantt \ref{fig:gantt-chart-post}, donde se muestra la duración de las diferentes tareas, podemos estimar el coste real del desarrollo. El desarrollo del proyecto se ha llevado a cabo de manera continua. El proyecto ha durado aproximadamente 22 semanas, de media se le han dedicado una 15 horas por semana, es decir 3 horas al día (sin contar fin de semana) por lo que en total se le ha dedicado aproximadamente 330 horas al proyecto.\\
+\chapter[Conclusión]{Conclusión}
+Este capítulo estará dividido en cuatro partes. Por un lado las tres primeras partes constarán de un análisis de los resultados y sus correspondientes conclusiones. Por otro lado se dará unas conclusiones generales de toda la experimentación.
 
-Según la web \textit{Glassdoor} el sueldo medio de un ingeniero junior en España al año es de 24.887€ \cite{glassdoor}. Si partimos de la base de que este sueldo se divide en 14 pagas, obtenemos que el sueldo mensual es de 1777,64€ \textcolor{blue}{¿NETO/BRUTO?}. Si se trabajan 8 horas diarias, 5 días por semana se obtiene que el sueldo por hora es de 11,11€/h. También se deben contabilizar en el precio del proyecto, las horas dedicadas por los tutores puesto que en condiciones reales, se hubiese tenido que consultar con un especialista. El salario por hora de un profesor titular universitario en 2019 según el portal de transparencia de la Universidad de Sevilla \cite{sueldo-US} es de 15,26€/h y se habrán invertido unas 20 horas en tutorías. El precio del proyecto aproximadamente se detalla en la siguiente tabla.
+\section{Conclusiones sobre los resultados de \textit{KnowSeq}}
+Después de comprobar que el sistema de archivos afecta al rendimiento. Btrfs parece ser la mejor opción para herramientas como \textit{KnowSeq} tal y como se puede comprobar en el gráfico  \ref{aa}. El uso de b-trees en cierto modo le beneficia en tamaños de archivos relativamente grandes.\\
 
+\textcolor{blue}{¿PODEMOS CONCLUIR ESTO? YO LO DEJARÍA MÁS ESPECÍFICO. PARA ESTE TIPO DE ANÁLISIS BIOINFORMÁTICOS. PORQUE HERRAMIENTAS COMO KNOWSEQ HAY MUCHAS PARA OTRO TIPO DE DATOS Y QUIZAS PARA ESOS NO VAYA TAN BIEN BTRFS.}
+
+XFS y Ext4 en esta prueba tienen un rendimiento similar. No se aprecia mejora significativa.
+
+
+\section{Conclusiones sobre los resultados de \textit{Iozone}}
+Una vez comprobado que el tamaño de archivo y el \textit{record length} son factores que afectan al rendimiento, se procede a comprobar si el sistema de archivo también influye. Por tanto se ejecuta para un conjunto de tamaños de archivo y de \textit{record length}, \textit{iozone}. Se obtiene una salida por cada una de las combinaciones de estos y se realiza un test Anova. En la siguiente tabla se ha resumido dichas salidas, indicando en cada celda que sistema de archivos (en promedio) tiene mayor rendimiento. 
 
 \begin{table}[H]\centering
+
 \scriptsize
-\begin{tabular}{lrrrr}\toprule
-Recurso &Precio/hora &Horas totales &Precio total \\\midrule
-Ingeniero Junior &11.11000€ &330 &3666.3€ \\
-Profesional &15.26000€ &20 &305.2€ \\
-& & &3971.5€\\
+\begin{tabular}{lrrrrrrrr}\toprule
+Operación &Record Length &\multicolumn{6}{c}{Tamaño de Archivo} \\\cmidrule{1-8}
+& &200MB &400MB &800MB &1.6GB &3.2GB &6GB \\\midrule
+\multirow{4}{*}{Read} &4KB &BTRFS &BTRFS &BTRFS &BTRFS &BTRFS &EXT4 \\
+&256KB &BTRFS &BTRFS &BTRFS &BTRFS &BTRFS &BTRFS \\
+&1024KB &BTRFS &BTRFS &BTRFS &BTRFS &BTRFS &BTRFS \\
+&16384KB &BTRFS &BTRFS &BTRFS &BTRFS &BTRFS &EXT4 \\
+& & & & & & & \\
+\multirow{4}{*}{Re-read} &4KB &BTRFS &BTRFS &BTRFS &BTRFS &BTRFS &BTRFS \\
+&256KB &BTRFS &BTRFS &BTRFS &BTRFS &BTRFS &BTRFS \\
+&1024KB &BTRFS &BTRFS &BTRFS &BTRFS &BTRFS &BTRFS \\
+&16384KB &BTRFS &BTRFS &BTRFS &BTRFS &BTRFS &BTRFS \\
+& & & & & & & \\
+\multirow{4}{*}{Write} &4KB &XFS &XFS &XFS &BTRFS &BTRFS &XFS \\
+&256KB &BTRFS &BTRFS &XFS &BTRFS &BTRFS &BTRFS \\
+&1024KB &BTRFS &BTRFS &XFS &BTRFS &BTRFS &BTRFS \\
+&16384KB &BTRFS &XFS &XFS &BTRFS &BTRFS &BTRFS \\
+& & & & & & & \\
+\multirow{4}{*}{Re-write} &4KB &XFS &XFS &XFS &BTRFS &BTRFS &XFS \\
+&256KB &XFS &XFS &XFS &XFS &XFS &XFS \\
+&1024KB &XFS &XFS &XFS &BTRFS &BTRFS &BTRFS \\
+&16384KB &XFS &XFS &XFS &EXT4 &BTRFS &BTRFS \\
+& & & & & & & \\
+\multirow{4}{*}{Random Read} &4KB &BTRFS &BTRFS &BTRFS &BTRFS &BTRFS & \\
+&256KB &BTRFS &BTRFS &BTRFS &BTRFS &BTRFS &BTRFS \\
+&1024KB &BTRFS &BTRFS &BTRFS &BTRFS &BTRFS &BTRFS \\
+&16384KB &BTRFS &BTRFS &BTRFS &BTRFS &BTRFS &EXT4 \\
+& & & & & & & \\
+\multirow{4}{*}{Random Write} &4KB &EXT4 &EXT4 &EXT4 &BTRFS &XFS & \\
+&256KB &XFS &XFS &XFS &BTRFS &BTRFS &BTRFS \\
+&1024KB &BTRFS &BTRFS &XFS &BTRFS &BTRFS &BTRFS \\
+&16384KB &BTRFS &BTRFS &XFS &EXT4 &BTRFS &BTRFS \\
 \bottomrule
 \end{tabular}
-\caption{Tabla de costo del proyecto detallado.}
+\caption{Tabla que resume cuál de los sistemas de archivos tiene (en promedio) mayor rendimiento dependiendo de la operación y del tamaño de registro.}\label{tab: }
 \end{table}
 
+En la operación re-read no hay duda de que BTRFS es el sistema que mas rendimiento es capaz de obtener. Prácticamente ocurre igual en la operación read, salvo para tamaños mayores de 3.2GB en el que EXT4 para algunas configuraciones es más productivo. De todos modos, los valores promedio de rendimiento varían en unos pocos megabytes por segundo. \\
 
+En las operaciones \textit{write} y \textit{re-write} el sistema que en general obtiene mejor rendimiento es XFS. Ejecutando operaciones de re-escritura en tamaños menores a 1.6GB XFS se rinde mejor en cualquier tamaño de registro, mientras que para tamaños mayores se disputa el puesto con BTRFS.
 
+Tanto en escritura aleatoria como en lectura aleatoria los resultados están bastante ajustados, los valores promedio de rendimiento son similares, prácticamente no hay diferencia entre ellos.
+
+\section{Conclusiones sobre los resultados de \textit{Filebench}}
+Esta prueba se ejecuta con un tamaño de archivo de aproximadamente 8 megabytes, es un tamaño pequeño si lo comparamos con los utilizados en las pruebas anteriores y se eligió precisamente para completar este vacío que se había generado.\\
+
+Tras las ejecuciones correspondientes y el análisis de la varianza (Anova) se concluyó que las diferencias eran debidas al factor sistema de archivos. En la tabla \ref{tab:filebench_tabla} de resultados de la ejecución se observa que BTRFS prácticamente duplica la velocidad de lectura/escritura sobre EXT4, siendo alrededor de un 33\% mas veloz que XFS. 
+
+\section{Conclusiones generales}
+
+En general se ha intentado abarcar la mayor parte de tamaños de archivo que se han considerado interesantes para este estudio. Con los datos obtenidos parece ser que BTRFS podría funcionar mejor en general, esto no implica que para un sistema concreto que ejecuta un programa específico sea así. Aún así se ha intentando ser lo más general posible.\\ \textcolor{blue}{HAS DICHO EN GENERAL 3 VECES AQUÍ. ES EL BROCHE DE ORO A TU TRABAJO Y LO QUE MÁS VA A LEER UN TRIBUNAL, TIENES QUE ECHAR TODO TU ESFUERZO AQUÍ PARA QUE QUEDÉ PERFECTO Y ELEGANTE!!!}
+
+En tamaños de archivo relativamente grandes BTRFS parece ser el mas productivos de los tres, mientras que para tamaños intermedios (200MB < tamaño < 6GB) en la mayoría de las operaciones BTRFS es más productivo, salvo para escritura y re-escritura donde según las pruebas XFS se desenvuelve mejor. De todos modos al no poner haber ejecutado el número de veces necesario el test de iozone, probablemente los resultados hubiesen sido mas claros y concisos.\\
+
+Respecto a tamaños pequeños (de unos pocos megasbytes) tal y como se explicó en la sección anterior, el rendimiento de BTRFS es prácticamente del doble al de EXT4 y un tercio mayor al de XFS. En este caso no hemos podido diferenciar entre lecturas y escrituras ya que la salida de \textit{filebench} no proporciona esos datos y al ejecutarlo bajo \textit{iowatcher} tal y como se hizo con \textit{KnowSeq} el test no conseguía ejecutarse bien.
+
+\textcolor{blue}{AQUÍ HACE FALTA UNO O DOS PARRAFOS DE CIERRE. COMENTA SI SE HAN CUMPLIDO O NO LOS OBJETIVOS PRINCIPALES Y SECUNDARIOS, HABLA DE POSIBLES MEJORAS FUTURAS QUE SE PUEDEN HACER Y A QUE CONCLUSIÓN FINAL LLEGAS TENIENDO EN CUENTA TODO LO ANTERIOR.}

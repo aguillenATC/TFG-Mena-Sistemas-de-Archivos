@@ -124,14 +124,14 @@ Dado que el estadístico $F$ es calculado como el cociente de dos varianza neces
 Los experimentos fueron ejecutados en una máquina convencional con un procesador AMD con una frecuencia de reloj de 3.5 GHz. Ubuntu 16.04.7 es la versión del sistema operativo en la que se ejecutan las pruebas. El sistema tiene 2 discos, en un disco SSD se encuentra el sistema operativo y las herramientas de \textit{benchmarking} y en el disco duro mecánico se utiliza exclusivamente para el montaje de los sistemas de archivos. La tabla siguiente muestra todos los detalles sobre el hardware y software utilizado.
 \begin{table}[h]
     \centering
-    \begin{tabular}{|l|l|}
+    \begin{tabular}{|l|l|l|}
     \hline
-        Componente & Modelo \\ \hline\hline
-        CPU & AMD Ryzen 3 1300X @ 3.5 GHz Quad-Core \\ \hline
-        Memoria & Crucial CT8G4DFS824A. 8 GB DDR4 2400 MHz CL17 \\ \hline
-        Placa Base & ASUS EX-A320M \\ \hline
-        SSD del Sistema & Kingston A400 SSD SATA3 \textcolor{blue}{¿Prestaciones de velocidad?} \\ \hline
-        HDD de Pruebas & Seagate Barracuda ST500DM002-1BD14 500GB \textcolor{blue}{¿Prestaciones de velocidad?}\\ \hline
+        Componente & Modelo & \textcolor{magenta}{ Características}\\ \hline\hline
+        CPU & AMD Ryzen 3 1300X & \textcolor{magenta}{ 3.5 GHz Quad-Core} \\ \hline
+        Memoria & Crucial CT8G4DFS824A DDR4 8GB & \textcolor{magenta}{2400 MHz CL17}  \\ \hline
+        Placa Base & ASUS EX-A320M & \\ \hline
+        SSD del Sistema & Kingston A400 SSD SATA 6Gb/s& \textcolor{magenta}{ NAND 3D}  \\ \hline %\textcolor{blue}{¿Prestaciones de velocidad?} 
+        HDD de Pruebas & Seagate Barracuda ST500DM002-1BD14 500GB & \textcolor{magenta}{caché 16MB}  \\ \hline %\textcolor{blue}{¿Prestaciones de velocidad?}\\ 
     \end{tabular}
     \caption{Especificaciones Hardware \textcolor{blue}{QUIZÁS AÑADIR UNA COLUMNA ESPECIFICACIONES CON LAS MÁS RESEÑABLES DE CADA COMPONENTE}}
 \label{table:1}
@@ -153,9 +153,9 @@ Los experimentos fueron ejecutados en una máquina convencional con un procesado
 \end{table}
 
 \subsection{Montaje de los sistemas de archivos}
-El sistema de archivos que monta el disco que alberga el sistema operativo es Ext4, no existe ningún motivo que justifique el uso de este sistema concreto \textcolor{blue}{NO ENTIENDO ESTA FRASE, ¿PORQUE JUSTIFICAS QUE NO HAY MOTIVO QUE JUSTIFIQUE EL USO DE EXT4? CON DECIR QUE SE HA USADO ESE POR SER EL MAS ESTANDAR EN ESTE TIPO DE DISTROS Y QUE LAS PRUEBAN VAN EN EL OTRO COMO DICES DESPUES BASTARIA}, ya que las pruebas se ejecutan en otro dispositivo distinto. \\
+El sistema de archivos que monta el disco que alberga el sistema operativo es Ext4, \textcolor{magenta}{ya que es el que normalmente se utiliza en este tipo de distribuciones}. Esta decisión no afecta a la prueba ya que estas se ejecutan en otro dispositivo distinto. \textcolor{blue}{NO ENTIENDO ESTA FRASE, ¿PORQUE JUSTIFICAS QUE NO HAY MOTIVO QUE JUSTIFIQUE EL USO DE EXT4? CON DECIR QUE SE HA USADO ESE POR SER EL MAS ESTANDAR EN ESTE TIPO DE DISTROS Y QUE LAS PRUEBAN VAN EN EL OTRO COMO DICES DESPUES BASTARIA}  \\
 
-El disco en el que se ejecutan las pruebas dispone de una sola partición que ocupa el total de la capacidad del disco. Los sistemas de archivos (Ext4, BTRFS y XFS) se crean con la herramienta \textit{mkfs}. Tras la lectura de las opciones disponibles en el manual de la herramienta \cite{tso} \textcolor{purple}{\sout{decidimos}} \textcolor{blue}{se decide} montar los sistemas de archivos con la configuración por defecto, ya que la \textcolor{blue}{propia} herramienta, basándose en los recursos de la máquina, los ajusta.\\
+El disco en el que se ejecutan las pruebas dispone de una sola partición que ocupa el total de la capacidad del disco. Los sistemas de archivos (Ext4, BTRFS y XFS) se crean con la herramienta \textit{mkfs}. Tras la lectura de las opciones disponibles en el manual de la herramienta \cite{tso}  \textcolor{blue}{se decide} montar los sistemas de archivos con la configuración por defecto, ya que la \textcolor{blue}{propia} herramienta, basándose en los recursos de la máquina, los ajusta.\\
 
 Las orden utilizada para montar un sistema ext4 en la máquina es:
 
@@ -163,7 +163,7 @@ Las orden utilizada para montar un sistema ext4 en la máquina es:
  sudo mkfs.ext4 -F -O ^64bit -L '' '/dev/sda1'
 \end{lstlisting}
 
-Para la creación de los sistemas XFS y BTRFS  se necesitan instalar las herramientas \textcolor{magenta}{necesarias, como pueden ser  librerías de compresión de datos o librerías de C \cite{lib-ubuntu-btrfs}}. \textcolor{blue}{¿QUE HERRAMIENTAS? MENCIONA ALGO QUE QUEDA MUY VAGO}, estas no vienen en la instalación por defecto en esta versión del sistema operativo. El primer paso antes de instalar las herramientas es actualizar los repositorios.
+Para la creación de los sistemas XFS y BTRFS  se necesitan instalar las herramientas \textcolor{magenta}{necesarias, como pueden ser  librerías de compresión de datos o librerías del lenguaje C \cite{lib-ubuntu-btrfs}}. \textcolor{blue}{¿QUE HERRAMIENTAS? MENCIONA ALGO QUE QUEDA MUY VAGO}, estas no vienen en la instalación por defecto en esta versión del sistema operativo. El primer paso antes de instalar las herramientas es actualizar los repositorios.
 \begin{lstlisting}[language=bash]
 sudo apt-get update
 \end{lstlisting}
@@ -218,49 +218,54 @@ Los ajustes que se van a utilizar para la configuración de las pruebas son exac
 
 Se realizarán varías ejecuciones con el fin de obtener un promedio y desviación estándar. Una vez tengamos esos datos, se podrá aplicar la fórmula \ref{eqn:n-ejecuciones} para obtener el número de pruebas necesarias.\\
 
-Tras ello se realizarán tests Anova para comprobar si el tamaño de bloque o el tamaño de archivo afecta a la productividad. También se realizarán test correspondientes encargados de determinar si el uso de un S.A (sistema de archivos) \textcolor{blue}{S.A. YA ESTA DEFINIDO ANTERIORMENTE, UNIFICALO CON EL RESTO DEL DOCUMENTO} otro influye en la productividad.
+Tras ello se realizarán tests Anova para comprobar si el tamaño de bloque o el tamaño de archivo afecta a la productividad. También se realizarán test correspondientes encargados de determinar si el uso de un S.A u otro influye en la productividad.
 
 
 
 \subsection{Filebench}
-\textcolor{purple}{\sout{Utilizaremos}} \textcolor{blue}{Filebench fue seleccionada} \textcolor{purple}{\sout{esta herramienta}} principalmente por disponer de un lenguaje para modelar carga. \textcolor{purple}{\sout{Es decir, utilizaremos \textit{Filebench} \textit{WML} para crear benchmarks.}} El objetivo es crear un benchmark, que simule un uso del disco por parte de una aplicación genérica.\\
+ \textcolor{blue}{Filebench fue seleccionada} principalmente por disponer de un lenguaje para modelar carga. El objetivo es crear un benchmark, que simule un uso del disco por parte de una aplicación genérica.\\
+ 
+ 
+ 
+ \textcolor{magenta}{Para esta prueba se ha utilizado un tamaño de operación de 256 kilobytes y un tamaño de archivo de 8192KB, es decir, ocho megabytes. Sobre estos archivos se realizan cuatro operaciones, apertura, lectura, escritura y cierre. Dichas operaciones se repiten un total de 60 veces y tras ello se genera una salida con la media de la velocidad de la prueba.}
 
-Se procederá de la manera similar que con la aplicación \textit{iozone}.
+ \begin{figure}[H]
+     \centering
+     \includegraphics[scale=0.8]{doc/assets/images/Capitulo3/diageram_filebench.png}
+     \caption{Diagrama de la estructura de la prueba ejecutada por \textit{Filebench}}
+     \label{fig:my_label}
+ \end{figure}
+
+
 
 \textcolor{blue}{NO VENDRÍA MAL UN DIAGRAMA DE COMO VAS A ORGANIZAR ESTE BENCHMARK, ADEMÁS DE EXPLICARLO MÁS EN DETALLE. LA PARTE DE KNOWSEQ ESTÁ MUCHO MAS COMPLETA QUE ESTA MINI-SECCIÓN.}
 
 \subsection{KnowSeq}\label{metodologia_knowseq}
 KnowSeq es una herramienta que permite procesar y extraer biomarcadores relevantes \textcolor{blue}{partiendo de datos de expresión de gen}, así como evaluarlos mediante enfoques de Machine Learning. El objetivo de KnowSeq es la extracción de conocimiento biológico a partir de biomarcadores \textcolor{blue}{génicos}. \\
 
-El \textcolor{purple}{\sout{primer}} \textcolor{blue}{workflow} del programa se encarga del tratamiento de los datos en crudo. Este proceso consiste en extraer un conjunto de archivos provenientes de los datos en bruto alojados en internet. \textcolor{purple}{\sout{Partimos}} \textcolor{blue}{Primero se parte} de unos archivos SRA y el objetivo es procesarlos para obtener unos ficheros llamados \textit{count files}. La transformación de un archivo SRA a \textit{count file} no es directa, si no que existen pasos intermedios que generan por tanto archivos intermedios. Estos ficheros se denominan \textit{FASTQ, BAM y SAM Files} y son archivos muy pesados (del orden de 10-15 GB). KnowSeq conforme va generando los FASTQ, BAM, SAM Files los va organizando en carpetas, es decir mueve archivos pesados, por lo que durante el proceso se hacen operaciones muy pesadas en el sistema de archivos. Para esta prueba \textcolor{purple}{\sout{obviaremos}} \textcolor{blue}{se obvia} la parte final del proceso que consiste generar los \textit{count files} a partir de los \textit{SAM files}. Este proceso es muy pesado para el procesador, pero apenas hace uso del disco, y debido a ello se decide descartar su uso.\\
+El workflow del programa se encarga del tratamiento de los datos en crudo. Este proceso consiste en extraer un conjunto de archivos provenientes de los datos en bruto alojados en internet. Primero se parte de unos archivos SRA y el objetivo es procesarlos para obtener unos ficheros llamados \textit{count files}. La transformación de un archivo SRA a \textit{count file} no es directa, si no que existen pasos intermedios que generan por tanto archivos intermedios (Figura \ref{fig_process_knowseq}). Estos ficheros se denominan \textit{FASTQ, BAM y SAM Files} y son archivos muy pesados (del orden de 10-15 GB). KnowSeq conforme va generando los FASTQ, BAM, SAM Files los va organizando en carpetas, es decir mueve archivos pesados, por lo que durante el proceso se hacen operaciones muy pesadas en el sistema de archivos. Para esta prueba se obvia la parte final del proceso que consiste generar los \textit{count files} a partir de los \textit{SAM files}. Este proceso es muy pesado para el procesador, pero apenas hace uso del disco, y debido a ello se decide descartar su uso.\\
 
-\textcolor{blue}{DEBERÍAS HACER UN DIAGRAMA COMO EL QUE TE MOSTRÉ DE COMO PASAR DE UN ARCHIVO A OTRO Y EN QUÉ ORDEN PARA ACLARARLO DE FORMA GRÁFICA.}
-
-Para esta prueba \textcolor{purple}{\sout{utilizaremos}} \textcolor{blue}{se hacen uso de} series relativas al Covid-19. KnowSeq en su repositorio tiene datos de 90 pacientes, pero desafortunadamente se utilizarán sólo datos de 5 de ellos, ya que al ser archivos tan pesados \textcolor{purple}{\sout{necesitaríamos}} \textcolor{blue}{se requeriría de} una cantidad de espacio que no \textcolor{purple}{\sout{disponemos}} \textcolor{blue}{se tiene} y el tiempo de procesamiento es demasiado elevado. \textcolor{blue}{ESTO SE ENTIENDE MAL, DALE UNA VUELTECILLA A LA FRASE}La variación en los genes es uno de los factores que modificaría el tiempo de ejecución, pero que dicha diferencia en los archivos elegidos es pequeña y, por tanto, la diferencia en el tiempo de ejecución también debería serla. Además al procesar los datos de cada paciente de uno en uno y siendo operaciones completamente aisladas entre pacientes, ello supone que el tiempo y las operaciones por cada uno de estos, es prácticamente el mismo. Por lo tanto, se puede asumir que el tiempo y espacio total utilizado se incrementa aproximadamente de forma lineal cada vez que se añade un paciente. Para confirmar esta hipótesis se lanzaron varias ejecuciones (3 por configuración) del programa con distinto número de pacientes, con el fin de determinar si la hipótesis que se plantea se cumple . \textcolor{blue}{SI YA HAS DICHO PARA CONFIRMAR ESTA HIPOTESIS NO HACE FALTA QUE PONGAS DESPUES CON EL FIN DE DETERMINAR SI LA HIPOTESIS SE CUMPLE}. Se puede observar que la desviación para dos y tres pacientes es prácticamente igual y para un paciente es menor, probablemente debido a que solo realiza una descarga de datos y la velocidad de transmisión de la red es muy cambiante. La desviación para dos y tres pacientes resulta de poco mas de un minuto y medio, por lo que no es, en general, una desviación alta. Respecto a los tiempos, se puede observar que el incremento entre las distintas configuraciones de número de pacientes es prácticamente lineal. Por tanto podríamos confirmar que la hipótesis se cumple. \\
-
-\textcolor{blue}{ESTA TABLA SON RESULTADOS, NO METODOLOGÍA. LA MEDICIÓN DE TIEMPO DEBERÍA IR EN LA SIGUIENTE SECCIÓN Y AHÍ YA JUSTIFICAS QUE TIRAS PARA ADELANTE CON POCOS.}
-
-\begin{table}[h]
+\begin{figure}[H]
     \centering
-    \resizebox{\columnwidth}{!}{\begin{tabular}{|c|c|c|c|c|c|}
-    \hline
-         & Ejecución 1 & Ejecución 2 & Ejecución 3 & Promedio (minutos) & Desviación (minutos) \\ \hline\hline
-        Tiempo para 1 paciente. & 32 & 32,28 & 32,351 & 32,210 & 0,1856 \\ \hline
-        Tiempo para 2 pacientes. & 69,488 & 71,929 & 72,248 & 71,22 & 1,51 \\ \hline
-        Tiempo para 3 pacientes. & 105,035 & 108,254 & 107,385 & 106,891 & 1,6653 \\ \hline
-    \end{tabular}}
-    \caption{Tiempos de ejecución para KnowSeq con distinto número de pacientes}
-    \label{tab:my_label}
-\end{table}
-\begin{table}[h]
-    \centering
-\end{table}
+    \includegraphics[scale=0.6]{doc/assets/images/Capitulo3/process_kwnoseq.png}
+    \caption{Diagrama de las operaciones de procesamiento de archivos realizada por \textit{KnowSeq}}
+    \label{fig_process_knowseq}
+\end{figure}
 
-Para monitorizar la productividad de la entrada/salida se hace uso de la utilidad \textit{Iowatcher}. \textit{Iowatcher} internamente utiliza \textit{blktrace}, que es una herramienta de rastreo de E/S que proporciona información detallada sobre las operaciones en la cola de operaciones \cite{blktrace}. Una vez se capturan los eventos de la E/S, se utiliza internamente la herramienta \textit{blkparse} la cual transforma la salida de \textit{blktrace} en un archivo legible. \textcolor{purple}{\sout{por el ser humano.}} Tras ello, \textit{iowatcher} se encarga de procesar dicho archivo y generar las gráficas de los \textit{items} medidos.\\
 
-Para finalizar, \textcolor{purple}{\sout{quedaría resolver una}} \textcolor{blue}{se plantea la siguiente} cuestión ¿Cuántas veces se tiene que repetir la prueba para tener unas medidas fiables? \textcolor{purple}{\sout{Tomamos}} \textcolor{blue}{Se toma} como guía lo visto en la sección \ref{numejecs}. \textcolor{purple}{\sout{Realizamos}} \textcolor{blue}{Se realizan} varias medidas, partiendo de todas las características y restricciones adoptadas. Es decir, se ejecutará \textit{KnowSeq} para 5 pacientes y obviando el proceso de generación de los \textit{count files}. Se tomará la productividad como medida de referencia y \textcolor{purple}{\sout{calcularemos}} \textcolor{blue}{se calcularán} el número de ejecuciones para una confianza del 90\% y un error del 7\%. Con el fin de automatizar los cálculos, se ha desarrollado un pequeño \textit{script} en \textit{Python} que resuelve la tarea.\\
+%\textcolor{blue}{DEBERÍAS HACER UN DIAGRAMA COMO EL QUE TE MOSTRÉ DE COMO PASAR DE UN ARCHIVO A OTRO Y EN QUÉ ORDEN PARA ACLARARLO DE FORMA GRÁFICA.}
 
-\textcolor{blue}{ESTO LO HAS MENCIONADO EN EL PARRAFO DE ANTES PERO SIN PREGUNTA, AUNALO PARA EVITAR REPETICIONES. LO BUENO Y BREVE DOS VECES BUENO :D} Aproximadamente, ¿cuántas mediciones se necesitarían si quisiéramos tener un 90\% de confianza en que el valor medio está dentro del 7\% del valor real? Con los datos de las mediciones realizadas obtenidas \textcolor{purple}{\sout{necesitaríamos}} \textcolor{blue}{se requerirían} 3,7 ejecuciones, es decir 4 ejecuciones. La tabla de datos ha sido la siguiente.
+Para esta prueba se hacen uso de series relativas al Covid-19. KnowSeq en su repositorio tiene datos de 90 pacientes, pero desafortunadamente se utilizarán sólo datos de 5 de ellos, ya que al ser archivos tan pesados se requeriría de una cantidad de espacio que no se tiene. Además el tiempo necesario para el procesamiento de los datos de 90 pacientes es demasiado alto. \textcolor{blue}{ESTO SE ENTIENDE MAL, DALE UNA VUELTECILLA A LA FRASE} \textcolor{magenta}{ La variación de los genes es uno de los factores que provoca modificaciones el tiempo de ejecución, dicha diferencia en los archivos que se van a utilizar es pequeña y, por tanto, las diferencias en el tiempo de ejecución deberán ser pequeñas}. Además al procesar los datos de cada paciente de uno en uno y siendo operaciones completamente aisladas entre pacientes, ello supone que el tiempo y las operaciones por cada uno de estos, es prácticamente el mismo. Por lo tanto, se puede asumir que el tiempo y espacio total utilizado se incrementa aproximadamente de forma lineal cada vez que se añade un paciente. Para confirmar esta hipótesis se lanzaron varias ejecuciones (tres por configuración) del programa con distinto número de pacientes. Se puede observar en la tabla \ref{tabla_testejec_knowseq} del Anexo B, que la desviación para dos y tres pacientes es prácticamente igual y para un paciente es menor, probablemente debido a que solo realiza una descarga de datos y la velocidad de transmisión de la red es muy cambiante. La desviación para dos y tres pacientes resulta de poco mas de un minuto y medio, por lo que no es, en general, una desviación alta. Respecto a los tiempos, se puede observar que el incremento entre las distintas configuraciones de número de pacientes es prácticamente lineal. Por tanto podríamos confirmar que la hipótesis se cumple. \\
+
+%\textcolor{blue}{ESTA TABLA SON RESULTADOS, NO METODOLOGÍA. LA MEDICIÓN DE TIEMPO DEBERÍA IR EN LA SIGUIENTE SECCIÓN Y AHÍ YA JUSTIFICAS QUE TIRAS PARA ADELANTE CON POCOS.}
+
+
+
+Para monitorizar la productividad de la entrada/salida se hace uso de la utilidad \textit{Iowatcher}. \textit{Iowatcher} internamente utiliza \textit{blktrace}, que es una herramienta de rastreo de E/S que proporciona información detallada sobre las operaciones en la cola de operaciones \cite{blktrace}. Una vez se capturan los eventos de la E/S, se utiliza internamente la herramienta \textit{blkparse} la cual transforma la salida de \textit{blktrace} en un archivo legible. Tras ello, \textit{iowatcher} se encarga de procesar dicho archivo y generar las gráficas de los \textit{items} medidos.\\
+
+Para finalizar, se plantea la siguientes cuestión ¿Cuántas veces se tiene que repetir la prueba para tener unas medidas fiables? Se toma como guía lo visto en la sección \ref{numejecs}. Se realizan varias medidas, partiendo de todas las características y restricciones adoptadas. Es decir, se ejecutará \textit{KnowSeq} para 5 pacientes y obviando el proceso de generación de los \textit{count files}. Se tomará la productividad como medida de referencia y se calcularán el número de ejecuciones para una confianza del 90\% y un error del 7\%. Con el fin de automatizar los cálculos, se ha desarrollado un pequeño \textit{script} en \textit{Python} que resuelve la tarea.\\
+
+ Con los datos de las mediciones realizadas se requerirían 3,7 ejecuciones, es decir 4 ejecuciones. La tabla de datos ha sido la siguiente.
 
 \begin{table}[h]
     \centering
@@ -272,28 +277,28 @@ Para finalizar, \textcolor{purple}{\sout{quedaría resolver una}} \textcolor{blu
     \caption{Productividad y número de ejecuciones necesarias para KnowSeq}
     \label{tab:my_label}
 \end{table}
-\begin{table}[h]
-    \centering
-\end{table}
+
 
 \section{Instalación de paquetes}
 \subsection{Iozone}
-La instalación de Iozone es muy sencilla \textcolor{purple}{\sout{si hacemos}} \textcolor{blue}{haciendo} uso del gestor de paquetes apt \textcolor{purple}{\sout{Ejecutando}} \textcolor{blue}{mediante} la orden: 
+La instalación de Iozone es muy sencilla  haciendo uso del gestor de paquetes apt mediante la orden: 
 \begin{lstlisting}[language=bash]
 sudo apt-get install iozone3
 \end{lstlisting}
-Para comprobar que el paquete se ha instalado correctamente \textcolor{purple}{\sout{podemos}} \textcolor{blue}{se puede} ejecutar la siguiente orden en la terminal:
+Para comprobar que el paquete se ha instalado correctamente  se puede ejecutar la siguiente orden en la terminal:
 \begin{lstlisting}[language=bash]
 iozone -v
 \end{lstlisting}
-Y deberá mostrar la información del programa y la versión que \textcolor{purple}{\sout{hemos instalado}} \textcolor{blue}{instalada}.
+Y deberá mostrar la información del programa y la versión que instalada.
 
 \subsection{Iowatcher}
-\textcolor{blue}{FRASE MUY LARGA Y LIOSA PARA DECIR SOLAMENTE ESTO, DALE UN TOQUE MAS ELEGANTE} Iowatcher no viene por defecto instalado en las distribuciones basadas en Ubuntu, el paquete en el que se encuentra la herramienta se llama \textit{blktrace} por lo que es el paquete que debemos buscar en nuestro gestor de paquetes. En el caso de Ubuntu se instala con la orden mostrada a continuación.
+%\textcolor{blue}{FRASE MUY LARGA Y LIOSA PARA DECIR SOLAMENTE ESTO, DALE UN TOQUE MAS ELEGANTE} 
+\textcolor{magenta}{\textit{Iowatcher} se encuentra dentro del paquete \textit{blktrace}, para obtenerlo será necesario introducir la orden que aparece a continuación en un terminal.}
+%Iowatcher no viene por defecto instalado en las distribuciones basadas en Ubuntu, el paquete en el que se encuentra la herramienta se llama \textit{blktrace} por lo que es el paquete que debemos buscar en nuestro gestor de paquetes. En el caso de Ubuntu se instala con la orden mostrada a continuación.
 \begin{lstlisting}[language=bash]
 sudo apt-get install blktrace
 \end{lstlisting}
-Si ahora intentara ejecutar un \textit{iowatcher} de prueba se daría cuenta de que no es posible dado que muestra un error \textcolor{blue}{¿QUE ERROR?}. Son necesarias mas herramientas aparte, concretamente \textit{mpstat}. Para instalarla hay que instalar el paquete \textit{sysstat}.
+Si ahora intentara ejecutar un \textit{iowatcher} de prueba se daría cuenta de que no es posible puesto que son necesarias mas herramientas aparte, concretamente \textit{mpstat}. Para instalarla hay que instalar el paquete \textit{sysstat}.
 \begin{lstlisting}[language=bash]
 sudo apt install sysstat
 \end{lstlisting}
@@ -312,7 +317,7 @@ El siguiente paso es la instalación de R
 \begin{lstlisting}[language=bash]
 sudo apt install r-base
 \end{lstlisting}
-\textcolor{blue}{PRIMERAS PERSONAS A TERCERAS} A continuación entramos a R desde la terminal e instalamos \textit{BiocManager} que es un gestor de paquetes de R. Una vez esté instalado se utilizará para instalar \textit{KnowSeq}.
+A continuación se entra a R desde la terminal y se instala \textit{BiocManager} que es un gestor de paquetes de R. Una vez esté instalado se utilizará para instalar \textit{KnowSeq}.
 \begin{lstlisting}[language=R]
 install.packages("BiocManager")
 
@@ -328,7 +333,7 @@ Durante la instalación de \textit{KnowSeq} probablemente aparezcan avisos de de
 
 \end{lstlisting}
 \subsection{Filebench}
-\textcolor{blue}{PRIMERAS PERSONAS A TERCERAS} La instalación de \textit{Filebecnh} es muy sencilla sólo tenemos que descargar el comprimido desde el \href{https://github.com/filebench/filebench/releases}{repositorio de \underline{GitHub}}. Antes de empezar debería comprobar si en la máquina se encuentra instalado Bison y Flex. En caso de que no sea así habrá que instalarlo a través del gestor de paquetes. Una vez se resuelvan las dependencias nos situamos en la carpeta descomprida con una terminal y lanzamos las siguientes órdenes. 
+ La instalación de \textit{Filebecnh} es muy sencilla sólo se tiene que descargar el comprimido desde el \href{https://github.com/filebench/filebench/releases}{repositorio de \underline{GitHub}}. Antes de empezar se debería comprobar si en la máquina se encuentra instalado Bison y Flex. En caso de que no ser así habría que instalarlo a través del gestor de paquetes. Una vez se resuelven las dependencias y estando situados en la carpeta descomprida con una terminal, lanzamos las siguientes órdenes. 
 
 \begin{lstlisting}[language=bash]
  ./configure
